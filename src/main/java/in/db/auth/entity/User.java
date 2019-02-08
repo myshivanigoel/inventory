@@ -3,6 +3,8 @@
  */
 package in.db.auth.entity;
 
+import in.db.inventory.entity.Issue;
+import in.db.inventory.entity.Receipt;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +30,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import in.db.util.entity.Address;
+import javax.persistence.OneToMany;
 
 /**
  * @author anuja
@@ -70,7 +73,13 @@ public class User implements Serializable{
 	private Integer userType;
 	private Character emailVerifiedFlag;
 	
+          @OneToMany(mappedBy = "user")    
+            private List<Issue> issueList;
+
 	
+          @OneToMany(mappedBy = "user")    
+            private List<Receipt> receiptList;
+
 	@Transient
 	private Collection<Authorities> authorities;
 	@Transient
@@ -259,4 +268,23 @@ public class User implements Serializable{
 	public void setEmailVerifiedFlag(Character emailVerifiedFlag) {
 		this.emailVerifiedFlag = emailVerifiedFlag;
 	}
+
+    public List<Issue> getIssueList() {
+        return issueList;
+    }
+
+    public void setIssueList(List<Issue> issueList) {
+        this.issueList = issueList;
+    }
+
+    public List<Receipt> getReceiptList() {
+        return receiptList;
+    }
+
+    public void setReceiptList(List<Receipt> receiptList) {
+        this.receiptList = receiptList;
+    }
+        
+        
+        
 }
