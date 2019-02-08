@@ -3,6 +3,8 @@
  */
 package in.db.auth.entity;
 
+import in.db.inventory.entity.Issue;
+import in.db.inventory.entity.Receipt;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,11 +30,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import in.db.util.entity.Address;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  * @author anuja
@@ -41,20 +39,22 @@ import javax.persistence.ManyToMany;
 @Component
 @Entity
 @Table
-public class User implements Serializable{
+public class MstUser implements Serializable{
 
     @Override
     public String toString() {
         return "User{" + "userId=" + userId + ", siteId=" + siteId + ", userName=" + userName + ", password=" + password + ", activeFlag=" + activeFlag + ", userEmail=" + userEmail + ", userContactNo=" + userContactNo + ", registeredBy=" + registeredBy + ", dateofEntry=" + dateofEntry + ", modifiedBy=" + modifiedBy + ", dateOfModification=" + dateOfModification + ", address=" + address + ", departmentId=" + departmentId + ", userType=" + userType + ", emailVerifiedFlag=" + emailVerifiedFlag + ", authorities=" + authorities + ", tocken=" + tocken + ", roleName=" + roleName + '}';
     }
 
-	@Id
+	
+    @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer userId;
 	private Integer siteId;
 	@NotNull(message=" name is required")
 	@Size(min=5,message="min size is 2")
 	private String userName;
+@Column(length = 100)
 	private String password;
 	private Character activeFlag;
 	@NotNull(message=" Email is required")
@@ -66,8 +66,12 @@ public class User implements Serializable{
 	@Pattern(regexp = "[\\s]*[0-9]*[1-9]+",message="Numbers are allowed only")
 	private String userContactNo;
 	private Integer registeredBy;
+@Temporal(TemporalType.DATE)
+        @Column(length = 10)
 	private Date dateofEntry;
 	private Integer modifiedBy;
+@Temporal(TemporalType.DATE)
+        @Column(length = 10)
 	private Date dateOfModification;
 	private Address address;
 	private Integer departmentId;
@@ -75,23 +79,14 @@ public class User implements Serializable{
 	@Min(value=1,message="please choose a role")
 	private Integer userType;
 	private Character emailVerifiedFlag;
-        
-        
-        
-        @ManyToMany(cascade = {CascadeType.REFRESH,
-                                CascadeType.DETACH,
-                                CascadeType.PERSIST,
-                                CascadeType.MERGE},
-                    fetch = FetchType.LAZY)
-        @JoinTable(
-                    name="UserRole",
-                    joinColumns = @JoinColumn(name="userId"),
-                    inverseJoinColumns = @JoinColumn(name="roleId")
-                    )
-        private List<MstRole> mstRole;
-        
-        
 	
+          @OneToMany(mappedBy = "user")    
+            private List<Issue> issueList;
+
+    
+          @OneToMany(mappedBy = "user")    
+            private List<Receipt> receiptList;
+
 	@Transient
 	private Collection<Authorities> authorities;
 	@Transient
@@ -101,10 +96,10 @@ public class User implements Serializable{
 	private String roleName;
 	
 	
-	public User() {
+	public MstUser() {
 		
 	}
-	public User(String username, String password, Collection<? extends GrantedAuthority> authorities, Integer userId,
+	public MstUser(String username, String password, Collection<? extends GrantedAuthority> authorities, Integer userId,
 			Integer siteId, String userName2, String password2, Character activeFlag, String userEmail,
 			String userContactNo, Date dateofEntry, Date dateOfModification, Address address, Integer userType,
 			Collection<Authorities> authorities2) {
@@ -148,7 +143,6 @@ public class User implements Serializable{
 		this.userName = userName;
 	}
 	
-	@Column(length = 100)
 	public String getPassword() {
 		return password;
 	}
@@ -177,8 +171,6 @@ public class User implements Serializable{
 		this.userContactNo = userContactNo;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(length = 10)
 	public Date getDateofEntry() {
 		return dateofEntry;
 	}
@@ -186,8 +178,6 @@ public class User implements Serializable{
 		this.dateofEntry = dateofEntry;
 	}
 	
-	@Temporal(TemporalType.DATE)
-	@Column(length = 10)
 	public Date getDateOfModification() {
 		return dateOfModification;
 	}
@@ -282,15 +272,24 @@ public class User implements Serializable{
 		this.emailVerifiedFlag = emailVerifiedFlag;
 	}
 
-    public List<MstRole> getMstRole() {
-        return mstRole;
+    public List<Issue> getIssueList() {
+        return issueList;
     }
 
-    public void setMstRole(List<MstRole> mstRole) {
-        this.mstRole = mstRole;
+    public void setIssueList(List<Issue> issueList) {
+        this.issueList = issueList;
     }
 
-    
+    public List<Receipt> getReceiptList() {
+        return receiptList;
+    }
+
+    public void setReceiptList(List<Receipt> receiptList) {
+        this.receiptList = receiptList;
+    }
+
         
         
 }
+
+

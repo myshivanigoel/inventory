@@ -18,7 +18,7 @@ import in.db.auth.entity.Authorities;
 import in.db.auth.entity.MstRole;
 import in.db.auth.entity.RoleAuthorities;
 import in.db.auth.entity.Tocken;
-import in.db.auth.entity.User;
+import in.db.auth.entity.MstUser;
 import in.db.auth.entity.UserRole;
 import in.db.dashboard.entity.Menu;
 import in.db.dashboard.entity.MenuGroup;
@@ -135,26 +135,26 @@ public class UserDaoImpl implements UserDao {
 		return menuGroups;
 	}
 
-	public User getUserById(Integer userId) {
+	public MstUser getUserById(Integer userId) {
 		Session session=sessionFactory.getCurrentSession();
-		User user=null;
+		MstUser user=null;
 		if(userId!=null) {
-			user=session.get(User.class, userId);
+			user=session.get(MstUser.class, userId);
 		}
 		
 		return user;
 	}
 
-	public ResultDataMap saveUser(User user) {
+	public ResultDataMap saveUser(MstUser user) {
 		Session session=sessionFactory.getCurrentSession();
 		Boolean newUser=false;
-		User userdb=null;
+		MstUser userdb=null;
 		if(user!=null ) 
 		{
 			
 			if(user.getUserId()!=null)
 			{
-				userdb=session.get(User.class, user.getUserId());
+				userdb=session.get(MstUser.class, user.getUserId());
 				
 				if(userdb!=null)
 				{
@@ -177,10 +177,10 @@ public class UserDaoImpl implements UserDao {
 				newUser=true;
 			}
 			
-			// Save or Update User
+			// Save or Update MstUser
 			session.saveOrUpdate(user);
 			
-			//add role Entry in case of new User 
+			//add role Entry in case of new MstUser 
 			//	or 
 			// user ROle is changed
 			if(newUser ||(userdb!=null && !user.getUserType().equals(userdb.getUserType())))
@@ -213,10 +213,10 @@ public class UserDaoImpl implements UserDao {
 	}
 
 
-	public User getUserByIdOrEmailOrMobile(String userName) {
-		User user=null;
+	public MstUser getUserByIdOrEmailOrMobile(String userName) {
+		MstUser user=null;
 		Session session=sessionFactory.getCurrentSession();
-		user=session.createQuery("from User where userEmail=:userName or userId=:userName or userContactNo=:userName",User.class)
+		user=session.createQuery("from User where userEmail=:userName or userId=:userName or userContactNo=:userName",MstUser.class)
 				.setParameter("userName", userName)
 				.getResultList().stream().findFirst().orElse(null);
 		
@@ -245,8 +245,8 @@ public class UserDaoImpl implements UserDao {
 		return authorities;
 	}
 
-	public List<User> getAllUserList() {
-		return sessionFactory.getCurrentSession().createQuery("from User",User.class).getResultList();
+	public List<MstUser> getAllUserList() {
+		return sessionFactory.getCurrentSession().createQuery("from User",MstUser.class).getResultList();
 		
 	}
 
@@ -265,7 +265,7 @@ public class UserDaoImpl implements UserDao {
 				.uniqueResult();
 	}
 
-	public ResultDataMap updateUserOnly(User user) {
+	public ResultDataMap updateUserOnly(MstUser user) {
 		sessionFactory.getCurrentSession().update(user);
 
 		return new ResultDataMap().setStatus(true).setMessage(Strings.savedSuccessfully);

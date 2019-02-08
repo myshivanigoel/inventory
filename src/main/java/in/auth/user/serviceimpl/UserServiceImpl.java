@@ -18,7 +18,7 @@ import in.auth.user.dao.UserDao;
 import in.auth.user.service.UserService;
 import in.db.auth.entity.MstRole;
 import in.db.auth.entity.Tocken;
-import in.db.auth.entity.User;
+import in.db.auth.entity.MstUser;
 import in.db.dashboard.entity.MenuGroup;
 import in.util.entity.Mail;
 import in.util.entity.ResultDataMap;
@@ -56,13 +56,13 @@ public class UserServiceImpl implements UserService{
 	}
 
     @Override
-	public User getUserById(Integer userId) {
+	public MstUser getUserById(Integer userId) {
 		
 		return userdao.getUserById(userId);
 	}
 
     @Override
-	public ResultDataMap saveUser(User user,Integer id,String contextPath) {
+	public ResultDataMap saveUser(MstUser user,Integer id,String contextPath) {
 		ResultDataMap rdm;
 		boolean newUser=false;
 		if(id==null || id==0) {id=user.getUserId();}
@@ -122,14 +122,14 @@ public class UserServiceImpl implements UserService{
 	}
 
     @Override
-	public List<User> getAllUserList() {
+	public List<MstUser> getAllUserList() {
 		
 		return userdao.getAllUserList();
 	}
 
 	
     @Override
-	public User getUserByIdOrEmailOrMobile(String userName) {
+	public MstUser getUserByIdOrEmailOrMobile(String userName) {
 		
 		return userdao.getUserByIdOrEmailOrMobile(userName);
 	}
@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService{
 		return userdao.getUserAuthorities(userId);
 	}
     @Override
-	public ResultDataMap generatePasswordResetLink(User user, String contextPath) {
+	public ResultDataMap generatePasswordResetLink(MstUser user, String contextPath) {
 		
 		Tocken tocken=new Tocken();
 		tocken.setGeneratedDate(new Date());
@@ -173,7 +173,7 @@ public class UserServiceImpl implements UserService{
 		if(tocken!=null)
 		{
 			Integer userId=tocken.getUserId();
-			User user=userdao.getUserById(userId);
+			MstUser user=userdao.getUserById(userId);
 			user.setPassword(encoder.encode(password1));
 			user.setModifiedBy(userId);
 			user.setDateOfModification(new Date());
@@ -211,11 +211,11 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
-            public ResultDataMap updateUser(User user,String contextPath) {
+            public ResultDataMap updateUser(MstUser user,String contextPath) {
                ResultDataMap rdm=new ResultDataMap();
                  
 		Tocken tockenObj=null;
-                User dbUser=userdao.getUserById(user.getUserId());
+                MstUser dbUser=userdao.getUserById(user.getUserId());
                 if(dbUser==null)
                 {
                     return new ResultDataMap().setStatus(false).setMessage(Strings.InvalidData);
@@ -288,7 +288,7 @@ public class UserServiceImpl implements UserService{
 
 	public ResultDataMap changePassword(String password2, Integer userId) {
 	
-		User user=userdao.getUserById(userId);
+		MstUser user=userdao.getUserById(userId);
 			user.setPassword(encoder.encode(password2));
 		user.setModifiedBy(userId);
 		user.setDateOfModification(new Date());

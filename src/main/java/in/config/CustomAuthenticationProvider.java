@@ -6,7 +6,7 @@
 package in.config;
 
 import in.auth.user.service.UserService;
-import in.db.auth.entity.User;
+import in.db.auth.entity.MstUser;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -62,7 +62,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		Collection<? extends GrantedAuthority> authorities = new ArrayList();
                 System.out.println("userservice :"+userService);
                 System.err.println("authentication :"+authentication);
-		          User user=userService.getUserByIdOrEmailOrMobile(authentication.getName());
+		          MstUser user=userService.getUserByIdOrEmailOrMobile(authentication.getName());
 		String password=(String) authentication.getCredentials();
 		
 		

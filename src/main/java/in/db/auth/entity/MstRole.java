@@ -40,7 +40,7 @@ public class MstRole {
                     joinColumns = @JoinColumn(name="roleId"),
                     inverseJoinColumns = @JoinColumn(name="userId")
                     )
-        private List<User> users;
+        private List<MstUser> users;
 	
 	public Integer getRoleId() {
 		return roleId;
@@ -55,11 +55,11 @@ public class MstRole {
 		this.roleName = roleName;
 	}
 
-    public List<User> getUsers() {
+    public List<MstUser> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(List<MstUser> users) {
         this.users = users;
     }
         
