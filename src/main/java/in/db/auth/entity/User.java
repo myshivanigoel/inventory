@@ -28,6 +28,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import in.db.util.entity.Address;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 /**
  * @author anuja
@@ -35,6 +40,7 @@ import in.db.util.entity.Address;
  */
 @Component
 @Entity
+@Table
 public class User implements Serializable{
 
     @Override
@@ -69,7 +75,22 @@ public class User implements Serializable{
 	@Min(value=1,message="please choose a role")
 	private Integer userType;
 	private Character emailVerifiedFlag;
-	
+        
+        
+        
+        @ManyToMany(cascade = {CascadeType.REFRESH,
+                                CascadeType.DETACH,
+                                CascadeType.PERSIST,
+                                CascadeType.MERGE},
+                    fetch = FetchType.LAZY)
+        @JoinTable(
+                    name="UserRole",
+                    joinColumns = @JoinColumn(name="userId"),
+                    inverseJoinColumns = @JoinColumn(name="roleId")
+                    )
+        private List<MstRole> mstRole;
+        
+        
 	
 	@Transient
 	private Collection<Authorities> authorities;
@@ -104,6 +125,7 @@ public class User implements Serializable{
 	/**
 	 * @return the userId
 	 */
+   
 	public Integer getUserId() {
 		return userId;
 	}
@@ -259,4 +281,16 @@ public class User implements Serializable{
 	public void setEmailVerifiedFlag(Character emailVerifiedFlag) {
 		this.emailVerifiedFlag = emailVerifiedFlag;
 	}
+
+    public List<MstRole> getMstRole() {
+        return mstRole;
+    }
+
+    public void setMstRole(List<MstRole> mstRole) {
+        this.mstRole = mstRole;
+    }
+
+    
+        
+        
 }
