@@ -216,7 +216,7 @@ public class UserDaoImpl implements UserDao {
 	public MstUser getUserByIdOrEmailOrMobile(String userName) {
 		MstUser user=null;
 		Session session=sessionFactory.getCurrentSession();
-		user=session.createQuery("from User where userEmail=:userName or userId=:userName or userContactNo=:userName",MstUser.class)
+		user=session.createQuery("from MstUser where userEmail=:userName or userId=:userName or userContactNo=:userName",MstUser.class)
 				.setParameter("userName", userName)
 				.getResultList().stream().findFirst().orElse(null);
 		
@@ -246,7 +246,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	public List<MstUser> getAllUserList() {
-		return sessionFactory.getCurrentSession().createQuery("from User",MstUser.class).getResultList();
+		return sessionFactory.getCurrentSession().createQuery("from MstUser",MstUser.class).getResultList();
 		
 	}
 

@@ -43,14 +43,14 @@ public class MstUser implements Serializable{
 
     @Override
     public String toString() {
-        return "User{" + "userId=" + userId + ", siteId=" + siteId + ", userName=" + userName + ", password=" + password + ", activeFlag=" + activeFlag + ", userEmail=" + userEmail + ", userContactNo=" + userContactNo + ", registeredBy=" + registeredBy + ", dateofEntry=" + dateofEntry + ", modifiedBy=" + modifiedBy + ", dateOfModification=" + dateOfModification + ", address=" + address + ", departmentId=" + departmentId + ", userType=" + userType + ", emailVerifiedFlag=" + emailVerifiedFlag + ", authorities=" + authorities + ", tocken=" + tocken + ", roleName=" + roleName + '}';
+        return "User{" + "userId=" + userId + ", designation=" + designation + ", userName=" + userName + ", password=" + password + ", activeFlag=" + activeFlag + ", userEmail=" + userEmail + ", userContactNo=" + userContactNo + ", registeredBy=" + registeredBy + ", dateofEntry=" + dateofEntry + ", modifiedBy=" + modifiedBy + ", dateOfModification=" + dateOfModification + ", address=" + address + ", departmentId=" + departmentId + ", userType=" + userType + ", emailVerifiedFlag=" + emailVerifiedFlag + ", authorities=" + authorities + ", tocken=" + tocken + ", roleName=" + roleName + '}';
     }
 
 	
     @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer userId;
-	private Integer siteId;
+	private String designation;
 	@NotNull(message=" name is required")
 	@Size(min=5,message="min size is 2")
 	private String userName;
@@ -100,12 +100,12 @@ public class MstUser implements Serializable{
 		
 	}
 	public MstUser(String username, String password, Collection<? extends GrantedAuthority> authorities, Integer userId,
-			Integer siteId, String userName2, String password2, Character activeFlag, String userEmail,
+			String designation, String userName2, String password2, Character activeFlag, String userEmail,
 			String userContactNo, Date dateofEntry, Date dateOfModification, Address address, Integer userType,
 			Collection<Authorities> authorities2) {
 		super();
 		this.userId = userId;
-		this.siteId = siteId;
+		this.designation = designation;
 		userName = userName2;
 		password = password2;
 		this.activeFlag = activeFlag;
@@ -201,18 +201,19 @@ public class MstUser implements Serializable{
 		this.address = address;
 	}
 
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
 
 	
 
 
-	public Integer getSiteId() {
-		return siteId;
-	}
-
-
-	public void setSiteId(Integer siteId) {
-		this.siteId = siteId;
-	}
+	
 
 
 	public Integer getUserType() {
