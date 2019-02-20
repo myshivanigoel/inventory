@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -62,15 +63,15 @@ public class ItemMaster implements Serializable {
 
     
     
-    @OneToMany(mappedBy = "item")    
+    @OneToMany(fetch = FetchType.LAZY)    
     private List<Issue> issueList;
     
-      @OneToMany(mappedBy = "item")    
+      @OneToMany(fetch = FetchType.LAZY)    
     private List<Receipt> receiptList;
     
-    @OneToOne(mappedBy = "item",cascade = {
+    @OneToOne(cascade = {
                                             CascadeType.ALL
-                                           })
+                                           },fetch = FetchType.LAZY)
     private Stock stock;
 
     public List<Issue> getIssueList() {
@@ -173,7 +174,7 @@ public class ItemMaster implements Serializable {
 
     public void setStock(Stock stock) {
         this.stock = stock;
-    }
+   }
 
     public List<Receipt> getReceiptList() {
         return receiptList;
@@ -181,6 +182,11 @@ public class ItemMaster implements Serializable {
 
     public void setReceiptList(List<Receipt> receiptList) {
         this.receiptList = receiptList;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemMaster{" + "itemId=" + itemId + ", itemName=" + itemName + ", description=" + description + ", manufacturer=" + manufacturer + ", price=" + price + ", dateOfEntry=" + dateOfEntry + ", dateofModification=" + dateofModification + ", activeFlag=" + activeFlag + ", itemGroup=" + itemGroup + ", itemClassification=" + itemClassification + ", issueList=" + issueList + ", receiptList=" + receiptList + '}';
     }
 
    

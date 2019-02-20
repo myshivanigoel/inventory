@@ -5,6 +5,7 @@
  */
 package in.inventory.service;
 
+import in.db.inventory.entity.Receipt;
 import in.inventory.dao.PurchaseDao;
 import in.util.entity.Indent;
 import in.util.entity.ResultDataMap;
@@ -31,6 +32,11 @@ public class PurchaseServiceImpl implements PurchaseService{
         
         
         return purchaseDao.saveIndentForm(indent);
+    }
+
+    @Override
+    public ResultDataMap saveReceiptForm(Receipt receipt) {
+        return purchaseDao.saveReceiptForm(receipt);
     }
     
     

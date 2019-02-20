@@ -37,10 +37,8 @@ public class Stock {
     @Column(name="activeFlag")
     private Character activeFlag;
     @Column(name="availableQty")
-    private Integer availableQty;
-    @Column(name="balance")
-    private Integer balance;
-    @Column(name="issuedQty")
+    private Double availableQty;
+     @Column(name="issuedQty")
     private Integer issuedQty;
      @Column(name="others")
     private String others;
@@ -81,22 +79,15 @@ public class Stock {
         this.activeFlag = activeFlag;
     }
 
-    public Integer getAvailableQty() {
+    public Double getAvailableQty() {
         return availableQty;
     }
 
-    public void setAvailableQty(Integer availableQty) {
+    public void setAvailableQty(Double availableQty) {
         this.availableQty = availableQty;
     }
 
-    public Integer getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Integer balance) {
-        this.balance = balance;
-    }
-
+  
     public Integer getIssuedQty() {
         return issuedQty;
     }
@@ -120,6 +111,14 @@ public class Stock {
 
     public void setItem(ItemMaster item) {
         this.item = item;
+    }
+
+    @Override
+    public String toString() {
+        return "Stock{" + "id=" + id + ", dateOfEntry=" + dateOfEntry + ", dateOfModification=" 
+                + dateOfModification + ", activeFlag=" 
+                + activeFlag + ", availableQty=" 
+                + availableQty +  ", issuedQty=" + issuedQty + ", others=" + others + ", item=" + item + '}';
     }
     
     

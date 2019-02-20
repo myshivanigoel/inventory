@@ -66,6 +66,7 @@ public class Strings {
         public static String locLevel3 ="l3";
         public static String locLevel4 ="l4";
         public static String templateUndefined="Template is not defined";
+    public static String pieces="pieces";
 
         
 }

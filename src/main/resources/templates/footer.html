@@ -1,0 +1,102 @@
+<div th:fragment="footer">
+
+
+
+<!--===============================================================================================-->
+	<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="../vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="../vendor/bootstrap/js/popper.js"></script>
+	<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="../vendor/select2/select2.min.js"></script>
+	<script>
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+
+
+			$(".js-select2").each(function(){
+				$(this).on('select2:close', function (e){
+					if($(this).val() == "Please chooses") {
+						$('.js-show-service').slideUp();
+					}
+					else {
+						$('.js-show-service').slideUp();
+						$('.js-show-service').slideDown();
+					}
+				});
+			});
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="../vendor/daterangepicker/moment.min.js"></script>
+	<script src="../vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="../vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="../vendor/noui/nouislider.min.js"></script>
+	
+<!--===============================================================================================-->
+	<script src="../js/main.js"></script>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-23581568-13');
+</script>
+</div>
+<!--<div th:fragment="footer">
+     Jquery Core Js 
+    <script src="plugins/jquery/jquery.min.js"></script>
+
+     Bootstrap Core Js 
+    <script src="plugins/bootstrap/js/bootstrap.js"></script>
+
+     Select Plugin Js 
+    <script src="plugins/bootstrap-select/js/bootstrap-select.js"></script>
+
+     Slimscroll Plugin Js 
+    <script src="plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+     Waves Effect Plugin Js 
+    <script src="plugins/node-waves/waves.js"></script>
+
+     Jquery CountTo Plugin Js 
+    <script src="plugins/jquery-countto/jquery.countTo.js"></script>
+
+     Morris Plugin Js 
+    <script src="plugins/raphael/raphael.min.js"></script>
+    <script src="plugins/morrisjs/morris.js"></script>
+
+     ChartJs 
+    <script src="plugins/chartjs/Chart.bundle.js"></script>
+
+     Flot Charts Plugin Js 
+    <script src="plugins/flot-charts/jquery.flot.js"></script>
+    <script src="plugins/flot-charts/jquery.flot.resize.js"></script>
+    <script src="plugins/flot-charts/jquery.flot.pie.js"></script>
+    <script src="plugins/flot-charts/jquery.flot.categories.js"></script>
+    <script src="plugins/flot-charts/jquery.flot.time.js"></script>
+
+     Sparkline Chart Plugin Js 
+    <script src="plugins/jquery-sparkline/jquery.sparkline.js"></script>
+
+     Custom Js 
+    <script src="js/admin.js"></script>
+    <script src="js/pages/index.js"></script>
+
+     Demo Js 
+    <script src="js/demo.js"></script>
+</body>
+
+</html>
+</div>-->

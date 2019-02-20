@@ -5,6 +5,7 @@
  */
 package in.inventory.dao;
 
+import in.db.inventory.entity.Receipt;
 import in.util.entity.Indent;
 import in.util.entity.ResultDataMap;
 
@@ -14,4 +15,8 @@ import in.util.entity.ResultDataMap;
  */
 public interface PurchaseDao {
       public ResultDataMap saveIndentForm(Indent indent);
+
+    public ResultDataMap saveReceiptForm(Receipt receipt);
+
+   
 }

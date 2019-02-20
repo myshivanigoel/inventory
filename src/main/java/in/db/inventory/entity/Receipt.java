@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
 /**
  *
  * @author shivani
@@ -40,6 +41,9 @@ public class Receipt {
     @Column(name="billDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date billDate;
+    private Double quantity;
+    private String unit;
+    
     @Column(name="amount")
     private Integer amount;
     @Column(name="receivedFrom")
@@ -136,6 +140,24 @@ public class Receipt {
 
     public void setUser(MstUser user) {
         this.user = user;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
+
+    
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     

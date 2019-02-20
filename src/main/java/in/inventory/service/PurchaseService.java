@@ -5,6 +5,7 @@
  */
 package in.inventory.service;
 
+import in.db.inventory.entity.Receipt;
 import in.util.entity.Indent;
 import in.util.entity.ResultDataMap;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,8 @@ public interface PurchaseService {
      * @return ResultDataMap
      */
     public ResultDataMap saveIndentForm(Indent indent);
+
+    public ResultDataMap saveReceiptForm(Receipt receipt);
+    
     
 }

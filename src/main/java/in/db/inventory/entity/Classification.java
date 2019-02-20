@@ -46,7 +46,7 @@ public class Classification {
 
     
     
-     @OneToMany(mappedBy = "itemGroup",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
   
     private List<ItemMaster> items;
 
@@ -98,6 +98,11 @@ public class Classification {
 
     public void setItems(List<ItemMaster> items) {
         this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "Classification{" + "classificationId=" + classificationId + ", classification=" + classification + ", activeFlag=" + activeFlag + ", dateOfEntry=" + dateOfEntry + ", dateOfModification=" + dateOfModification + ", items=" + items + '}';
     }
     
     

@@ -36,7 +36,7 @@ public class MstGroup {
     
     
 
-    @OneToMany(mappedBy = "itemGroup",
+    @OneToMany(
                 cascade = CascadeType.ALL,
                 fetch = FetchType.LAZY)
    
@@ -80,6 +80,11 @@ public class MstGroup {
 
     public void setActiveFlag(Character activeFlag) {
         this.activeFlag = activeFlag;
+    }
+
+    @Override
+    public String toString() {
+        return "MstGroup{" + "groupId=" + groupId + ", groupName=" + groupName + ", valueType=" + valueType + ", activeFlag=" + activeFlag + ", items=" + items + '}';
     }
 
     

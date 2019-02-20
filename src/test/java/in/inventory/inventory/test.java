@@ -5,6 +5,9 @@
  */
 package in.inventory.inventory;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  *
  * @author shivani
@@ -28,7 +31,9 @@ public class test {
         derived d=new derived();
         
         System.out.println("d"+d.x);
-        
+        ArrayList list=new ArrayList();
+        System.out.println("list size   ");
+        HashMap map=new HashMap();
         
         
         int i=0;
