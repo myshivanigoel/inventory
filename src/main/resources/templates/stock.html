@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layouts/default">
+  
+<body>
+    <div id="page" layout:fragment="content">
+	<div class="container-contact100">
+		<div class="wrap-contact100">
+                   
+                      <form method="post" id="form" >
+				<span class="contact100-form-title">
+					Stock
+                                </span>
+                        <input type="hidden" id="list" value="" name="list">
+                        <span style="color: red;"></span>
+                       <div style="float: right; background: whitesmoke;padding: 5px">
+                        <table id="gallery-list" style="float: right; ">
+                            <thead>
+                              <tr> 
+                                     <th>Id</th>
+                                     <th>Item Name</th>
+                                      <th>Item Group</th>
+                                     <th>Available Quantity</th>
+                                     <th>Issued Quantity</th>
+                                     <th>Others</th>
+                                 </tr>                            </thead>
+                            <tbody>
+                          <tr th:each="stock : ${stockList}">
+                            <td th:text="${stock.item.itemId}">-</td>
+                             <td th:text="${stock.item.itemName}">-</td>
+                               <td th:text="${stock.item.itemGroup.groupName}">-</td>
+                               <td th:text="${stock.availableQty}">-</td>  
+                               <td th:text="${stock.issuedQty}">-</td>
+                                 <td th:text="${stock.others}">-</td>
+                          </tr>
+                            </tbody>
+                        </table>
+                       </div>
+				
+			</form>
+                  </div>
+	</div>
+
+    </div>
+
+
+
+</body>
+</html>

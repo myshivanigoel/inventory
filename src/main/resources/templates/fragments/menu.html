@@ -1,0 +1,16 @@
+<div class="footer " th:fragment="menu">
+ <div id="mySidenav" class="sidenav" style="width:250px;">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="/">Dashboard</a>
+  <a href="indent-form">Indent Form</a>
+  
+  
+    <div sec:authorize="hasAuthority('ROLE_ADMIN')">
+     <a href="receipt-consumable-form">Receipt Consumable</a>
+     <a href="receipt-nonconsumable-form">Receipt Non Consumable</a>
+     <a href="issue-form">Issue Form</a>
+    
+     </div>
+  <a href="stock-view">Stock</a>
+</div>
+</div>

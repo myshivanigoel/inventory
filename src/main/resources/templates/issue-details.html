@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layouts/default">
+  
+<body>
+    <div id="page" layout:fragment="content">
+	<div class="container-contact100">
+		<div class="wrap-contact100">
+                   
+                      <form method="post" id="form" >
+				<span class="contact100-form-title">
+					Issued Items
+                                </span>
+                        <input type="hidden" id="list" value="" name="list">
+                        <span style="color: red;"></span>
+                       <div style=" background: whitesmoke;padding: 5px">
+                        <table id="gallery-list" style="float: right; ">
+                            <thead>
+                              <tr> 
+                                     <th>Id</th>
+                                     <th>Item Name</th>
+                                      <th>Item Group</th>
+                                    
+                                     <th>Quantity</th>
+                                     <th>Others</th>
+                                 </tr>                            </thead>
+                            <tbody>
+                          <tr th:each="issue : ${issueList}">
+                            <td th:text="${issue.item.itemId}">-</td>
+                             <td th:text="${issue.item.itemName}">-</td>
+                               <td th:text="${issue.item.itemGroup.groupName}">-</td>
+                              
+                               <td th:text="${issue.quantity}">-</td>
+                                 <td th:text="${issue.remarks}">-</td>
+                          </tr>
+                            </tbody>
+                        </table>
+                       </div>
+				
+			</form>
+                  </div>
+	</div>
+
+    </div>
+
+
+
+</body>
+</html>

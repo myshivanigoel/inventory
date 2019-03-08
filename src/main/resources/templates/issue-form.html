@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layouts/default">
+<body>
+ <div id="page" layout:fragment="content">
+	<div class="container-contact100">
+		<div class="wrap-contact100">
+                     <form class="contact100-form validate-form" action="#" method="post"  th:object="${issue}"  th:action="@{/issue-form}">
+				<span class="contact100-form-title">
+					Issue Form
+				</span>
+                       
+                        <span th:text="${message}" style="color: red;">n</span>
+                        
+                        
+                                   <div class="row">
+ 
+                            <div class="col-lg-6">
+                                <div class="wrap-input100    bg-orange" data-validate="choose file">
+					<span class="label-input100">Item Group.</span>
+                                         <select class="form-control" name=""    id="itemGroupIssue">
+                                            <option value="0">select Group</option>
+                                            <option th:each="group : ${groups}" th:value="${group.groupId}" th:text="${group.groupName}" ></option>
+                                         </select>
+                            </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="wrap-input100    bg-orange" data-validate="choose file">
+                                    <span class="label-input100">Item </span>
+					 <select class="form-control" name="item.itemId"    id="itemId">
+                                            <option value="0">select Item</option>
+                                            <option th:each="it : ${items}" th:value="${it.itemId}" th:text="${it.itemName}" th:selected="${it==item}"></option>
+                                         </select>
+                            </div>
+                            </div>
+                     <div class="col-lg-6">
+                                <div class="wrap-input100    bg-orange" data-validate="choose file">
+                                  
+                                     <span class="label-input100">Available Quantity </span>
+                                     <input class="input100" type="text" id="available_quantity"  name="availableQuantity" disabled="true">
+                                         
+                                           </div>
+                            </div>
+                     <div class="col-lg-6">
+                                <div class="wrap-input100    bg-orange" data-validate="choose file">
+                                  
+                                         
+                                       <span class="label-input100">Quantity To Issue</span>
+                                    <input class="input100" type="text" th:field="*{quantity}" id="quantity"  name="quantity" max="" required="true">
+                          </div>
+                            </div>
+                                       <div class="col-lg-6">
+                                       <div class=" wrap-input100    bg-orange" >
+					<span class="label-input100">Date</span>
+                                        <input class="input100" type="date"  name="" required="true">
+                            </div>
+                                       </div>
+                       
+                             <div class="col-lg-6">
+                                      
+                            <div class="wrap-input100    bg-orange" data-validate="choose file">
+					<span class="label-input100">To Whom Issued</span>
+                                        <select class="form-control" name="user.userId"    id="itemId">
+                                            <option value="0">select Employee</option>
+                                            <option th:each="itr : ${users}" th:value="${itr.userId}" th:text="${itr.userName}+' :: '+${itr.userId}" ></option>
+                                         </select>
+                            </div>
+                        
+                             </div>
+                                       
+                                        </div>
+                        
+                            <div class="wrap-input100    bg-orange" data-validate="choose file">
+					<span class="label-input100">Date</span>
+                                        <input class="input100" type="date"  name="" required="true">
+                            </div>
+                      
+                             <div class="wrap-input100    bg-orange" data-validate="choose file">
+					<span class="label-input100">Remarks</span>
+                                        <input class="input100" type="text"  th:field="*{remarks}" id="remarks"  name="remarks" >
+                            </div>
+				<div class="container-contact100-form-btn">
+                                    
+                                    <button class="contact100-form-btn" type="submit">
+						<span>
+							Submit
+							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+						</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+    </div>
+
+
+
+        
+</body>
+</html>
