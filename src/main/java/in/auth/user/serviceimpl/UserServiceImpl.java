@@ -23,13 +23,15 @@ import in.util.entity.Mail;
 import in.util.entity.ResultDataMap;
 import in.util.entity.Strings;
 import in.util.Utility;
+import in.utility.EmailServiceImpl;
 import java.util.LinkedHashMap;
 import org.springframework.transaction.annotation.Transactional;
 @Service
 //@Transactional
 public class UserServiceImpl implements UserService{
 
-    
+    @Autowired
+     EmailServiceImpl email;
     @Autowired
     Mail mail;
     
@@ -64,7 +66,6 @@ public class UserServiceImpl implements UserService{
     @Override
 	public ResultDataMap saveUser(MstUser user,Integer id,String contextPath) {
 		ResultDataMap rdm;
-		boolean newUser=false;
 		if(id==null || id==0) {id=user.getUserId();}
 		if(userdao.getUserByIdOrEmailOrMobile(user.getUserEmail())!=null)
 		{
@@ -76,38 +77,35 @@ public class UserServiceImpl implements UserService{
 			
 			return new ResultDataMap().setStatus(false).setMessage(Strings.MobileNoExist);
 		}
+                if(userdao.getUserByUserEmployeeId(user.getUserEmployeeId())!=null)	
+		{
+			
+			return new ResultDataMap().setStatus(false).setMessage(Strings.EmployeeIdExist);
+		}
 		
 		if(userdao.getUserById(user.getUserId())!=null)
 		{
 			
-			user.setDateOfModification(new Date());
-			
-			user.setModifiedBy(id);
-			
+			return new ResultDataMap().setStatus(false).setMessage(Strings.InvalidData);
 		
-		}else {
-			newUser=true;
-			user.setActiveFlag('0');
-			
-			if(user.getPassword()!=null && user.getPassword().trim().equals(""))
-			{
-				 password=RandomStringUtils.randomAlphanumeric(8);
-				 
-				user.setPassword(encoder.encode(password));
-				mailer=" User registered successfully your password is :"+password;
-			}else {
-				tocken=RandomStringUtils.randomAlphanumeric(30);
-				user.setTocken(tocken);
-				mailer="  Please click On the Link to verify your email Id <a href='http://"+contextPath+"/verify_user?tocken_no="+tocken+"' ></a>" ;
-			}
-			
-			user.setDateofEntry(new Date());
+		}
+			user.setActiveFlag('Y');
+			user.setUserType(3);
+                        user.setDateofEntry(new Date());
 			user.setRegisteredBy(id);
 			
-		}
+                         password=RandomStringUtils.randomAlphanumeric(8);
+                         //delete befor production
+                         System.out.println("password :: "+password);
+			 user.setPassword(encoder.encode(password));
+                         mailer="  your password for Inventory is : "+password;
+			
+			
+			
+		
 		rdm=userdao.saveUser(user);
 		rdm.setDataObject(user);
-		if(rdm.getStatus() && newUser)
+		if(rdm.getStatus())
 		{
 			try {
 				mail.sendSimpleMail(user.getUserEmail(),mailer, "Registered successfully");
@@ -154,7 +152,10 @@ public class UserServiceImpl implements UserService{
 		{
 			String mailer="  Please click On the Link to verify your email Id <a href='http://"+contextPath+"/resetPassword?tocken_no="+tockenNo+"' ></a>" ;
 			try {
-				mail.sendSimpleMail(user.getUserEmail(),mailer, Strings.passwordResetMailSubject);
+                            
+                           
+                                email.sendSimpleMessage(user.getUserEmail(), mailer, Strings.passwordResetMailSubject);
+				//mail.sendSimpleMail(user.getUserEmail(),mailer, Strings.passwordResetMailSubject);
 				rdm.setMessage("email sent to your email Id please click on the link to reset password ");
 			} catch (Exception e) {
 				rdm.setMessage("email Found, but failed to send email ");
@@ -199,6 +200,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public Tocken ifValidTocken(String tockenNo,String type) {
+            System.out.println("in.auth.user.serviceimpl.UserServiceImpl.ifValidTocken()"+tockenNo);
 		Tocken tocken=userdao.getTockenByTockenNo(tockenNo);
 		if(tocken!=null
 				&& tocken.getTypeOfTocken().equals(type)
@@ -253,7 +255,15 @@ public class UserServiceImpl implements UserService{
                               //verify mobile NO
                           }
                     }
-                     dbUser.setActiveFlag(user.getActiveFlag());
+                    
+                    //check if role changed 
+                    if(!dbUser.getUserType().equals(userdao.getUserRole(user.getUserId()).get(0)))
+                    {
+                        userdao.updateRole(user.getUserId(),user.getUserType());
+                    }
+                        if(user.getActiveFlag()!=null){
+                            dbUser.setActiveFlag(user.getActiveFlag());
+                        }
                         dbUser.setAddress(user.getAddress());
                         dbUser.setDateOfModification(new Date());
                         dbUser.setDepartmentId(user.getDepartmentId());
@@ -261,7 +271,13 @@ public class UserServiceImpl implements UserService{
                         dbUser.setUserContactNo(user.getUserContactNo());
                         dbUser.setUserEmail(user.getUserEmail());
                         dbUser.setUserName(user.getUserName());
-                        
+                        try{
+                        dbUser.setHod(userdao.getUserById(user.getHod().getUserId()));
+                        dbUser.setAuthority(userdao.getUserById(user.getAuthority().getUserId()));
+                        }catch(Exception e)
+                        {
+                             return new ResultDataMap().setStatus(false).setMessage(Strings.InvalidData);
+                        }
                     if(tockenObj==null)
                     {
                        
@@ -300,6 +316,84 @@ public class UserServiceImpl implements UserService{
     public LinkedHashMap<String, String> getLocationNames(Integer userId) {
         
         return userdao.getLocationNames(userId);
+    }
+
+    @Override
+    public MstUser getUserByUserEmployeeId(String userEmployeeId) {
+        return userdao.getUserByUserEmployeeId(userEmployeeId);
+    }
+
+    @Override
+    public List<MstRole> getAllRolesList() {
+           return userdao.getAllRolesList();
+    }
+
+    @Override
+    public ResultDataMap deactivateUser(Integer userId, Integer adminId) {
+        MstUser user=userdao.getUserById(userId);
+        if(user!=null)
+        {
+            user.setActiveFlag('N');
+            user.setDateOfModification(new Date());
+            user.setModifiedBy(adminId);
+             return userdao.updateUserOnly(user);
+        }else{
+            return new ResultDataMap().setStatus(false).setMessage(Strings.InvalidData);
+        }
+       
+    }
+    
+     @Override
+    public ResultDataMap activateUser(Integer userId, Integer adminId) {
+         System.out.println("in.auth.user.serviceimpl.UserServiceImpl.activateUser()"+userId);
+        MstUser user=userdao.getUserById(userId);
+        if(user!=null)
+        {
+            user.setActiveFlag('Y');
+            user.setDateOfModification(new Date());
+            user.setModifiedBy(adminId);
+             System.out.println("in.auth.user.serviceimpl.UserServiceImpl.activateUser() updating ...");
+             return userdao.updateUserOnly(user);
+             
+        }else{
+            System.out.println("in.auth.user.serviceimpl.UserServiceImpl.activateUser() user not found ...");
+            return new ResultDataMap().setStatus(false).setMessage(Strings.InvalidData);
+        }
+       
+    }
+
+    @Override
+    public ResultDataMap sendOtp(MstUser user) {
+      
+        
+		Tocken tocken=new Tocken();
+		tocken.setGeneratedDate(new Date());
+		tocken.setStatus(Strings.NewTocken);
+		tocken.setTypeOfTocken(Strings.PasswordResetTocken);
+		tocken.setUserId(user.getUserId());
+		tocken.setValidFlag('Y');
+		String tockenNo=RandomStringUtils.randomAlphanumeric(6);
+		tocken.setTocken(tockenNo);
+		ResultDataMap rdm=userdao.saveOrUpdateTocken(tocken);
+		if(rdm.getStatus())
+		{
+			String mailer="OTP for password reset is :: "+tockenNo ;
+			try {
+                            
+                           
+                              //  email.sendSimpleMessage(user.getUserEmail(), mailer, Strings.passwordResetMailSubject);
+				//mail.sendSimpleMail(user.getUserEmail(),mailer, Strings.passwordResetMailSubject);
+				rdm.setMessage(Strings.OtpSent);
+			} catch (Exception e) {
+				rdm.setMessage("email Found, but failed to send email ");
+				e.printStackTrace();
+			}
+		}else {
+			rdm.setMessage(Strings.error);
+
+		}
+		
+		return rdm;
     }
 	
 }

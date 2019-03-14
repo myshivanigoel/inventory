@@ -5,6 +5,7 @@
  */
 package in.inventory.dao;
 
+import in.db.auth.entity.MstUser;
 import in.db.inventory.entity.DtIndent;
 import in.db.inventory.entity.HdIndent;
 import in.db.inventory.entity.Receipt;
@@ -37,9 +38,12 @@ public class PurchaseDaoImpl implements PurchaseDao{
     public ResultDataMap saveIndentForm(Indent indent) {
         System.out.println("in.inventory.dao.PurchaseDaoImpl.saveIndentForm()"+indent);
         Session session=sessionFactory.getCurrentSession();
+        List<DtIndent> dtIndentList=new ArrayList<>();
+        dtIndentList.add(indent.getDtIndent());
+        indent.getHdIndent().setIndentDetailList(dtIndentList);
         Integer hdIndent=(Integer)session.save(indent.getHdIndent());
-        Integer dtindent=(Integer)session.save(indent.getDtIndent());
-        if(dtindent!=null && hdIndent!=null)
+        //Integer dtindent=(Integer)session.save(indent.getDtIndent());
+        if( hdIndent!=null)
         {
         return new ResultDataMap().setStatus(Boolean.TRUE).setMessage(Strings.savedSuccessfully);
          
@@ -142,8 +146,19 @@ public class PurchaseDaoImpl implements PurchaseDao{
      * @return
      */
     @Override
-    public List<Indent> getIndentorsIndents(Integer userId) {
-    return null;    
+    public List<Indent> getIndentorsIndents(MstUser user) {
+        List<Indent> indentList=new ArrayList<>();
+        System.out.println("in.inventory.dao.PurchaseDaoImpl.getIndentorsIndents()"+user.getUserId());
+        List<HdIndent> hdIndentList= sessionFactory.getCurrentSession()
+                .createQuery("from HdIndent where indentor.userId=:indentor").setParameter("indentor", user.getUserId())
+                .list();
+        hdIndentList.forEach((hdIndent) -> {
+            Indent indent=new Indent();
+            indent.setHdIndent(hdIndent);
+            indent.setDtIndent(hdIndent.getIndentDetailList().get(0));
+            indentList.add(indent);
+        });
+        return indentList;
     }
 
     /**
@@ -173,7 +188,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
      * @return
      */
     @Override
-    public List<Indent> getIndentsListToBeVerifiedByUser(Integer userId) {
+    public List<Indent> getIndentsListToBeVerifiedByUser(MstUser userId) {
         return null;
     }
 
@@ -185,7 +200,11 @@ public class PurchaseDaoImpl implements PurchaseDao{
      */
     @Override
     public Object getIndent(Integer indentId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         HdIndent hdIndent= sessionFactory.getCurrentSession().get(HdIndent.class, indentId);
+                Indent indent=new Indent();
+                indent.setHdIndent(hdIndent);
+                indent.setDtIndent(hdIndent.getIndentDetailList().get(0));
+        return indent;
     }
 
    

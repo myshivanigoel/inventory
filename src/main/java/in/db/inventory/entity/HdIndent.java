@@ -9,6 +9,7 @@ import in.db.auth.entity.MstUser;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -66,7 +67,7 @@ public class HdIndent implements Serializable {
    @Temporal(TemporalType.DATE)
     private Date approvingAuthorityAuthenticationDate;
  
-    @OneToMany(mappedBy = "hdIndent")
+    @OneToMany(mappedBy = "hdIndent",cascade = CascadeType.ALL)
     private List<DtIndent> indentDetailList;
     
     
@@ -222,11 +223,14 @@ public class HdIndent implements Serializable {
 
     public void setIndentDetailList(List<DtIndent> indentDetailList) {
         this.indentDetailList = indentDetailList;
+        indentDetailList.forEach((t) -> {
+            t.setHdIndent(this);
+        });
     }
 
     @Override
     public String toString() {
-        return "HdIndent{" + "indentId=" + indentId + ", prNo=" + prNo + ", indentDate=" + indentDate + ", budgetYear=" + budgetYear + ", ProjectCode=" + projectCode + ", vendors=" + vendors + ", suggestedVendors=" + suggestedVendors + ", sourceData=" + sourceData + ", modeOfDispatch=" + modeOfDispatch + ", indentor=" + indentor + ", indentorAuthenticationFlag=" + indentorAuthenticationFlag + ", indentorAuthenticationDate=" + indentorAuthenticationDate + ", sectionHead=" + sectionHead + ", sectionHeadAuthenticationFlag=" + sectionHeadAuthenticationFlag + ", sectionHeadAuthenticationDate=" + sectionHeadAuthenticationDate + ", approvingAuthority=" + approvingAuthority + ", approvingAuthorityAuthenticationFlag=" + approvingAuthorityAuthenticationFlag + ", approvingAuthorityAuthenticationDate=" + approvingAuthorityAuthenticationDate + ", indentDetailList=" + indentDetailList + '}';
+        return "HdIndent{" + "indentId=" + indentId + ", prNo=" + prNo + ", indentDate=" + indentDate + ", budgetYear=" + budgetYear + ", ProjectCode=" + projectCode ;
     }
    
     

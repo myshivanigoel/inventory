@@ -55,12 +55,7 @@ public class StockController {
     @Autowired
     private UserService userService;
    
-    @GetMapping("/")
-    public String home(@RequestParam(name = "message",required = false)String message,Model model)
-    {
-        
-        return "home";
-    }
+  
     
     @GetMapping("issue-form")
     public String issueForm(@RequestParam(name = "message",required = false)String message,Model model)

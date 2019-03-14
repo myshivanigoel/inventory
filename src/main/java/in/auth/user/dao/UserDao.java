@@ -37,5 +37,11 @@ public interface UserDao {
 	public ResultDataMap saveOrUpdateTocken(Tocken tocken);
 
     public LinkedHashMap<String, String> getLocationNames(Integer userId);
+
+    public MstUser getUserByUserEmployeeId(String userEmployeeId);
+
+    public List<MstRole> getAllRolesList();
+
+    public void updateRole(Integer userId, Integer userType);
 	
 }

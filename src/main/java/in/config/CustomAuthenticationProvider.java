@@ -61,8 +61,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		System.out.println("in custom auth provioder");
 		Collection<? extends GrantedAuthority> authorities = new ArrayList();
                 System.out.println("userservice :"+userService);
-                System.err.println("authentication :"+authentication);
+                System.err.println("authentication :"+authentication.getName()+"pass::"+authentication.getCredentials());
 		          MstUser user=userService.getUserByIdOrEmailOrMobile(authentication.getName());
+                       //   System.out.println("in.config.CustomAuthenticationProvider.authenticate()"+user.getUserName());
 		String password=(String) authentication.getCredentials();
 		
 		

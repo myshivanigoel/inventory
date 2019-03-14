@@ -47,11 +47,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin().permitAll()
             .and()
             .authorizeRequests()
+            .antMatchers("/masters/**").hasAnyRole("MMG", "ADMIN")
             .antMatchers("/indentForm").hasAnyRole("USER", "ADMIN")
             .antMatchers("/receipt-consumable-form").hasRole("ADMIN")
-                         .antMatchers("/receipt-nonconsumable-form").hasRole("ADMIN")
+            .antMatchers("/receipt-nonconsumable-form").hasRole("ADMIN")
+             .antMatchers("/theme/**","/forgot-password","/verify-otp","/reset-password").permitAll()
            
-            .anyRequest().authenticated();
+            .anyRequest().authenticated()
+                        .and()
+			.formLogin()
+				.loginPage("/login").permitAll().successForwardUrl("/")
+                                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        
+                        ;
 	}
 
 	@Autowired

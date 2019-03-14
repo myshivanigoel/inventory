@@ -5,6 +5,8 @@
  */
 package com.in.inventory;
 
+import in.utility.EmailServiceImpl;
+
 /**
  *
  * @author anuja

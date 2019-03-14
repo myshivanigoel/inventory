@@ -218,7 +218,7 @@ public class UserDaoImpl implements UserDao {
 	public MstUser getUserByIdOrEmailOrMobile(String userName) {
 		MstUser user=null;
 		Session session=sessionFactory.getCurrentSession();
-		user=session.createQuery("from MstUser where userEmail=:userName or userId=:userName or userContactNo=:userName",MstUser.class)
+		user=session.createQuery("from MstUser where userEmail=:userName or userId=:userName or userContactNo=:userName or userEmployeeId=:userName",MstUser.class)
 				.setParameter("userName", userName)
 				.getResultList().stream().findFirst().orElse(null);
 		
@@ -268,8 +268,9 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	public ResultDataMap updateUserOnly(MstUser user) {
+            System.out.println("in.auth.user.daoimpl.UserDaoImpl.updateUserOnly()"+user.getUserId());
 		sessionFactory.getCurrentSession().update(user);
-
+                 System.out.println("in.auth.user.daoimpl.UserDaoImpl.updateUserOnly()"+user);
 		return new ResultDataMap().setStatus(true).setMessage(Strings.savedSuccessfully);
 	}
 
@@ -303,6 +304,39 @@ public class UserDaoImpl implements UserDao {
         }
         return map;
     
+    }
+
+    @Override
+    public MstUser getUserByUserEmployeeId(String userEmployeeId) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from MstUser where userEmployeeId=:userEmployeeId",MstUser.class)
+                .setParameter("userEmployeeId", userEmployeeId)
+                .uniqueResult();
+    }
+
+    @Override
+    public List<MstRole> getAllRolesList() {
+     return sessionFactory.getCurrentSession()
+                .createQuery("from MstRole",MstRole.class)
+                .list();
+    }
+
+    @Override
+    public void updateRole(Integer userId, Integer userType) {
+        Session session=sessionFactory.getCurrentSession();
+        session.createQuery("update UserRole set enabled=:enabled where userId=:userId and roleId=:roleId")
+                    .setParameter("enabled",'0')
+                    .setParameter("userId", userId)
+                    .setParameter("roleId", userType).executeUpdate();
+        
+        UserRole userRole=new UserRole();
+        userRole.setEnabled('1');
+        userRole.setUserId(userId);
+        userRole.setRoleId(userType);
+        session.save(userRole);
+        MstUser user=session.load(MstUser.class, userId);
+        user.setUserType(userType);
+        session.persist(user);
     }
 
 	

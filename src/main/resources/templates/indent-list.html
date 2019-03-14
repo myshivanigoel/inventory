@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layouts/default">
+  
+<body>
+    <div id="page" layout:fragment="content">
+	<div class="container-contact100">
+		<div class="wrap-contact100">
+                   
+                      <form method="post" id="form" >
+				<span class="contact100-form-title">
+					Indents List
+                                </span>
+                        <input type="hidden" id="list" value="" name="list">
+                        <span style="color: red;"></span>
+                       <div style="background: whitesmoke;padding: 5px">
+                        <table id="gallery-list" style="float: right; ">
+                            <thead>
+                              <tr> 
+                                     <th>Id</th>
+                                     <th>Description</th>
+                                      <th>Item Group</th>
+                                     <th>Quantity</th>
+                                     <th>Remarks</th>
+                                 </tr>                            </thead>
+                            <tbody>
+                          <tr th:each="indent : ${indentList}">
+                            <td th:text="${indent.hdIndent.indentId}">-</td>
+                             <td th:text="${indent.dtIndent.descriptionOfMaterial}">-</td>
+                              <td th:text="${indent.dtIndent.itemGroup.groupId}">-</td>
+                               <td th:text="${indent.dtIndent.quantity}">-</td>
+                               <td th:text="${indent.dtIndent.remarks}">-</td>  
+                               <td >
+                                   <a th:href="@{indent-view(indentId=1)}">view</a>
+                               </td>
+                          </tr>
+                            </tbody>
+                        </table>
+                       </div>
+				
+			</form>
+                  </div>
+	</div>
+
+    </div>
+
+
+
+</body>
+</html>

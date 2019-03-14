@@ -11,28 +11,27 @@
                    
                       <form method="post" id="form" >
 				<span class="contact100-form-title">
-					Indent View
+					Indent View 
                                 </span>
                         <input type="hidden" id="list" value="" name="list">
                         <span style="color: red;"></span>
-                       <div style="float: right; background: whitesmoke;padding: 5px">
-                        <table id="gallery-list" style="float: right; ">
+                       <div style=" background: whitesmoke;padding: 5px">
+                       <table id="gallery-list" style="float: right; ">
                            <tr>
-                                <td></td>
-                                <td></td>
+                                
                                 <td>
-                                    <span class="label-input100"> PR No - </span>
-                                    <span class="label-input100"> PR No</span>
+                                    <span class="label-input100">Indent ID- </span>
+                                    <span class="label-input100" th:text="${indent.hdIndent.indentId}"></span>
                                 </td>
                                  <td>
                                     <span class="label-input100">Date - </span>
-                                    <span class="label-input100">Date</span>
+                                    <span class="label-input100" th:text="${indent.hdIndent.indentDate}"></span>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2">
+                                <td>
                                     <span class="label-input100">Material Classification - </span>
-                                    <span class="label-input100">Material Classification</span>
+                                    <span class="label-input100" th:text="${indent.dtIndent.classification}"></span>
                                 </td>
                                 <td>
                                     <span class="label-input100">Department - </span>
@@ -41,79 +40,88 @@
                                
                             </tr>
                             <tr>
-                                <td colspan="2">
+                                <td>
                                      <span class="label-input100">Capital Equipment - </span>
                                      <span class="label-input100">Capital Equipment</span>
                                 </td>
-                                <td colspan="2">
+                                <td>
                                      <span class="label-input100">Consumables - </span>
                                      <span class="label-input100">Consumables</span>
                                 </td>
                                 
                             </tr>
                             <tr>
-                                <td colspan="2">
+                                <td>
                                     <span class="label-input100">Description of Material - </span>
-                                    <span class="label-input100">Description of Material</span>
+                                    <span class="label-input100" th:text="${indent.dtIndent.descriptionOfMaterial}"></span>
                                 </td>
-                                <td colspan="2">
+                                <td>
                                      <span class="label-input100">Budget Year - </span>
-                                     <span class="label-input100">Budget Year</span>
+                                     <span class="label-input100" th:text="${indent.hdIndent.budgetYear}"></span>
                                 </td>
                             </tr>
                             <tr>
                                 
-                                 <td colspan="2">
+                                 <td>
                                      <span class="label-input100">Project Code - </span>
-                                     <span class="label-input100">Project Code</span>
+                                     <span class="label-input100" th:text="${indent.hdIndent.projectCode}"></span>
                                  </td>
-                              
-                                 <td colspan="2">
-                                    <span class="label-input100">Part/Type Number - </span>
-                                    <span class="label-input100">Part/Type Number </span>
+                                 <td>
+                                    <span class="label-input100">Manufacturer - </span>
+                                    <span class="label-input100" th:text="${indent.dtIndent.manufacturer}"></span>
                                 </td>
-                            </tr>  
-                              <tr>
+                            </tr>
+                            <tr>
+                                 <td>
+                                    <span class="label-input100">Part/Type Number - </span>
+                                    <span class="label-input100" th:text="${indent.dtIndent.partType}"></span>
+                                </td>
                                  <td>
                                      <span class="label-input100">Qty - </span>
-                                     <span class="label-input100">Qty</span>
+                                     <span class="label-input100" th:text="${indent.dtIndent.quantity}"></span>
                                  </td>
-                                 <td>
+                                 
+                            </tr>  
+                              <tr>
+                                <td>
                                      <span class="label-input100">Source Data - </span>
-                                     <span class="label-input100">Source Data</span>
+                                     <span class="label-input100" th:text="${indent.hdIndent.sourceData}"></span>
                                  </td>
                                 <td>
                                     <span class="label-input100">Qty in Stock - </span>
                                     <span class="label-input100">Qty </span>
                                 </td>
-                                <td>
-                                     <span class="label-input100">Price/Unit - </span>
-                                     <span class="label-input100">Price/Unit</span>
-                                </td>
                                 
                             </tr>   
                             <tr>
+                                <td>
+                                     <span class="label-input100">Price/Unit - </span>
+                                     <span class="label-input100" th:text="${indent.dtIndent.pricePerUnit}"></span>
+                                </td>
+                                
                                  <td>
                                     <span class="label-input100">Delivery Mth & yr.- </span>
-                                    <span class="label-input100">Delivery Mth & yr.</span>
+                                    <span class="label-input100" th:text="${indent.dtIndent.expectedMonthYearOfDelivery}"></span>
                                 </td>
-                                <td colspan="2">
+                            </tr>
+                            <tr>
+                                <td>
                                      <span class="label-input100">Suggested Vendors - </span>
-                                     <span class="label-input100">Suggested Vendors</span>
+                                     <span class="label-input100" th:text="${indent.hdIndent.suggestedVendors}"></span>
                                  </td>
                                 <td>
                                     <span class="label-input100">Mode of Dispatch - </span>
-                                    <span class="label-input100">By hand</span>
+                                    <span class="label-input100" th:text="${indent.hdIndent.modeOfDispatch}"></span>
                                 </td>
                             </tr>   
                             <tr>
-                                <td colspan="2">
+                                <td>
                                      <span class="label-input100">Remarks - </span>
-                                     <span class="label-input100">Remarks</span>
+                                     <span class="label-input100" th:text="${indent.dtIndent.remarks}"></span>
                                  </td>
-                                 <td colspan="2">
+                                 <td>
                                      <span class="label-input100">Previous Purchase if any - </span>
-                                     <span class="label-input100">Previous Purchase if any</span>
+                                     <span class="label-input100" th:text="${indent.hdIndent.previousReferenceOfPurchaseIfAny}"></span>
                                  </td>
                             </tr>
                             </tbody>

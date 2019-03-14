@@ -5,6 +5,7 @@
  */
 package in.inventory.service;
 
+import in.db.auth.entity.MstUser;
 import in.db.inventory.entity.Receipt;
 import in.db.inventory.entity.ReceiptConsumable;
 import in.inventory.dao.PurchaseDao;
@@ -52,7 +53,7 @@ public class PurchaseServiceImpl implements PurchaseService{
         return purchaseDao.saveNonConsumableReceiptForm(receipt);  }
 
     @Override
-    public List<Indent> getIndentorsIndents(Integer userId) {
+    public List<Indent> getIndentorsIndents(MstUser userId) {
         return purchaseDao.getIndentorsIndents(userId);
     }
 
@@ -62,7 +63,7 @@ public class PurchaseServiceImpl implements PurchaseService{
      }
 
     @Override
-    public List<Indent> getIndentsListToBeVerifiedByUser(Integer userId) {
+    public List<Indent> getIndentsListToBeVerifiedByUser(MstUser userId) {
        return purchaseDao.getIndentsListToBeVerifiedByUser(userId);
                
     }

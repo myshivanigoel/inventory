@@ -38,5 +38,18 @@ public interface UserService {
 	public ResultDataMap changePassword(String password2, Integer userId);
 
      public LinkedHashMap<String, String> getLocationNames(Integer userId);
+
+    public MstUser getUserByUserEmployeeId(String userEmployeeId);
+
+    public List<MstRole> getAllRolesList();
+
+ 
+    public ResultDataMap deactivateUser(Integer userId, Integer userId0);
+
+    public ResultDataMap activateUser(Integer userId, Integer userId0);
+
+    public ResultDataMap sendOtp(MstUser userId);
+
+   
 	
 }

@@ -2,21 +2,91 @@
 <html lang="en"
   xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorator="layouts/default">
+  layout:decorator="layouts/defaultcdac">
   
 <body>
+   
     <div id="page" layout:fragment="content">
-	<div class="container-contact100">
-		<div class="wrap-contact100">
-                   
-               
-                     Dashboard
-		</div>
-	</div>
+        
+                     <!--********************************* First Table , For Screen Header**********************************************-->
+<table style="width: 980px;border-collapse: collapse;margin:0px; padding:0px;background-color:#ffffff;border-spacing:0px" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 9px;background-image: url(&#39;  /theme/l.gif&#39;);text-align: center"></td>
+                <td style="width: 955px;background-image:url(&#39;  /theme/topcellback11.gif&#39;);text-align: center;" colspan="2">
+                    <img style="widows: 1px;height: 11px;border: 0px" src="/theme/space.gif">
+                    <table style="width: 958px;border-collapse: collapse;margin:0px; padding:0px;border-spacing:0px" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                                <td style="width: 9px" rowspan="4"><img style="width: 9px;height: 40px;display: block" src="/theme/title_01.gif"></td>
+                                <td style="vertical-align: top;background-image: url(&#39;  /theme/title_02.gif&#39;)" rowspan="2"></td>
+                                <td style="width: 199px;vertical-align:middle" rowspan="4"><img style="width: 199px;height: 40px;display: block" src="/theme/title_03.gif"></td>
+                                <td style="width: 144px;background-image: url(&#39;  /theme/title_04.gif&#39;);text-align: right;background-position:center;background-repeat: no-repeat" class="pageHeading" rowspan="4">Home</td>
+                                <td style="width: 221px" colspan="3"><img style="width: 221px;height: 16px;display: block" src="/theme/title_05.gif"></td>
+                                <td><img style="width: 1px;height: 16px;display: block" src="/theme/spacer.gif"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 199px" rowspan="3"><img style="width: 199px;height: 24px;display: block" src="/theme/title_06.gif"></td>
+                            <td style="width: 12px" rowspan="2"><img style="width: 12px;height: 13px;display: block" src="/theme/title_07.gif"></td>
+                            <td style="width: 10px" rowspan="3"><img style="width: 10px;height: 24px;display: block" src="/theme/title_08.gif"></td>
+                            <td style="width: 1px"><img style="width: 1px;height: 1px;display: block" src="/theme/spacer.gif"></td>
+                        </tr>
+                        <tr>
+                            <td style="background-image: url(&#39;  /theme/title_09.gif&#39;);text-align: left" rowspan="2" class="navigation"><a href="/" class="link4">Home</a> &gt;&gt;</td>
+                            <td style="width: 1px"><img style="width: 1px;height: 12px;display: block" src="/theme/spacer.gif"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px"><img style="width: 12px;height: 11px;display: block" src="/theme/title_10.gif"></td>
+                            <td style="width: 1px"><img style="width: 1px;height: 11px;display: block" src="/theme/spacer.gif"></td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td style="width: 10px;background-image: url(&#39;  /theme/r.gif&#39;);text-align: center"></td>
+            </tr>
+        </tbody>
+        </table>
+<!--********************************* Second Table, For Error Messages **********************************************-->
 
-    </div>
 
+<table border="0" cellpadding="0" cellspacing="0" width="980">
+    <tbody><tr>
+        <td align="center" background="theme/l.gif" width="9"></td>
+        <td width="5"><img src="/theme/space.gif" border="0" height="10" width="1"></td>
+        <td width="950">
+            <div id="errorMessage" class="errcolor" th:text="${message}"></div>            
+        </td>
+        <td align="center" background="theme/r.gif" width="10"></td>
+    </tr>
+</tbody></table>
+ 
+         <table border="0" cellpadding="0" cellspacing="0" width="980">
+            <tbody><tr>
+                <td align="center" background="theme/l.gif" width="9"></td>
+                <td width="5"><img src="/theme/space.gif" border="0" height="10" width="1"></td>
+                <td colspan="2" style="text-align: right">
+                                                                
+                                                                
 
-
+<div id="qualReportAuthDiv" style="display: none;height: auto;padding : 0px 0px 0px 0px;" align="left"></div>
+                                                                   
+                                                            </td>
+                <td align="center" background="theme/r.gif" width="10"></td>
+            </tr>
+        </tbody></table>
+        
+        
+          <table style="width: 980px;background-color: #ffffff;border-width: 0px;" cellpadding="0" cellspacing="0">
+<tbody>
+    <tr>
+        <td style="width:8px;height: 23px;background-image: url(&#39;  /theme/2_m.gif&#39;);background-repeat: no-repeat;"><img style="width: 8px;height: 23px;border-width: 0px;" src="/theme/8_l.gif" alt=""></td>
+        <td style="height: 23px;background-image: url(&#39;  /theme/2_m1.gif&#39;);display: block;text-align:center;"><font color="#000000" size="2">Powered by e-Governance solutions Group, C-DAC Pune [PV 1.0.1]</font></td>
+        <td style="width: 8px;height: 23px;background-image: url(&#39;  /theme/2_m.gif&#39;);background-repeat: no-repeat;"><img style="width: 8px;height: 23px;border-width: 0px;" src="/theme/8_r.gif" alt=""></td>
+    </tr>
+</tbody>
+</table>
+      </div>  
+   
+    
+            
 </body>
 </html>

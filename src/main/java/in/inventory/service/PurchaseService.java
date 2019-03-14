@@ -5,6 +5,7 @@
  */
 package in.inventory.service;
 
+import in.db.auth.entity.MstUser;
 import in.db.inventory.entity.Receipt;
 import in.db.inventory.entity.ReceiptConsumable;
 import in.util.entity.Indent;
@@ -35,11 +36,11 @@ public interface PurchaseService {
     public ResultDataMap saveNonConsumableReceiptForm(Receipt receipt);
     
     
-     public List<Indent> getIndentorsIndents(Integer userId);
+     public List<Indent> getIndentorsIndents(MstUser userId);
 
     public List<Indent> getAllIndentsList();
 
-    public List<Indent> getIndentsListToBeVerifiedByUser(Integer userId);
+    public List<Indent> getIndentsListToBeVerifiedByUser(MstUser userId);
 
     public Object getIndent(Integer indentId);
    

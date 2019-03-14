@@ -30,7 +30,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import in.db.util.entity.Address;
+import java.util.Objects;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.UniqueConstraint;
 
 /**
  * @author anuja
@@ -41,16 +45,13 @@ import javax.persistence.OneToMany;
 @Table
 public class MstUser implements Serializable{
 
-    @Override
-    public String toString() {
-        return "User{" + "userId=" + userId + ", designation=" + designation + ", userName=" + userName + ", password=" + password + ", activeFlag=" + activeFlag + ", userEmail=" + userEmail + ", userContactNo=" + userContactNo + ", registeredBy=" + registeredBy + ", dateofEntry=" + dateofEntry + ", modifiedBy=" + modifiedBy + ", dateOfModification=" + dateOfModification + ", address=" + address + ", departmentId=" + departmentId + ", userType=" + userType + ", emailVerifiedFlag=" + emailVerifiedFlag + ", authorities=" + authorities + ", tocken=" + tocken + ", roleName=" + roleName + '}';
-    }
-
 	
     @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer userId;
-	private String designation;
+        
+        private String userEmployeeId;
+    	private String designation;
 	@NotNull(message=" name is required")
 	@Size(min=5,message="min size is 2")
 	private String userName;
@@ -79,8 +80,14 @@ public class MstUser implements Serializable{
 	@Min(value=1,message="please choose a role")
 	private Integer userType;
 	private Character emailVerifiedFlag;
+        @OneToOne
+        private MstUser hod;
+        @OneToOne
+        private MstUser authority;
+        
+        
 	
-          @OneToMany(mappedBy = "user")    
+          @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)    
             private List<Issue> issueList;
 
     
@@ -288,6 +295,71 @@ public class MstUser implements Serializable{
     public void setReceiptList(List<Receipt> receiptList) {
         this.receiptList = receiptList;
     }
+
+    public String getUserEmployeeId() {
+        return userEmployeeId;
+    }
+
+    public void setUserEmployeeId(String userEmployeeId) {
+        this.userEmployeeId = userEmployeeId;
+    }
+
+    
+
+    public MstUser getHod() {
+        return hod;
+    }
+
+    public void setHod(MstUser hod) {
+        this.hod = hod;
+    }
+
+    public MstUser getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(MstUser authority) {
+        this.authority = authority;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.userId);
+        hash = 23 * hash + Objects.hashCode(this.userEmployeeId);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MstUser other = (MstUser) obj;
+        if (!Objects.equals(this.userEmployeeId, other.userEmployeeId)) {
+            return false;
+        }
+        if (!Objects.equals(this.userId, other.userId)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+
+    
+
+    
+
+    
+
+    
 
         
         

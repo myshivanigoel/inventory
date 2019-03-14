@@ -368,8 +368,8 @@ public class PurchaseController {
         List<Stock> stockList=new ArrayList<>();
          Authentication authuntication=SecurityContextHolder.getContext().getAuthentication();
             MstUser user=(MstUser)authuntication.getPrincipal();
-           Integer userId= user.getUserId();
-           List<Indent> indentList=purchaseService.getIndentorsIndents(userId);
+           System.out.println("in.inverntory.controller.PurchaseController.myIndentsList()"+user.getUserId());
+           List<Indent> indentList=purchaseService.getIndentorsIndents(user);
             model.addAttribute("issueList", indentList);
             return "indent-list";
     }
@@ -397,7 +397,7 @@ public class PurchaseController {
          }else{
             MstUser user=(MstUser)authuntication.getPrincipal();
            Integer userId= user.getUserId();
-            List<Indent> indentList=purchaseService.getIndentsListToBeVerifiedByUser(userId);
+            List<Indent> indentList=purchaseService.getIndentsListToBeVerifiedByUser(user);
             model.addAttribute("indentList", indentList);
             return "indent-list";
          }
