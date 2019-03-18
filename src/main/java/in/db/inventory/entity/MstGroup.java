@@ -17,6 +17,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 /**
  *
@@ -31,6 +32,16 @@ public class MstGroup {
     private String groupName;
     private String valueType;
     private Character activeFlag;
+    
+    
+    private Date dtEntryDate;
+    private Date dtModificationDate;
+    
+    
+   @ManyToOne(     cascade = {CascadeType.DETACH,CascadeType.MERGE,
+                            CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name="classificationId")
+    private Classification classification=new Classification();
     
   
     
@@ -84,9 +95,43 @@ public class MstGroup {
 
     @Override
     public String toString() {
-        return "MstGroup{" + "groupId=" + groupId + ", groupName=" + groupName + ", valueType=" + valueType + ", activeFlag=" + activeFlag + ", items=" + items + '}';
+        return "MstGroup{" + "groupId=" + groupId + ", groupName=" + groupName + ", valueType=" + valueType + ", activeFlag=" + activeFlag + ", classification=" + classification + ", items=" + items + '}';
     }
 
+   
+
+    public Classification getClassification() {
+        return classification;
+    }
+
+    public void setClassification(Classification classification) {
+        this.classification = classification;
+    }
+
+    public Date getDtEntryDate() {
+        return dtEntryDate;
+    }
+
+    public void setDtEntryDate(Date dtEntryDate) {
+        this.dtEntryDate = dtEntryDate;
+    }
+
+    public Date getDtModificationDate() {
+        return dtModificationDate;
+    }
+
+    public void setDtModificationDate(Date dtModificationDate) {
+        this.dtModificationDate = dtModificationDate;
+    }
+
+    public MstGroup() {
+    }
+
+    public MstGroup(Integer groupId) {
+        this.groupId = groupId;
+    }
+
+    
     
     
 }

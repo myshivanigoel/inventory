@@ -1,7 +1,9 @@
 package in.inventory.dao;
 
+import in.db.inventory.entity.Classification;
 import in.db.inventory.entity.ItemMaster;
 import in.db.inventory.entity.MstGroup;
+import in.util.entity.ResultDataMap;
 import java.util.List;
 
 
@@ -24,9 +26,31 @@ public interface ItemDao {
 
     public List<MstGroup> getAllGroups();
 
-    public Object getConsumableGroups();
+    public List<MstGroup> getConsumableGroups();
 
-    public Object getNonConsumableGroups();
+    public List<MstGroup> getNonConsumableGroups();
+
+    public List<Classification> getClassificationList();
+
+    public ResultDataMap saveOrUpdateClassification(Classification classification);
+
+    public Classification getClassification(Integer classificationId);
+
+    public MstGroup getGroupById(Integer groupId);
+
+    public ResultDataMap saveOrUpdateGroup(MstGroup group);
+
+    public ResultDataMap saveOrUpdateItem(ItemMaster item);
+
+    public ItemMaster getItemById(Integer itemId);
+
+    public List<MstGroup> getGroupListByCLassification(Integer classificationId);
+
+    public boolean updateAble(Classification classification);
+
+    public boolean updateAble(ItemMaster item);
+
+    public boolean updateAble(MstGroup group);
     
     
 }

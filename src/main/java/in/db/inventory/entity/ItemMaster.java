@@ -5,6 +5,7 @@
  */
 package in.db.inventory.entity;
 
+import in.inventory.service.ItemService;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -22,12 +23,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+import org.springframework.beans.factory.annotation.Autowired;
 /**
  *
  * @author shivani
  */
 @Entity
 public class ItemMaster implements Serializable {
+    
+    
+   
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -57,12 +63,7 @@ public class ItemMaster implements Serializable {
 
     
     
-    @ManyToOne(     cascade = {CascadeType.DETACH,CascadeType.MERGE,
-                            CascadeType.PERSIST,CascadeType.REFRESH})
-    @JoinColumn(name="classificationId")
-    private MstGroup itemClassification;
-
-    
+   
     
     @OneToMany(fetch = FetchType.LAZY)    
     private List<Issue> issueList;
@@ -75,6 +76,15 @@ public class ItemMaster implements Serializable {
                                            },fetch = FetchType.LAZY)
     private Stock stock;
 
+    
+    
+     @Transient
+    @Autowired
+    ItemService itemService;
+    
+     @Transient
+     private boolean updatable;
+    
     public List<Issue> getIssueList() {
         return issueList;
     }
@@ -161,14 +171,8 @@ public class ItemMaster implements Serializable {
         this.itemGroup = itemGroup;
     }
 
-    public MstGroup getItemClassification() {
-        return itemClassification;
-    }
-
-    public void setItemClassification(MstGroup itemClassification) {
-        this.itemClassification = itemClassification;
-    }
-
+    
+   
     public Stock getStock() {
         return stock;
     }
@@ -187,9 +191,12 @@ public class ItemMaster implements Serializable {
 
     @Override
     public String toString() {
-        return "ItemMaster{" + "itemId=" + itemId + ", itemName=" + itemName + ", description=" + description + ", manufacturer=" + manufacturer + ", price=" + price + ", dateOfEntry=" + dateOfEntry + ", dateofModification=" + dateofModification + ", activeFlag=" + activeFlag + ", itemGroup=" + itemGroup + ", itemClassification=" + itemClassification + ", issueList=" + issueList + ", receiptList=" + receiptList + '}';
+        return "ItemMaster{" + "itemId=" + itemId + ", itemName=" + itemName + ", description=" + description + ", manufacturer=" + manufacturer + ", price=" + price + ", dateOfEntry=" + dateOfEntry + ", dateofModification=" + dateofModification + ", activeFlag=" + activeFlag + ", itemGroup=" + itemGroup + ", stock=" + stock + ", itemService=" + itemService + ", updatable=" + updatable + '}';
     }
 
+   
+
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -218,6 +225,25 @@ public class ItemMaster implements Serializable {
         }
         return true;
     }
+
+    public ItemMaster(Integer itemId) {
+        this.itemId = itemId;
+        
+    }
+
+    public ItemMaster() {
+        
+    }
+
+    public boolean isUpdatable() {
+        return updatable;
+    }
+
+    public void setUpdatable(boolean updatable) {
+        this.updatable = updatable;
+    }
+
+    
 
    
     

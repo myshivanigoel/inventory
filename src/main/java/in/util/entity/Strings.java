@@ -66,10 +66,13 @@ public class Strings {
         public static String locLevel3 ="l3";
         public static String locLevel4 ="l4";
         public static String templateUndefined="Template is not defined";
-    public static String pieces="pieces";
-    public static String EmployeeIdExist="user with this Employee id already exist";
-    public static String OtpSent="please enter the OTP sent to your email id to verify";
-
+        public static String pieces="pieces";
+        public static String EmployeeIdExist="user with this Employee id already exist";
+        public static String OtpSent="please enter the OTP sent to your email id to verify";
+        public static String ClassificationInUse="This classification is used, can not be Altered or deleted";
+    public static String ItemInUse="This Item is used, can not be altered or deleted";
+    public static String GroupInUse="This Group is used,  can not be altered or deleted";
+        
         
 }
 

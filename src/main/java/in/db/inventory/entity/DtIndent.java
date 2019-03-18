@@ -6,6 +6,7 @@
 package in.db.inventory.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -50,6 +51,12 @@ public class DtIndent implements Serializable {
     private String expectedMonthYearOfDelivery;
     private String Remarks;
 
+    
+    @ManyToOne
+    @JoinColumn(name="itemId")
+    private ItemMaster item;
+    
+    
     public HdIndent getHdIndent() {
         return hdIndent;
     }
@@ -167,6 +174,16 @@ public class DtIndent implements Serializable {
     public void setClassificationNameManual(String classificationNameManual) {
         this.classificationNameManual = classificationNameManual;
     }
+
+    public ItemMaster getItem() {
+        return item;
+    }
+
+    public void setItem(ItemMaster item) {
+        this.item = item;
+    }
+
+   
     
    
     

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layouts/default">
+  
+<body>
+    <div id="page" layout:fragment="content">
+	<div class="container-contact100">
+		<div class="wrap-contact100">
+                    
+                 <form class="contact100-form validate-form" method="post" >
+				<span class="contact100-form-title">
+					Add Item
+				</span>
+                       
+                     <div class="row">
+                       
+                         <div class=" col-lg-4">
+                            <div class="wrap-input100    bg-orange">
+					<span class="label-input100">Item Name</span>
+                                        <input class="input100" type="text"  name="category" >
+                            </div>
+                         </div>
+                         <div class="col-lg-4">
+                               <div class="wrap-input100    bg-orange">
+					<span class="label-input100">Price</span>
+                                        <input class="input100" type="text"  name="category">
+                                </div>
+                         </div>
+                         <div class="col-lg-4">
+                             <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Manufacturer</span>
+                                        <input class="input100" type="text"  name="category" >
+                             </div>
+                         </div>
+                     </div>
+                            <div class="wrap-input100    bg-orange">
+					<span class="label-input100">Description</span>
+                                        <input class="input100" type="text"  name="category" >
+                            </div>
+                            
+                          
+				<div class="container-contact100-form-btn">
+					<button class="contact100-form-btn">
+						<span>
+							Submit
+							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+						</span>
+					</button>
+				</div>
+			</form>
+                    
+                    <div style="background-color: whitesmoke; padding: 5px;">
+                     <form method="post" id="form" >
+				<span class="contact100-form-title">
+					<br><br>Item List
+                                </span>
+                        <input type="hidden" id="list" value="" name="list">
+                        <span style="color: red;"></span>
+                       
+                        <table id="gallery-list" style="float: right">
+                            <thead>
+                              <tr> 
+                                     <th>Id</th>
+                                     <th>Item Name</th>
+                                     <th>Description</th>
+                                     <th>Manufacturer</th>
+                                     <th>Price</th>
+                                 </tr>
+                            </thead>
+                            <tbody>
+                         DESCRIPTION
+                            </tbody>
+                        </table>
+
+				<div class="container-contact100-form-btn">
+                                    <button type="submit" class="contact100-form-btn" id="button">
+						<span>
+							View
+							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+						</span>
+					</button>
+				</div>
+			</form>
+                    </div>
+                    
+                      
+		</div>
+	</div>
+
+    </div>
+
+    <script>
+ 
+    $('#form').submit( function (e) {
+        debugger;
+        e.preventDefault(); 
+        var data2=table.rows('.selected').data();
+        var data= $.map(table.rows('.selected').data(), function (item) {
+        return item[0];
+    });
+        console.log(data);
+        console.log(data2);
+        //var formData=new FormData();
+         $("#list").val(data);
+         var formData=$(this).serialize();
+        console.log(formData);
+       
+        //formData.append("list",data);
+        debugger;
+        //alert( table.rows('.selected').data().length +' row(s) selected' );
+        
+        
+        
+        swal({
+                title: "Are you sure? you want to delete "+ table.rows('.selected').data().length+" news?",
+                text: "Once deleted, you will not be able to recover !",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                buttons: ["No Cancel", "Yes I am Sure!"],
+              })
+              .then((willDelete) => {
+                if (willDelete) {
+                     $.ajax({ url : "/admin/delete-categories", 
+                                              type: 'POST', 
+                                              data: formData,
+                                              success: function (data, textStatus, jqXHR) {
+                                      debugger;location. reload(true);
+                                  },
+                                              error: function (jqXHR, textStatus, errorThrown) {
+                                      debugger;location. reload(true);
+                                  }
+
+                                           });
+                  swal("Poof! Your  file has been deleted!", {
+                    icon: "success",
+                  });
+                } else {
+                  swal("Your  file is safe!");
+                }
+              });
+
+       
+                 
+                
+
+         
+    });
+} );
+            </script>
+
+</body>
+</html>

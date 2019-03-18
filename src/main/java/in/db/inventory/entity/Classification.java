@@ -104,6 +104,13 @@ public class Classification {
     public String toString() {
         return "Classification{" + "classificationId=" + classificationId + ", classification=" + classification + ", activeFlag=" + activeFlag + ", dateOfEntry=" + dateOfEntry + ", dateOfModification=" + dateOfModification + ", items=" + items + '}';
     }
+
+    public Classification(Integer classificationId) {
+        this.classificationId = classificationId;
+    }
+
+    public Classification() {
+    }
     
     
 }

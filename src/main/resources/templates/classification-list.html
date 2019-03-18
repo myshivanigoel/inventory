@@ -1,21 +1,19 @@
-<div class="item-list" th:fragment="item-list">
+<div class="classification-list" th:fragment="classification-list">
     
         
         <script type="text/javascript">
     $(document).ready(function() {
         debugger;
-  
-  
-  
-  
+        
+ 
     $(".update").click(function(event){
     
      
      debugger;
      event.preventDefault();
-     itemId=this.id;
-     itemId=itemId.substring(7);
-    window.location.replace("/masters/item/update/"+itemId);
+     classificationId=this.id;
+     classificationId=classificationId.substring(7);
+    window.location.replace("/masters/classification/update/"+classificationId);
     });
     
     
@@ -24,14 +22,14 @@
       var csrf=$('[name="_csrf"]').val();
      debugger;
      event.preventDefault();
-    itemId=this.id;
-     itemId=itemId.substring(9);
+    classificationId=this.id;
+     classificationId=classificationId.substring(9);
     
-     $.post("/masters/item/activate/"+itemId, {_csrf: csrf}, function(result){
+     $.post("/masters/classification/activate/"+classificationId, {_csrf: csrf}, function(result){
          if(result.status)
          {
               $("#errorMessage").html(result.message);
-              window.location.replace("/masters/item/add");
+              window.location.replace("/masters/classification/add");
          }else{
              $("#errorMessage").html(result.message);
          }
@@ -40,20 +38,19 @@
     
    // window.location.replace("activate/"+userId);
     });
-    
      $(".deactivate").click(function(event){
     
       var csrf=$('[name="_csrf"]').val();
      debugger;
      event.preventDefault();
-    itemId=this.id;
-     itemId=itemId.substring(11);
+    classificationId=this.id;
+     classificationId=classificationId.substring(11);
     
-     $.post("/masters/item/deactivate/"+itemId, {_csrf: csrf}, function(result){
+     $.post("/masters/classification/deactivate/"+classificationId, {_csrf: csrf}, function(result){
          if(result.status)
          {
               $("#errorMessage").html(result.message);
-              window.location.replace("/masters/item/add");
+              window.location.replace("/masters/classification/add");
          }else{
              $("#errorMessage").html(result.message);
          }
@@ -76,7 +73,7 @@
                                     <tr id="trRow333">
                                         <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
                                         <!-- *** Update Table Header -->
-                                        <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading" >&nbsp;items</td>
+                                        <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading" >&nbsp;Classifications</td>
                                         <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);"></td>
                                         <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
                                             <table style="width: 100%;border-width: 0px;" cellspacing="0" cellpadding="0" >
@@ -108,28 +105,24 @@
 <table id="datatable_user" style="width:100%" cellpadding="3" class="list" cellspacing="1">
 <thead>
 <tr>
-    <th>Item Id</th>    
-    <th> Item Name</th>
-    <th>Description</th>
-    <th>Classification</th>
-    <th>Group</th>
-    <th>update</th>
-    <th>Delete</th></tr></thead>
+<th>Classification Id</th>
+<th > Name</th>
+
+<th>update</th>
+<th>Delete</th></tr></thead>
 <tbody>
     
     
-<tr class="" th:each="item,rowStat : ${itemList}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
-    <td style="text-align:left;" th:text="${item.itemId}"></td>
-     <td style="text-align:left;" th:text="${item.itemName}"></td>
-     <td style="text-align:left;" th:text="${item.description}"></td>
-<td style="text-align:left;" th:text="${item.itemGroup.classification.classification}">27-SEP-2017</td>
-<td style="text-align:left;" th:text="${item.itemGroup.groupName}">27-SEP-2017</td>
-<td style="text-align:left;"><a   style="color: #ffffff" class="btn btn-xs btn-primary update" th:id="'update_'+${item.itemId}" ><span class="glyphicon glyphicon-edit"></span> update</a>
+<tr class="" th:each="class,rowStat : ${classList}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
+    <td style="text-align:left;" th:text="${class.classificationId}"></td>
+<td style="text-align:left;" th:text="${class.classification}">27-SEP-2017</td>
 
-<td style="text-align:center;" th:switch="${item.activeFlag}">
-    <a href="#" class="btn btn-xs btn-danger deactivate"  th:id="'deactivate_'+${item.itemId}"  style="color: #ffffff" th:case="'Y'" ><span class="glyphicon glyphicon-remove"></span> Delete</a>
+<td style="text-align:left;"><a   style="color: #ffffff" class="btn btn-xs btn-primary update" th:id="'update_'+${class.classificationId}" ><span class="glyphicon glyphicon-edit"></span> update</a>
+
+<td style="text-align:center;" th:switch="${class.activeFlag}">
+    <a href="#" class="btn btn-xs btn-danger deactivate"  th:id="'deactivate_'+${class.classificationId}"  style="color: #ffffff" th:case="'Y'" ><span class="glyphicon glyphicon-remove"></span> Delete</a>
     
-    <a href="#" class="btn btn-xs btn-success activate"  th:id="'activate_'+${item.itemId}"  style="color: #ffffff" th:case="'N'" ><span class="glyphicon glyphicon-check"></span> activate</a>
+    <a href="#" class="btn btn-xs btn-success activate"  th:id="'activate_'+${class.classificationId}"  style="color: #ffffff" th:case="'N'" ><span class="glyphicon glyphicon-check"></span> activate</a>
 </td>
 
 

@@ -249,7 +249,8 @@ public class HdIndent implements Serializable {
     public void setPreviousReferenceOfPurchaseIfAny(String previousReferenceOfPurchaseIfAny) {
         this.previousReferenceOfPurchaseIfAny = previousReferenceOfPurchaseIfAny;
     }
-    
+
+   
     
     
 }

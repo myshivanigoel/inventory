@@ -9,6 +9,7 @@ import in.auth.user.service.UserService;
 import in.db.auth.entity.MstUser;
 import in.db.inventory.entity.Issue;
 import in.db.inventory.entity.ItemMaster;
+import in.db.inventory.entity.MstGroup;
 import in.db.inventory.entity.Receipt;
 import in.db.inventory.entity.Stock;
 import in.inventory.service.ItemService;
@@ -130,6 +131,14 @@ public class StockController {
          model.addAttribute("message","error");
                       return "issue-form";
     }
+    
+     @GetMapping("get-class-groups")
+    public @ResponseBody List<MstGroup> getGroupListByClass(@RequestParam("classificationId")Integer classificationId)
+    {
+        if(classificationId==null){classificationId=0;}
+        return itemService.getGroupListByCLassification(classificationId);
+    }
+    
     
      @GetMapping("get-group-items")
     public @ResponseBody List<ItemMaster> getItemListByGroup(@RequestParam("groupId")Integer groupId)
