@@ -211,7 +211,9 @@ public class PurchaseController {
     ResultDataMap result=new ResultDataMap().setStatus(Boolean.FALSE).setMessage("ERROR");;
         SantizingUtility santizingUtility=new SantizingUtility();
         try {
-             receipt=(ReceiptConsumable)santizingUtility.validate(receipt, "ReceiptConsumable");
+             
+            
+            receipt=(ReceiptConsumable)santizingUtility.validate(receipt, "ReceiptConsumable");
              result=purchaseService.saveReceiptForm(receipt);
              
                  model.addAttribute("result",result);
