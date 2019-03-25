@@ -6,7 +6,9 @@
 package in.db.inventory.entity;
 
 import in.db.auth.entity.MstUser;
+import in.util.entity.Strings;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -37,12 +39,13 @@ public class HdIndent implements Serializable {
     @DateTimeFormat(pattern = "yyyy-mm-dd")
      private Date indentDate;
     private String budgetYear;
-    private String projectCode;
-    @Transient
-    private  List<String> vendors;
-    private String suggestedVendors;
+    
+    @ManyToOne
+     @JoinColumn(name="projectId")
+    private Project projectId;
+   
     private String sourceData;
-    private String modeOfDispatch;
+    
     private String previousReferenceOfPurchaseIfAny;
     @ManyToOne
     @JoinColumn(name = "indentor")
@@ -68,9 +71,9 @@ public class HdIndent implements Serializable {
     private Date approvingAuthorityAuthenticationDate;
  
     @OneToMany(mappedBy = "hdIndent",cascade = CascadeType.ALL)
-    private List<DtIndent> indentDetailList;
+    private List<DtIndent> indentDetailList=new ArrayList<>();
     
-    
+    private String status=Strings.pending;
 
     public Integer getIndentId() {
         return indentId;
@@ -104,31 +107,9 @@ public class HdIndent implements Serializable {
         this.budgetYear = budgetYear;
     }
 
-    public String getProjectCode() {
-        return projectCode;
-    }
+   
 
-    public void setProjectCode(String projectCode) {
-        this.projectCode = projectCode;
-    }
-
-    public List<String> getVendors() {
-        return vendors;
-    }
-
-    public void setVendors(List<String> vendors) {
-        this.vendors = vendors;
-        vendorsListProcess();
-    }
-
-    public String getSuggestedVendors() {
-        return suggestedVendors;
-    }
-
-    public void setSuggestedVendors(String suggestedVendors) {
-        this.suggestedVendors = suggestedVendors;
-    }
-
+   
     public String getSourceData() {
         return sourceData;
     }
@@ -137,13 +118,7 @@ public class HdIndent implements Serializable {
         this.sourceData = sourceData;
     }
 
-    public String getModeOfDispatch() {
-        return modeOfDispatch;
-    }
-
-    public void setModeOfDispatch(String modeOfDispatch) {
-        this.modeOfDispatch = modeOfDispatch;
-    }
+   
 
     public MstUser getIndentor() {
         return indentor;
@@ -228,19 +203,11 @@ public class HdIndent implements Serializable {
         });
     }
 
-    @Override
-    public String toString() {
-        return "HdIndent{" + "indentId=" + indentId + ", prNo=" + prNo + ", indentDate=" + indentDate + ", budgetYear=" + budgetYear + ", ProjectCode=" + projectCode ;
-    }
+  
+    
+    
+    
    
-    
-    
-    
-    //convenience method to convert suggested vendor list into a String to save in one column.
-    private void vendorsListProcess()
-    {
-        vendors.forEach(vendor->{this.suggestedVendors=this.suggestedVendors==null?this.suggestedVendors=vendor:this.suggestedVendors+", "+vendor;});
-    }
 
     public String getPreviousReferenceOfPurchaseIfAny() {
         return previousReferenceOfPurchaseIfAny;
@@ -250,7 +217,32 @@ public class HdIndent implements Serializable {
         this.previousReferenceOfPurchaseIfAny = previousReferenceOfPurchaseIfAny;
     }
 
-   
+    public Project getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Project projectId) {
+        this.projectId = projectId;
+    }
+
+    @Override
+    public String toString() {
+        return "HdIndent{" + "indentId=" + indentId + ", prNo=" + prNo + ", indentDate=" + indentDate + ", budgetYear=" + budgetYear + ", projectId=" + projectId + ", sourceData=" + sourceData + ", previousReferenceOfPurchaseIfAny=" + previousReferenceOfPurchaseIfAny + ", indentor=" + indentor + ", indentorAuthenticationFlag=" + indentorAuthenticationFlag + ", indentorAuthenticationDate=" + indentorAuthenticationDate + ", sectionHead=" + sectionHead + ", sectionHeadAuthenticationFlag=" + sectionHeadAuthenticationFlag + ", sectionHeadAuthenticationDate=" + sectionHeadAuthenticationDate + ", approvingAuthority=" + approvingAuthority + ", approvingAuthorityAuthenticationFlag=" + approvingAuthorityAuthenticationFlag + ", approvingAuthorityAuthenticationDate=" + approvingAuthorityAuthenticationDate + ", indentDetailList=" + indentDetailList + ", status=" + status + '}';
+    }
+
+    
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    
+
+  
     
     
 }

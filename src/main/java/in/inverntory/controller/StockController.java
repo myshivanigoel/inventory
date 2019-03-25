@@ -7,6 +7,7 @@ package in.inverntory.controller;
 
 import in.auth.user.service.UserService;
 import in.db.auth.entity.MstUser;
+import in.db.inventory.entity.Classification;
 import in.db.inventory.entity.Issue;
 import in.db.inventory.entity.ItemMaster;
 import in.db.inventory.entity.MstGroup;
@@ -131,6 +132,14 @@ public class StockController {
          model.addAttribute("message","error");
                       return "issue-form";
     }
+    
+    @GetMapping("get-class")
+    public @ResponseBody List<Classification> getClassification()
+    {
+        
+        return itemService.getClassificationList();
+    }
+    
     
      @GetMapping("get-class-groups")
     public @ResponseBody List<MstGroup> getGroupListByClass(@RequestParam("classificationId")Integer classificationId)

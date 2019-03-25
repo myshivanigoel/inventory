@@ -35,15 +35,16 @@ public class PurchaseDaoImpl implements PurchaseDao{
     SessionFactory sessionFactory;
     
     @Override
-    public ResultDataMap saveIndentForm(Indent indent) {
+    public ResultDataMap saveIndentForm(HdIndent indent) {
         System.out.println("in.inventory.dao.PurchaseDaoImpl.saveIndentForm()"+indent);
         Session session=sessionFactory.getCurrentSession();
-        List<DtIndent> dtIndentList=new ArrayList<>();
-        dtIndentList.add(indent.getDtIndent());
-        indent.getHdIndent().setIndentDetailList(dtIndentList);
-        Integer hdIndent=(Integer)session.save(indent.getHdIndent());
-        //Integer dtindent=(Integer)session.save(indent.getDtIndent());
-        if( hdIndent!=null)
+        Integer count=(Integer)session.save(indent);
+        indent.getIndentDetailList().forEach((t) -> {
+            t.setHdIndent(indent);
+              session.update(t);
+      
+        });
+        if( count!=null)
         {
         return new ResultDataMap().setStatus(Boolean.TRUE).setMessage(Strings.savedSuccessfully);
          
@@ -146,18 +147,13 @@ public class PurchaseDaoImpl implements PurchaseDao{
      * @return
      */
     @Override
-    public List<Indent> getIndentorsIndents(MstUser user) {
-        List<Indent> indentList=new ArrayList<>();
+    public List<HdIndent> getIndentorsIndents(MstUser user) {
+        List<HdIndent> indentList=new ArrayList<>();
         System.out.println("in.inventory.dao.PurchaseDaoImpl.getIndentorsIndents()"+user.getUserId());
-        List<HdIndent> hdIndentList= sessionFactory.getCurrentSession()
+        indentList= sessionFactory.getCurrentSession()
                 .createQuery("from HdIndent where indentor.userId=:indentor").setParameter("indentor", user.getUserId())
                 .list();
-        hdIndentList.forEach((hdIndent) -> {
-            Indent indent=new Indent();
-            indent.setHdIndent(hdIndent);
-            indent.setDtIndent(hdIndent.getIndentDetailList().get(0));
-            indentList.add(indent);
-        });
+        System.out.println("in.inventory.dao.PurchaseDaoImpl.getIndentorsIndents()"+indentList);
         return indentList;
     }
 
@@ -167,18 +163,12 @@ public class PurchaseDaoImpl implements PurchaseDao{
      * @return
      */
     @Override
-    public List<Indent> getAllIndentsList() {
+    public List<HdIndent> getAllIndentsList() {
         
         List<Indent> indentList=new ArrayList<>();
-        List<HdIndent> hdIndentList= sessionFactory.getCurrentSession()
+        return sessionFactory.getCurrentSession()
                 .createQuery("from HdIndent").list();
-        hdIndentList.forEach((hdIndent) -> {
-            Indent indent=new Indent();
-            indent.setHdIndent(hdIndent);
-            indent.setDtIndent(hdIndent.getIndentDetailList().get(0));
-            indentList.add(indent);
-        });
-        return indentList;
+        
     }
 
     /**
@@ -188,7 +178,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
      * @return
      */
     @Override
-    public List<Indent> getIndentsListToBeVerifiedByUser(MstUser userId) {
+    public List<HdIndent> getIndentsListToBeVerifiedByUser(MstUser userId) {
         return null;
     }
 

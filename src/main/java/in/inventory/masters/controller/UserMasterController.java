@@ -133,7 +133,7 @@ public class UserMasterController {
             {
                  model.addAttribute("message", "Success");
                  model.addAttribute("userList",userService.getAllUserList());
-                 return "redirect:update?message="+result.getMessage();
+                 return "redirect:add?message="+result.getMessage();
             }else{
                   model.addAttribute("message", result.getMessage());
                 model.addAttribute("user", user);

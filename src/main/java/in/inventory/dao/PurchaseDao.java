@@ -6,6 +6,7 @@
 package in.inventory.dao;
 
 import in.db.auth.entity.MstUser;
+import in.db.inventory.entity.HdIndent;
 import in.db.inventory.entity.Receipt;
 import in.db.inventory.entity.ReceiptConsumable;
 import in.util.entity.Indent;
@@ -17,7 +18,7 @@ import java.util.List;
  * @author anuja
  */
 public interface PurchaseDao {
-      public ResultDataMap saveIndentForm(Indent indent);
+      public ResultDataMap saveIndentForm(HdIndent indent);
 
     public ResultDataMap saveReceiptForm(Receipt receipt);
 
@@ -25,11 +26,11 @@ public interface PurchaseDao {
 
     public ResultDataMap saveNonConsumableReceiptForm(Receipt receipt);
 
-    public List<Indent> getIndentorsIndents(MstUser userId);
+    public List<HdIndent> getIndentorsIndents(MstUser userId);
 
-    public List<Indent> getAllIndentsList();
+    public List<HdIndent> getAllIndentsList();
 
-    public List<Indent> getIndentsListToBeVerifiedByUser(MstUser userId);
+    public List<HdIndent> getIndentsListToBeVerifiedByUser(MstUser userId);
 
     public Object getIndent(Integer indentId);
 

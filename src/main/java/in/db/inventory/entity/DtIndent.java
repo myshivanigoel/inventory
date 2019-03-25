@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 /**
  *
@@ -50,13 +51,19 @@ public class DtIndent implements Serializable {
     private String unitForPrice;
     private String expectedMonthYearOfDelivery;
     private String Remarks;
-
-    
+ private String suggestedVendors;
+     @Transient
+    private  List<String> vendors;
+   
     @ManyToOne
     @JoinColumn(name="itemId")
     private ItemMaster item;
     
+    @ManyToOne
+    @JoinColumn(name="purchaseId")
+    private PurchaseType purchaseType;
     
+    private String modeOfDispatch;
     public HdIndent getHdIndent() {
         return hdIndent;
     }
@@ -162,11 +169,7 @@ public class DtIndent implements Serializable {
         this.Remarks = Remarks;
     }
 
-    @Override
-    public String toString() {
-        return "DtIndent{" + "hdIndent=" + hdIndent + ", dtIndentId=" + dtIndentId + ", classification=" + classification + ", itemGroup=" + itemGroup + ", sNo=" + sNo + ", partType=" + partType + ", descriptionOfMaterial=" + descriptionOfMaterial + ", manufacturer=" + manufacturer + ", quantity=" + quantity + ", pricePerUnit=" + pricePerUnit + ", unitForPrice=" + unitForPrice + ", expectedMonthYearOfDelivery=" + expectedMonthYearOfDelivery + ", Remarks=" + Remarks + '}';
-    }
-
+  
     public String getClassificationNameManual() {
         return classificationNameManual;
     }
@@ -183,10 +186,52 @@ public class DtIndent implements Serializable {
         this.item = item;
     }
 
+    public PurchaseType getPurchaseType() {
+        return purchaseType;
+    }
+
+    public void setPurchaseType(PurchaseType purchaseType) {
+        this.purchaseType = purchaseType;
+    }
+
+    @Override
+    public String toString() {
+        return "DtIndent{" + "dtIndentId=" + dtIndentId + ", classification=" + classification + ", classificationNameManual=" + classificationNameManual + ", itemGroup=" + itemGroup + ", sNo=" + sNo + ", partType=" + partType + ", descriptionOfMaterial=" + descriptionOfMaterial + ", manufacturer=" + manufacturer + ", quantity=" + quantity + ", pricePerUnit=" + pricePerUnit + ", unitForPrice=" + unitForPrice + ", expectedMonthYearOfDelivery=" + expectedMonthYearOfDelivery + ", Remarks=" + Remarks + ", suggestedVendors=" + suggestedVendors + ", vendors=" + vendors + ", item=" + item + ", purchaseType=" + purchaseType + ", modeOfDispatch=" + modeOfDispatch + '}';
+    }
+
+   
+
+    public String getSuggestedVendors() {
+        return suggestedVendors;
+    }
+
+    public void setSuggestedVendors(String suggestedVendors) {
+        this.suggestedVendors = suggestedVendors;
+    }
+
    
     
-   
+    //convenience method to convert suggested vendor list into a String to save in one column.
+    private void vendorsListProcess()
+    {
+        vendors.forEach(vendor->{this.suggestedVendors=this.suggestedVendors==null?this.suggestedVendors=vendor:this.suggestedVendors+", "+vendor;});
+    }
     
+     public List<String> getVendors() {
+        return vendors;
+    }
+
+    public void setVendors(List<String> vendors) {
+        this.vendors = vendors;
+        vendorsListProcess();
+    }
     
+     public String getModeOfDispatch() {
+        return modeOfDispatch;
+    }
+
+    public void setModeOfDispatch(String modeOfDispatch) {
+        this.modeOfDispatch = modeOfDispatch;
+    }
     
 }

@@ -72,7 +72,7 @@ public class Strings {
         public static String ClassificationInUse="This classification is used, can not be Altered or deleted";
     public static String ItemInUse="This Item is used, can not be altered or deleted";
     public static String GroupInUse="This Group is used,  can not be altered or deleted";
-        
+          public static String pending="Pending";
         
 }
 

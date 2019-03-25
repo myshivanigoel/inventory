@@ -79,18 +79,15 @@
                 {
                     
                  $("#groupId").html("");
-                   $("#itemName").prop('disabled', true);
-                        $("#itemDescription").prop('disabled', true);
+                  
                 } 
                 if ($("#groupId").val() == 0)
                 {
                
                          
-                        $("#itemName").prop('disabled', true);
-                        $("#itemDescription").prop('disabled', true);
+                        
                 }else{
-                        $("#itemName").prop('disabled', false);
-                        $("#itemDescription").prop('disabled', false);
+                       
                 }
                 if ($("#itemName").val() == "")
                 {
@@ -107,11 +104,8 @@
                 var classificationId = $("#classificationId").val();
                 if (classificationId == 0)
                 {
-                        $("#itemName").val("");
-                        $("#itemDescription").val("");
-                         
-                        $("#itemName").prop('disabled', true);
-                        $("#itemDescription").prop('disabled', true);
+                       
+                      
                 } else{
                 url = url + "?classificationId=" + classificationId;
                 $.get(url, function(data) {
@@ -135,13 +129,9 @@
                 var groupId = $("#groupId").val();
                 if (groupId > 0)
                 {
-                    $("#itemName").prop('disabled', false);
-                    $("#itemDescription").prop('disabled', false);
+                    
                 } else{
-                        $("#itemName").val("");
-                        $("#itemDescription").val("");
-                        $("#itemName").prop('disabled', true);
-                        $("#itemDescription").prop('disabled', true);
+                    
                 }
                 });
                 $("#submit").click(function(event){
@@ -230,7 +220,7 @@
                                                                Group<font color="#CC0000"> *</font>
                                                             </td>
                                                             <td width="20%"> 
-                                                                  <select name='group.groupId'  id='groupId' style="width:200px"  >
+                                                                  <select name='itemGroup.groupId'  id='groupId' style="width:200px"  >
                                                                       <option value=0>Select</option>
     <option th:each="groupObj : ${groupList}" th:value="${groupObj.groupId}" th:text="${groupObj.groupName}" th:selected="${groupObj.groupId==item.itemGroup.groupId}"></option>
        
@@ -249,7 +239,7 @@
                                                                Item Name<font color="#CC0000"> *</font>
                                                             </td>
                                                               <td colspan="3"> 
-                                                                  <input name="itemName" th:field="${item.itemName}" disabled="true" maxlength="250" id="itemName" type="text" class="textbox" style="width:200px" value="">
+                                                                  <input name="itemName" th:field="${item.itemName}"  maxlength="250" id="itemName" type="text" class="textbox" style="width:200px" value="">
                                                                 
                                                                
                                                             </td>
@@ -257,7 +247,7 @@
                                                                Item Description
                                                             </td>
                                                               <td colspan="3"> 
-                                                                  <input name="description"  th:field="${item.description}"  disabled="true" maxlength="250" id="itemDescription" type="text" class="textbox" style="width:200px" value="">
+                                                                  <input name="description"  th:field="${item.description}"   maxlength="250" id="itemDescription" type="text" class="textbox" style="width:200px" value="">
                                                                 
                                                                
                                                             </td>

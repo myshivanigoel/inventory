@@ -1,0 +1,188 @@
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layouts/default">
+
+<body>
+    <div id="page" layout:fragment="content">
+	<div class="container-contact100">
+		<div class="wrap-contact100">
+                   
+
+                    <form class="contact100-form validate-form" action="#" method="post" th:object="${indent}"    th:action="@{/indent-save}">
+				<span class="contact100-form-title">
+					Indent Form
+				</span>
+                       
+                        <span th:text="${message}" style="color: red;">n</span>
+                        
+                            <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Material Classification</span>
+                                        <input class="input100" type="text"  name="dtIndent.classificationNameManual"   >
+                            </div>
+                            
+                            <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Capital Equipment</span>
+                                        <select class="input100" name="dtIndent.itemGroup.groupId" required="">
+                                            <option value="0">Select</option>
+                                            <option value="1">Plant and Machinery</option>
+                                            <option value="2">Elect. Equipment</option>
+                                            <option value="3">Tools Testing Equipment</option>
+                                            <option value="4">Office Equipment</option>
+                                            <option value="5">Furniture,fixtures</option>
+                                            <option value="6">Misc. Items</option>
+                                        </select>
+                                       
+                            </div>
+                        
+                            <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Consumables</span>
+                                         <select class="input100" name="dtIndent.itemGroup.groupId" required="">
+                                            <option value="0">Select</option>
+                                            <option value="7">Raw Materials</option>
+                                            <option value="8">Stationery Items</option>
+                                            <option value="9">Components</option>
+                                            <option value="10">Maintenance</option>
+                                            <option value="11">Small Tools</option>
+                                            <option value="12">Misc. Items Consumable</option>
+                                        </select>
+                            </div>
+                        
+                            <div class="row">
+                            <div class="col-lg-4">
+                                <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Date</span>
+                                        <input class="input100" type="date"  name="hdIndent.indentDate"   >
+                            </div> 
+                            </div>
+                              <div class="col-lg-4">
+                                <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Budget year</span>
+                                        <select class="input100" name="hdIndent.budgetYear">
+                                            <option>select</option>
+                                            <option>2017-2018</option>
+                                            <option>2018-2019</option>
+                                            
+                                        </select>
+                                      
+                            </div> 
+                            </div>
+                              <div class="col-lg-4">
+                                <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Project Code</span>
+                                        <input class="input100" type="text"  name="hdIndent.projectCode"   >
+                            </div> 
+                            </div>
+                           </div>
+                        
+                        
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Part/Type Number</span>
+                                        <input class="input100" type="text"  name="dtIndent.partType"   >
+                            </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Manufacturer</span>
+                                        <input class="input100" type="text"  name="dtIndent.manufacturer"   >
+                            </div>
+                            </div>
+                            
+                             <div class="col-lg-4">
+                                <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Quantity</span>
+                                        <input class="input100" type="text"  name="dtIndent.quantity"   >
+                            </div>
+                            </div>
+                           </div>
+                      
+                          <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="wrap-input100    bg-orange" >
+                                            <span class="label-input100">Price/Unit</span>
+                                            <input class="input100" type="text"  name="dtIndent.pricePerUnit"   >
+                                </div>
+                                </div>
+
+<!--                                <div class="col-lg-4">
+                                    <div class="wrap-input100    bg-orange" >
+                                            <span class="label-input100">Quantity in Stock</span>
+                                            <input class="input100" type="text"  name="dtIndent."   >
+                                </div>
+                                </div>-->
+
+                                <div class="col-lg-4">
+                                     <div class="wrap-input100    bg-orange" >
+                                            <span class="label-input100">Delivery Month and year</span>
+                                            <input class="input100" type="text"  name="dtIndent.expectedMonthYearOfDelivery"   >
+                                </div>
+                                </div>
+                            </div>
+                            <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Description</span>
+                                        <input class="input100" type="text"  name="dtIndent.descriptionOfMaterial"   >
+                            </div>
+                           
+                           
+                            <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Remarks</span>
+                                        <input class="input100" type="text"  name="dtIndent.Remarks"   >
+                            </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                            <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Source Data</span>
+                                        <select class="input100" name="hdIndent.sourceData" required="">
+                                            <option>Select</option>
+                                            <option>Foreign</option>
+                                            <option>Indigenous</option>
+                                            <option>Proprietary</option>
+                                        </select>
+                            </div>
+                            </div>
+                            <div class="col-lg-4">
+                            <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Suggested Vendors</span>
+                                        <input class="input100" type="text"  name="hdIndent.suggestedVendors"   >
+                            </div>
+                            </div>
+                            <div class="col-lg-4">
+                            <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Mode Of Dispatch</span>
+                                        <select class="input100" name="hdIndent.modeOfDispatch" required="">
+                                            <option>Any</option>
+                                            <option>AIR</option>
+                                            <option>SEA</option>
+                                            <option>ROAD</option>
+                                            <option>RAIL</option>
+                                            <option>POST</option>
+                                            <option>BY HAND</option>
+                                        </select>
+                            </div>
+                            </div>
+                        </div>
+                            <div class="wrap-input100    bg-orange" >
+					<span class="label-input100">Previous Purchase Reference if any</span>
+                                        <input class="input100" type="text"  name="hdIndent.previousReferenceOfPurchaseIfAny"   >
+                            </div>
+				<div class="container-contact100-form-btn">
+                                    
+                                    <button class="contact100-form-btn" type="submit">
+						<span>
+							Submit
+							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+						</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+ 
+
+
+    </div>
+</body>
+</html>
