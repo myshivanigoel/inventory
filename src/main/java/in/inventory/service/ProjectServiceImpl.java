@@ -1,6 +1,6 @@
-package in.auth.user.serviceimpl;
+package in.inventory.service;
 
-import in.auth.user.dao.ProjectDao;
+import in.inventory.dao.ProjectDao;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import in.auth.user.dao.UserDao;
-import in.auth.user.service.ProjectService;
 import in.auth.user.service.UserService;
 import in.db.auth.entity.MstRole;
 import in.db.auth.entity.Tocken;

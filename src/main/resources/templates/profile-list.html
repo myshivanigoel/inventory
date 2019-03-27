@@ -1,0 +1,152 @@
+<div class="user-list" th:fragment="user-list">
+    
+        
+        <script type="text/javascript">
+    $(document).ready(function() {
+        debugger;
+        
+  $('#datatable_user').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+             'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+    $(".update").click(function(event){
+    
+     
+     debugger;
+     event.preventDefault();
+     userId=this.id;
+     userId=userId.substring(7);
+    window.location.replace("update?userId="+userId);
+    });
+     $(".activate").click(function(event){
+    
+      var csrf=$('[name="_csrf"]').val();
+     debugger;
+     event.preventDefault();
+     userId=this.id;
+     userId=userId.substring(9);
+     $.post("activate/"+userId, {_csrf: csrf}, function(result){
+         if(result.status)
+         {
+              $("#errorMessage").html(result.message);
+              window.location.replace("add");
+         }else{
+             $("#errorMessage").html(result.message);
+         }
+        
+  });
+    
+   // window.location.replace("activate/"+userId);
+    });
+     $(".deactivate").click(function(event){
+    
+     var csrf=$('[name="_csrf"]').val();
+     debugger;
+     event.preventDefault();
+     userId=this.id;
+     userId=userId.substring(11);
+        $.post("deactivate/"+userId, {_csrf: csrf}, function(result){
+          if(result.status)
+         {
+              window.location.replace("add");
+         }else{
+             $("#errorMessage").html(result.message);
+         }
+  });
+   // window.location.replace("deactivate/"+userId);
+    });
+    
+} );
+     
+     </script>
+                            <table id="tbrecentApplications" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tbody>
+                                    <tr id="trRow333">
+                                        <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
+                                        <!-- *** Update Table Header -->
+                                        <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading" >&nbsp;Users</td>
+                                        <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);"></td>
+                                        <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
+                                            <table style="width: 100%;border-width: 0px;" cellspacing="0" cellpadding="0" >
+                                                <tbody><tr>
+                                                    <td style="width: 85%"></td>
+                                                    <td style="width: 15%;text-align: right">
+                                                        <span id="spcol3" onclick="ToggleTable2(&#39;trRow111&#39;,&#39;trRow222&#39;,&#39;spexp3&#39;,&#39;spcol3&#39;,&#39;C&#39;); return false; " style="cursor: pointer"><img style="width: 13px;height: 13px;border-width: 0px;" src="/theme/ico_collapse.gif" id="imgcol" alt="Collapse"></span>
+                                                        <span id="spexp3" onclick="ToggleTable2(&#39;trRow111&#39;,&#39;trRow222&#39;,&#39;spexp3&#39;,&#39;spcol3&#39;,&#39;E&#39;); return false;" style="cursor: pointer; display: none;"><img style="width: 13px;height: 13px;border-width: 0px;" src="/theme/ico_expand.gif" id="imgexp" alt="Expand"></span>
+                                                    </td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                        <td><img style="width: 10px;height: 23px;border-width: 0px;display: block;" src="/theme/6_r.gif" alt=""></td>
+                                    </tr>
+                                    <tr id="trRow111">
+                                        <td background="/theme/l.gif"><img src="/theme/space.gif" border="0" height="1" width="1"></td>
+                                        <td colspan="3">
+                                            <table id="tdataTable" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="vertical-align: top;text-align: center;padding-top: 10px;">
+                                                        
+                                                            
+                                                                 
+
+
+
+
+<table id="datatable_user" style="width:100%" cellpadding="3" class="list" cellspacing="1">
+<thead>
+<tr>
+<th>Employee Id</th>
+<th>Employee Name</th>
+<th>Email Id</th>
+<th>Mobile Number</th>
+<th>User Type</th>
+<th>HOD</th>
+<th>Authority</th>
+<th>update</th>
+<th>activate/de-activate</th></tr></thead>
+<tbody>
+    
+    
+<tr class="" th:each="user,rowStat : ${userList}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
+    <td style="text-align:left;" th:text="${user.userEmployeeId}"><p th:text="${userList}"></p></td>
+<td style="text-align:left;" th:text="${user.userName}">27-SEP-2017</td>
+<td style="text-align:left;" th:text="${user.userEmail}">18-SEP-2017</td>
+<td style="text-align:left;" th:text="${user.userContactNo}">10:30</td>
+<td style="text-align:left;" th:switch="${user.userType}">
+    <p th:case="0">Employee</p>
+    <p th:case="1">Admin</p>
+    <p th:case="2">MMG</p>
+    <p th:case="4">Finance</p>
+    <p th:case="3">Employee</p>
+    
+</td>
+<td style="text-align:left;" th:text="${user.hod?.userEmployeeId+' :: '+user.hod?.userName}">10:30</td>
+<td style="text-align:left;" th:text="${user.authority?.userEmployeeId+' :: '+user.authority?.userName}">10:30</td>
+<td style="text-align:left;"><a   style="color: #ffffff" class="btn btn-xs btn-primary update" th:id="'update_'+${user.userId}" ><span class="glyphicon glyphicon-edit"></span> update</a>
+
+<td style="text-align:center;" th:switch="${user.activeFlag}">
+    <a href="#" class="btn btn-xs btn-danger deactivate"  th:id="'deactivate_'+${user.userId}"  style="color: #ffffff" th:case="'Y'" th:onclick="'deactivateUser('+${user.userId}+')'"><span class="glyphicon glyphicon-remove"></span> deactivate</a>
+    
+    <a href="#" class="btn btn-xs btn-success activate"  th:id="'activate_'+${user.userId}"  style="color: #ffffff" th:case="'N'" th:onclick="'activateUser('+${user.userId}+')'"><span class="glyphicon glyphicon-check"></span> activate</a>
+</td>
+
+
+                                            </tbody>
+                                            </table>
+                                            <img src="/theme/space.gif" border="0" height="10" width="1"><br>
+                                        </td>
+                                        <td background="/theme/r.gif"><img src="/theme/space.gif" border="0" height="1" width="1"></td>
+                                    </tr>
+                                    <tr id="trRow222"><td style="background-color: #4682b4;" colspan="5"><img style="width: 1px;height: 1px;border-width: 0px;display: block;" src="/theme/space.gif"></td></tr>
+                                </tbody>
+                                </table>
+                            </td>
+                        </tr><tr>
+                </tr></tbody>
+            </table>
+           </div>
+
+        

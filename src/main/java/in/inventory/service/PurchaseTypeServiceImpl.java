@@ -1,12 +1,11 @@
-package in.auth.user.serviceimpl;
+package in.inventory.service;
 
-import in.auth.user.dao.PurchaseTypeDao;
+import in.inventory.dao.PurchaseTypeDao;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-import in.auth.user.service.PurchaseTypeService;
 import in.db.inventory.entity.PurchaseType;
 import in.util.entity.ResultDataMap;
 import in.util.entity.Strings;

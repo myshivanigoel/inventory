@@ -1,6 +1,6 @@
-package in.auth.user.daoimpl;
+package in.inventory.dao;
 
-import in.auth.user.dao.PurchaseTypeDao;
+import in.inventory.dao.PurchaseTypeDao;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,6 +12,7 @@ import in.util.entity.ResultDataMap;
 import in.util.entity.Strings;
 import java.util.LinkedHashMap;
 import javax.transaction.Transactional;
+
 @Repository
 @Transactional
 public class PurchaseTypeDaoImpl implements PurchaseTypeDao {
@@ -37,8 +38,6 @@ public class PurchaseTypeDaoImpl implements PurchaseTypeDao {
 	public PurchaseType getPurchaseTypeById(Integer purchaseId) {
 		Session session=sessionFactory.getCurrentSession();
 		PurchaseType purchase=session.get(PurchaseType.class, purchaseId);
-		
-		
 		return purchase;
 	}
         

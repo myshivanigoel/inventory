@@ -55,7 +55,7 @@ public class MstUser implements Serializable{
 	@NotNull(message=" name is required")
 	@Size(min=5,message="min size is 2")
 	private String userName;
-@Column(length = 100)
+        @Column(length = 100)
 	private String password;
 	private Character activeFlag;
 	@NotNull(message=" Email is required")
@@ -67,11 +67,11 @@ public class MstUser implements Serializable{
 	@Pattern(regexp = "[\\s]*[0-9]*[1-9]+",message="Numbers are allowed only")
 	private String userContactNo;
 	private Integer registeredBy;
-@Temporal(TemporalType.DATE)
+        @Temporal(TemporalType.DATE)
         @Column(length = 10)
 	private Date dateofEntry;
 	private Integer modifiedBy;
-@Temporal(TemporalType.DATE)
+        @Temporal(TemporalType.DATE)
         @Column(length = 10)
 	private Date dateOfModification;
 	private Address address;
@@ -102,6 +102,9 @@ public class MstUser implements Serializable{
 	@Transient
 	private String roleName;
 	
+      
+        
+    
 	
 	public MstUser() {
 		

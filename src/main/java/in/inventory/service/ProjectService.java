@@ -1,4 +1,4 @@
-package in.auth.user.service;
+package in.inventory.service;
 
 import java.util.Collection;
 import java.util.List;
