@@ -83,6 +83,7 @@
                     var classificationList={};
                     
                 $(document).ready(function() {
+                    setTimeout( removeMessage, 10000 ); 
                    
                       debugger;
                     var itemCounter=-1;
@@ -106,18 +107,18 @@
                               ] ).draw( false );
 
                             t.row.add( [
-                              "MaterialClassification<font color='#CC0000'> *</font>",
+                              "MaterialClassification",
                         " <select name='indentDetailList["+itemCounter+"].itemGroup.classification.classificationId' class='classification' id='classification"+itemCounter+"' style='width:150px'  >"
                         + "<option value='0'>Select</option>"
 
                         + " <option th:each='classificationObj : ${classList}' th:value='${classificationObj.classificationId}' th:text='${classificationObj.classification}' ></option>"
 
                         + " </select>",
-                       "Group<font color='#CC0000'> *</font>",
+                       "Group",
                         " <select name='indentDetailList["+itemCounter+"].itemGroup.groupId' class='group' id='group"+itemCounter+"' style='width:150px'  >"
                                      +" <option value='0'>Select</option>"
                                      +"</select>",
-                        " Item <font color='#CC0000'> *</font>",
+                        " Item",
                        "      <select name='indentDetailList["+itemCounter+"].item.itemId' class='item' id='item"+itemCounter+"' style='width:150px'  >"
                                 +"<option value=0>Select</option>"
                                 +"  <option value=>not in list</option>"
@@ -127,21 +128,21 @@
 
                            var row=  t.row.add( [
                                 " Description <font color='#CC0000'> *</font>",
-                       "  <input class='input100' type='text'  name='indentDetailList["+itemCounter+"].descriptionOfMaterial' class='description' id='description"+itemCounter+"'  >",
+                       "  <input class='input100 description' type='text'  name='indentDetailList["+itemCounter+"].descriptionOfMaterial'  id='description"+itemCounter+"'  >",
                               "Quantity<font color='#CC0000'> *</font>",
-                        " <input class='input100' type='number'  name='indentDetailList["+itemCounter+"].quantity' class='quantity' id='quantity"+itemCounter+"'  >",
+                        " <input class='input100 quantity' type='number'  name='indentDetailList["+itemCounter+"].quantity'  id='quantity"+itemCounter+"'  >",
                        "Manufacturer<font color='#CC0000'> *</font>",
-                        "<input class='input100' type='text'  name='indentDetailList["+itemCounter+"].manufacturer' class='manufacturer' id='manufacturer"+itemCounter+"'  >"
+                        "<input class='input100 manufacturer' type='text'  name='indentDetailList["+itemCounter+"].manufacturer'  id='manufacturer"+itemCounter+"'  >"
                        
                             ] ).draw( false );
                           
                             var row=  t.row.add( [
                               "Estimated Price/Unit",
-                        " <input class='input100' type='number'  name='indentDetailList["+itemCounter+"].pricePerUnit' class='pricePerUnit' id='pricePerUnit"+itemCounter+"'  >",
+                        " <input class='input100 pricePerUnit' type='number'  name='indentDetailList["+itemCounter+"].pricePerUnit'  id='pricePerUnit"+itemCounter+"'  >",
                        "Estimated Delivery Date",
-                        " <input class='input100' type='date'  name='indentDetailList["+itemCounter+"].expectedMonthYearOfDelivery' class='expectedMonthYearOfDelivery' id='expectedMonthYearOfDelivery"+itemCounter+"'  >",
+                        " <input class='input100 expectedMonthYearOfDelivery' type='date'  name='indentDetailList["+itemCounter+"].expectedMonthYearOfDelivery'  id='expectedMonthYearOfDelivery"+itemCounter+"'  >",
                         " Remarks ",
-                       "  <input class='input100' type='text'  name='indentDetailList["+itemCounter+"].remarks' class='remarks' id='remarks"+itemCounter+"'  >"
+                       "  <input class='input100 remarks' type='text'  name='indentDetailList["+itemCounter+"].remarks'  id='remarks"+itemCounter+"'  >"
                             ] ).draw( false );
                                   
                             
@@ -150,9 +151,9 @@
                                           " <select name='indentDetailList["+itemCounter+"].purchaseType.purchaseId' class='purchasetype' id='purchasetype"+itemCounter+"'  style='width:150px'  >"
                                           ,
                                          "Suggested Vendors",
-                                          "  <input class='input100' type='date'  name='indentDetailList["+itemCounter+"].suggestedVendors' class='suggestedVendors' id='suggestedVendors"+itemCounter+"'   >",
+                                          "  <input class='input100 suggestedVendors' type='text'  name='indentDetailList["+itemCounter+"].suggestedVendors'  id='suggestedVendors"+itemCounter+"'   >",
                                           " Mode Of Dispatch",
-                                         "      <select name='indentDetailList["+itemCounter+"].modeOfDispatch' style='width:150px'   class='suggestedVendors' id='suggestedVendors"+itemCounter+"' >"
+                                         "      <select name='indentDetailList["+itemCounter+"].modeOfDispatch' style='width:150px'   class='modeOfDispatch' id='suggestedVendors"+itemCounter+"' >"
                                                   +"<option value=0>Select</option>"
                                                   +" <option>Any</option>"
                                                   +"<option>AIR</option>"
@@ -171,51 +172,18 @@
                             console.log(row);
                             $(row).addClass("left-align");
                             counter++;
-                        
+                            getClass(itemCounter);
+                             getPurchaseType(itemCounter); 
                         } );
                               $('#addRow').click();    
                               
                               
  /////////////////ajax calls begin///////////////////////////////////////////////////////////////////////////////////////////////////////
+  getClass(0);
+  getPurchaseType(0);               
  
- 
-  $.get('get-class', function(data) 
-                                 {
-                                     classificationList=data;
-                                            if (data.length === 0)
-                                            {
-                                            $("#errorMessageJs").html("No class");
-                                            } else{
-                                                    $("#errorMessageJs").html("");
-                                                    $("#classification0").html("");
-                                                    var option = "<option value = 0>Select</option>";
-                                                    data.forEach(function(classification, i) {
-                                                    debugger;
-                                                    option = option + "<option value = " + classification.classificationId + ">" + classification.classification + "</option>";
-                                                    });
-                                                    $("#classification0").append(option);
-                                            }
-                                    });
-                                    
-                                    
- $.get('get-purchasetype', function(data) 
-                                 {
-                                     purchaseTypeList=data;
-                                            if (data.length === 0)
-                                            {
-                                            $("#errorMessageJs").html("No purchase type");
-                                            } else{
-                                                    $("#errorMessageJs").html("");
-                                                    $("#purchasetype0").html("");
-                                                    var option = "";
-                                                    data.forEach(function(purchasetype, i) {
-                                                    debugger;
-                                                    option = option + "<option value = " + purchasetype.purchaseId + ">" + purchasetype.purchaseName + "</option>";
-                                                    });
-                                                    $("#purchasetype0").append(option);
-                                            }
-                                    });                                    
- $(".classification").on('change',function(event) {
+  $(document).on('change',".classification", function(){
+ //$(".classification").on('change',function(event) {
                         debugger;
                         var classificationId=event.target.id;
                         var sno=classificationId.substring(14);
@@ -246,8 +214,8 @@
                                     });
                         }
                 });
-                
-                $(".group").on('change',function(event) {
+                 $(document).on('change',".group", function(){
+                //$(".group").on('change',function(event) {
                         debugger;
                         var groupId=event.target.id;
                         var sno=groupId.substring(5);
@@ -303,32 +271,55 @@
                         if($.trim($("#budgetYear").val())=="")
                         {
                             $("#errorMessageJs").html("Budget year can not be empty.");
-                            error= 0;
+                            error= 1;
+                            return error;
                         }
                         if($.trim($("#indentDate").val())=="")
                         {
                             $("#errorMessageJs").html("indent Date can not be empty.");
-                            error= 0;
+                            error= 1;
+                            return error;
                         }
-                        
-                        
-                        $('.item').each(function(i,obj){
+                       
+                         $('.item').each(function(i,obj){
                             console.log($(this).val());
                             var itemId=$(this).attr("id");
                             var sno=itemId.substring(4);
                             if($(this).val()=="" || $(this).val()==0 ||  $(this).val()==1)
                             {   if( $.trim($("#description"+sno).val())=="") 
                                 {
-                                    $("#errorMessageJs").html("please choose item of enter description.");
+                                    $("#errorMessageJs").html("please choose item or enter description.");
                                     error= 1;
+                                
                                 }else{
-                                    error= 0;
+                                   
                                 }
                             }else{
-                                error= 0;
+                               
                             }
                            
                         });
+                        if(error==1)
+                        {
+                            
+                        }else{
+                            
+                        
+                        $('.quantity').each(function(i,obj){
+                            debugger;
+                            console.log($(this).val());
+                            var quantityId=$(this).attr("id");
+                            var sno=quantityId.substring(8);
+                            if($(this).val()=="" || $(this).val()==0 )
+                            {   error=1;
+                                $("#errorMessageJs").html("please enter quantity for  item no "+parseInt(sno)+1);
+                            }else{
+                               
+                            }
+                           
+                        });
+                    }
+                       
                        if(error==0)
                        {
                         $("#indent").submit();
@@ -367,7 +358,53 @@
  
                 });
                 
+              function getClass(sno)
+              {
+                  
+                        $.get('get-class', function(data) 
+                                                       {
+                                                           classificationList=data;
+                                                                  if (data.length === 0)
+                                                                  {
+                                                                  $("#errorMessageJs").html("No class");
+                                                                  } else{
+                                                                          $("#errorMessageJs").html("");
+                                                                          $("#classification"+sno).html("");
+                                                                          var option = "<option value = 0>Select</option>";
+                                                                          data.forEach(function(classification, i) {
+                                                                          debugger;
+                                                                          option = option + "<option value = " + classification.classificationId + ">" + classification.classification + "</option>";
+                                                                          });
+                                                                          $("#classification"+sno).append(option);
+                                                                  }
+                                                          });
+              }
               
+              
+              function getPurchaseType(sno)
+              {
+                  $.get('get-purchasetype', function(data) 
+                                 {
+                                     purchaseTypeList=data;
+                                            if (data.length === 0)
+                                            {
+                                            $("#errorMessageJs").html("No purchase type");
+                                            } else{
+                                                    $("#errorMessageJs").html("");
+                                                    $("#purchasetype"+sno).html("");
+                                                    var option = "";
+                                                    data.forEach(function(purchasetype, i) {
+                                                    debugger;
+                                                    option = option + "<option value = " + purchasetype.purchaseId + ">" + purchasetype.purchaseName + "</option>";
+                                                    });
+                                                    $("#purchasetype"+sno).append(option);
+                                            }
+                                    });  
+              }
+              function removeMessage()
+              {
+                   $("#errorMessage").html("");
+              }
             </script>
             <form name="indent" id="indent" method="post" th:object="${indent}"    th:action="@{/indent-save}" >
 
@@ -446,7 +483,7 @@
                                                                                             <td> 
                                                                                                 <input name="indentDate"  maxlength="250" id="indentDate" type="date" class="textbox" style="width:200px" value="">
                                                                                             </td>
-                                                                                            <td>Project Code<font color="#CC0000"> *</font></td>
+                                                                                            <td>Project Code</td>
                                                                                             <td>
                                                                                                 <select name='project.projectId'  id='projectCode' style="width:150px"  >
                                                                                                     <option value=0>Select</option>

@@ -42,7 +42,7 @@ public class HdIndent implements Serializable {
     
     @ManyToOne
      @JoinColumn(name="projectId")
-    private Project projectId;
+    private Project project;
    
     private String sourceData;
     
@@ -217,19 +217,22 @@ public class HdIndent implements Serializable {
         this.previousReferenceOfPurchaseIfAny = previousReferenceOfPurchaseIfAny;
     }
 
-    public Project getProjectId() {
-        return projectId;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProjectId(Project projectId) {
-        this.projectId = projectId;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     @Override
     public String toString() {
-        return "HdIndent{" + "indentId=" + indentId + ", prNo=" + prNo + ", indentDate=" + indentDate + ", budgetYear=" + budgetYear + ", projectId=" + projectId + ", sourceData=" + sourceData + ", previousReferenceOfPurchaseIfAny=" + previousReferenceOfPurchaseIfAny + ", indentor=" + indentor + ", indentorAuthenticationFlag=" + indentorAuthenticationFlag + ", indentorAuthenticationDate=" + indentorAuthenticationDate + ", sectionHead=" + sectionHead + ", sectionHeadAuthenticationFlag=" + sectionHeadAuthenticationFlag + ", sectionHeadAuthenticationDate=" + sectionHeadAuthenticationDate + ", approvingAuthority=" + approvingAuthority + ", approvingAuthorityAuthenticationFlag=" + approvingAuthorityAuthenticationFlag + ", approvingAuthorityAuthenticationDate=" + approvingAuthorityAuthenticationDate + ", indentDetailList=" + indentDetailList + ", status=" + status + '}';
+        return "HdIndent{" + "indentId=" + indentId + ", prNo=" + prNo + ", indentDate=" + indentDate + ", budgetYear=" + budgetYear + ", project=" + project + ", sourceData=" + sourceData + ", previousReferenceOfPurchaseIfAny=" + previousReferenceOfPurchaseIfAny + ", indentor=" + indentor + ", indentorAuthenticationFlag=" + indentorAuthenticationFlag + ", indentorAuthenticationDate=" + indentorAuthenticationDate + ", sectionHead=" + sectionHead + ", sectionHeadAuthenticationFlag=" + sectionHeadAuthenticationFlag + ", sectionHeadAuthenticationDate=" + sectionHeadAuthenticationDate + ", approvingAuthority=" + approvingAuthority + ", approvingAuthorityAuthenticationFlag=" + approvingAuthorityAuthenticationFlag + ", approvingAuthorityAuthenticationDate=" + approvingAuthorityAuthenticationDate + ", indentDetailList=" + indentDetailList + ", status=" + status + '}';
     }
 
+   
+
+   
     
 
     public String getStatus() {

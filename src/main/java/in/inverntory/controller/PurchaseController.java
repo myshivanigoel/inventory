@@ -135,7 +135,13 @@ public class PurchaseController {
                 int error=0;
                 for (DtIndent t :  indent.getIndentDetailList()) {
               
-                    if(t.getItem()==null || t.getItem().getItemId()==null || t.getItem().getItemId()==0 || t.getItem().getItemId()==1)
+                    if(t.getItem()==null || t.getItem().getItemId()==null)
+                    {
+                        t.setItem(new ItemMaster(1));
+                    }
+                    
+                    
+                    if( t.getItem().getItemId()==0 || t.getItem().getItemId()==1)
                     {
                         if(t.getDescriptionOfMaterial()==null || t.getDescriptionOfMaterial().trim().equals(""))
                         {
@@ -143,7 +149,7 @@ public class PurchaseController {
                              model.addAttribute("message","please  add description");
                             return "indent-form";
                         }else{
-                             t.getItem().setItemId(1);
+                             
                             
                         }
                     }

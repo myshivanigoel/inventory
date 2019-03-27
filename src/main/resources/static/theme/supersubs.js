@@ -15,7 +15,7 @@
  */
 
 ;(function($){ // $ will refer to jQuery within this closure
-debugger;
+//debugger;
 	$.fn.supersubs = function(options){
 		var opts = $.extend({}, $.fn.supersubs.defaults, options);
 		// return original object to support chaining

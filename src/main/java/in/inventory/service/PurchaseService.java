@@ -43,7 +43,7 @@ public interface PurchaseService {
 
     public List<HdIndent> getIndentsListToBeVerifiedByUser(MstUser userId);
 
-    public Object getIndent(Integer indentId);
+    public HdIndent getIndent(Integer indentId);
    
     
 }

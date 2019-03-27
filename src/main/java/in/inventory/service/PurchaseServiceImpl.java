@@ -70,7 +70,7 @@ public class PurchaseServiceImpl implements PurchaseService{
     }
 
     @Override
-    public Object getIndent(Integer indentId) {
+    public HdIndent getIndent(Integer indentId) {
        return purchaseDao.getIndent(indentId);
     }
 

@@ -63,6 +63,7 @@
      });
           
   $('#datatable_user').DataTable( {
+        bSort : false,
         dom: 'Bfrtip',
         buttons: [
              'csv', 'excel', 'pdf', 'print'
@@ -111,6 +112,7 @@
         <th>Indent Id</th>    
         <th>Indent Date</th>
         <th>status</th>
+         <th></th>
     </tr>
 </thead>
 <tbody>
@@ -120,6 +122,11 @@
     <td style="text-align:left;" th:text="${indent.indentId}"></td>
      <td style="text-align:left;" th:text="${indent.indentDate}"></td>
      <td style="text-align:left;" th:text="${indent.status}"></td>
+      <td style="text-align:left;">
+            <a th:href="'/indent-view?indentId='+${indent.indentId}"  style="color: #ffffff" class="btn btn-xs btn-primary " th:id="'detail'+${indent.indentId}" >
+            <span class="glyphicon glyphicon-view"></span> View Details
+            </a>
+        </td>
 </tr>
                                             </tbody>
                                             </table>

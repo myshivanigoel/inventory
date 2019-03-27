@@ -1,140 +1,326 @@
 <!DOCTYPE html>
 <html lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorator="layouts/default">
-  
-<body>
-    <div id="page" layout:fragment="content">
-	<div class="container-contact100">
-		<div class="wrap-contact100">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/defaultcdac">
+ 
+    <body>
+
+        <div id="page" layout:fragment="content">
+            <style type="text/css">
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #indentDetails *{
+    visibility: visible;
+  }
+  #indentDetails {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+</style>
+            <!--********************************* First Table , For Screen Header**********************************************-->
+            <table style="width: 980px;border-collapse: collapse;margin:0px; padding:0px;background-color:#ffffff;border-spacing:0px" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td style="width: 9px;background-image: url(&#39;  /theme/l.gif&#39;);text-align: center"></td>
+                        <td style="width: 955px;background-image:url(&#39;  /theme/topcellback11.gif&#39;);text-align: center;" colspan="2">
+                            <img style="widows: 1px;height: 11px;border: 0px" src="/theme/space.gif">
+                            <table style="width: 958px;border-collapse: collapse;margin:0px; padding:0px;border-spacing:0px" cellpadding="0" cellspacing="0">
+                                <tbody><tr>
+                                        <td style="width: 9px" rowspan="4"><img style="width: 9px;height: 40px;display: block" src="/theme/title_01.gif"></td>
+                                        <td style="vertical-align: top;background-image: url(&#39;  /theme/title_02.gif&#39;)" rowspan="2"></td>
+                                        <td style="width: 199px;vertical-align:middle" rowspan="4"><img style="width: 199px;height: 40px;display: block" src="/theme/title_03.gif"></td>
+                                        <td style="width: 144px;background-image: url(&#39;  /theme/title_04.gif&#39;);text-align: right;background-position:center;background-repeat: no-repeat" class="pageHeading" rowspan="4">Indent</td>
+                                        <td style="width: 221px" colspan="3"><img style="width: 221px;height: 16px;display: block" src="/theme/title_05.gif"></td>
+                                        <td><img style="width: 1px;height: 16px;display: block" src="/theme/spacer.gif"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 199px" rowspan="3"><img style="width: 199px;height: 24px;display: block" src="/theme/title_06.gif"></td>
+                                        <td style="width: 12px" rowspan="2"><img style="width: 12px;height: 13px;display: block" src="/theme/title_07.gif"></td>
+                                        <td style="width: 10px" rowspan="3"><img style="width: 10px;height: 24px;display: block" src="/theme/title_08.gif"></td>
+                                        <td style="width: 1px"><img style="width: 1px;height: 1px;display: block" src="/theme/spacer.gif"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-image: url(&#39;  /theme/title_09.gif&#39;);text-align: left" rowspan="2" class="navigation"><a href="/" class="link4">Home</a> &gt;&gt;Indent</td>
+                                        <td style="width: 1px"><img style="width: 1px;height: 12px;display: block" src="/theme/spacer.gif"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 12px"><img style="width: 12px;height: 11px;display: block" src="/theme/title_10.gif"></td>
+                                        <td style="width: 1px"><img style="width: 1px;height: 11px;display: block" src="/theme/spacer.gif"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="width: 10px;background-image: url(&#39;  /theme/r.gif&#39;);text-align: center"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--********************************* Second Table, For Error Messages **********************************************-->
+
+
+            <table border="0" cellpadding="0" cellspacing="0" width="980">
+                <tbody><tr>
+                        <td align="center" background="/theme/l.gif" width="9"></td>
+                        <td width="5"><img src="/theme/space.gif" border="0" height="10" width="1"></td>
+                        <td width="950">
+                            <div id="errorMessage" class="errcolor" th:text="${message}"></div>  
+                             <div id="errorMessageJs" class="errcolor" ></div>  
+                        </td>
+                        <td align="center" background="/theme/r.gif" width="10"></td>
+                    </tr>
+                </tbody></table>
+
+            <table border="0" cellpadding="0" cellspacing="0" width="980">
+                <tbody><tr>
+                        <td align="center" background="/theme/l.gif" width="9"></td>
+                        <td width="5"><img src="/theme/space.gif" border="0" height="10" width="1"></td>
+                        <td colspan="2" style="text-align: right">
+
+
+
+                            <div id="qualReportAuthDiv" style="display: none;height: auto;padding : 0px 0px 0px 0px;" align="left"></div>
+
+                        </td>
+                        <td align="center" background="/theme/r.gif" width="10"></td>
+                    </tr>
+                </tbody></table>
+            <style>
+                .left-align{
+                    float: left;
+                }
+            </style>
+            <script type="text/javascript">
+              
+                    
+                $(document).ready(function() {
                    
-                      <form method="post" id="form" >
-				<span class="contact100-form-title">
-					Indent View 
-                                </span>
-                        <input type="hidden" id="list" value="" name="list">
-                        <span style="color: red;"></span>
-                       <div style=" background: whitesmoke;padding: 5px">
-                       <table id="gallery-list" style="float: right; ">
-                           <tr>
-                                
-                                <td>
-                                    <span class="label-input100">Indent ID- </span>
-                                    <span class="label-input100" th:text="${indent.hdIndent.indentId}"></span>
-                                </td>
-                                 <td>
-                                    <span class="label-input100">Date - </span>
-                                    <span class="label-input100" th:text="${indent.hdIndent.indentDate}"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label-input100">Material Classification - </span>
-                                    <span class="label-input100" th:text="${indent.dtIndent.classification}"></span>
-                                </td>
-                                <td>
-                                    <span class="label-input100">Department - </span>
-                                    <span class="label-input100">Department</span>
-                                </td>
+                   
+                      debugger;
+                   
+                   
+                     $('#indentDetails').DataTable({
+                                bSort : false,
+                                searching: false, 
+                                paging: false, 
+                                info: false,
+                                dom: 'Bfrtip',
+                                buttons: [
+                                     
+                                ]
+                            });
+                            var counter = 1;
+                            
+                             
+                        });
+                        
+                        function printDiv() {
+       window.print();
+   }
+                       
+            </script>
+           
+            <form name="indent" id="indent" method="post" th:object="${indent}"    th:action="@{/indent-save}" >
+
+
+
+                <!-- Include File To Display Header and Menu -->        
+
+                <table style="width: 980px;text-align: left;" cellspacing="0" cellpadding="0">
+                    <tbody> 
+                        <tr>
+                            <td style="width:8px;background-image: url(&#39;  /theme/l.gif&#39;);text-align:left"><img style="width: 1px;height: 1px;border-width: 0px;display: block" src="/theme/space.gif"></td>
+                            <td style="width: 962px">
+                                <table style="widows: 960px;border-width: 0px;background-color:#ffffff" cellpadding="0" cellspacing="0">
+                                    
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 100%;vertical-align: top;">
+
+                                                <table style="width: 960px;border-width: 0px;background-color:#ffffff;text-align: center;" id="tblAdvanceApp" cellpadding="0" cellspacing="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
+                                                            <!-- *** Update Table Header -->
+                                                            <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading">&nbsp;Indent Details</td>
+                                                            <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap"></td>
+                                                            <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
+                                                                <table style="width: 100%;border-width: 0px;"  cellspacing="0" cellpadding="0">
+                                                                    <tbody><tr>
+                                                                            <td style="width: 85%"></td>
+                                                                            <td style="width: 15%;text-align: right">
+                                                                                <span id="spcol" onclick="ToggleTable3( & #39; trRow1 & #39; , & #39; trRow2 & #39; , & #39; trRow3 & #39; , & #39; spexp & #39; , & #39; spcol & #39; , & #39; C & #39; ); return false; " style="cursor: pointer"><img style="width: 13px;height: 13px;border-width: 0px;" src="/theme/ico_collapse.gif" id="imgcol" alt="Collapse"></span>
+                                                                                <span id="spexp" onclick="ToggleTable3( & #39; trRow1 & #39; , & #39; trRow2 & #39; , & #39; trRow3 & #39; , & #39; spexp & #39; , & #39; spcol & #39; , & #39; E & #39; ); return false;" style="cursor: pointer; display: none;"><img style="width: 13px;height: 13px;border-width: 0px;" src="/theme/ico_expand.gif" id="imgexp" alt="Expand"></span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody></table>
+                                                            </td>
+                                                            <td><img style="width: 10px;height: 23px;border-width: 0px;display: block;" src="/theme/6_r.gif" alt=""></td>
+                                                        </tr>
+                                                        <tr id="trRow1">
+                                                            <td style="width: 1px;height: 1px;background-image: url(&#39;  /theme/l.gif&#39;)"><img style="width: 1px;height: 1px;border-width: 0px;" src="/theme/space.gif"></td>
+                                                            <td colspan="3">
+                                                                <img style="width: 1px;height: 10px;border-width: 0px;display: block;" src="/theme/space.gif">
+
+                                                                <table style="width: 100%;border-width: 0" id="tdataTable" cellpadding="0" cellspacing="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <button type="button" id="printMe" value="print" onclick="printDiv()">Print</button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            
+                                                                            <td bgcolor="#dbeaf5">
+                                                                                <!--*************Starting of Data Table*******************-->
+                                                                                <table width="100%" border="0" cellpadding="4" cellspacing="1" id="indentDetails" style="padding: 0px 0px 0px 0px;">
+                                                                                   
+                                                                                    <thead>
+                                        <tr class='row2'>
+                                           
+                                            <th colspan="2" width="20%"><img style="width: 70px;height: 70px;border-width: 0px;display: block;" src="/theme/C-DAC-Logo-precised.jpg"></th>
+                                            <th colspan="9"  width="80%" style="text-justify: none;"><h3>Center of Development Of Advance Computing, New Delhi </h3></th>
+                                           
+                                            <th colspan="2"  width="2%"></th>
+                                        <tr class='row2'>
+                                             
+                                            <th  colspan="5">Purchase Requisition</th>
+                                             
+                                          
+                                            <th  colspan="5">Indent Form</th>
+                                             
+                                            <th  colspan="2">PR no : </th>
+                                            <th colspan="1" th:text='${indent.indentId}'></th>
+                                        </tr>
+                                      <tr class='row2'>
+                                           
+                                            
+                                            <th  colspan="5" th:text="'Budget Year:'+${indent.budgetYear}"></th>
+                                           
+                                             <th  colspan="5" th:text="'Project : '+${indent.project?.projectCode}+' - '+${indent.project?.name}"></th>
+                                           
+                                            <th  colspan="4" th:text="'Date : '+${indent.indentDate}"></th>
+                                        </tr>
+                                        
+                                    </thead>
+                                    
+                                                                                    
+                                                                                    <tbody>
                                
-                            </tr>
-                            <tr>
-                                <td>
-                                     <span class="label-input100">Capital Equipment - </span>
-                                     <span class="label-input100">Capital Equipment</span>
-                                </td>
-                                <td>
-                                     <span class="label-input100">Consumables - </span>
-                                     <span class="label-input100">Consumables</span>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label-input100">Description of Material - </span>
-                                    <span class="label-input100" th:text="${indent.dtIndent.descriptionOfMaterial}"></span>
-                                </td>
-                                <td>
-                                     <span class="label-input100">Budget Year - </span>
-                                     <span class="label-input100" th:text="${indent.hdIndent.budgetYear}"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                
-                                 <td>
-                                     <span class="label-input100">Project Code - </span>
-                                     <span class="label-input100" th:text="${indent.hdIndent.projectCode}"></span>
-                                 </td>
-                                 <td>
-                                    <span class="label-input100">Manufacturer - </span>
-                                    <span class="label-input100" th:text="${indent.dtIndent.manufacturer}"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                 <td>
-                                    <span class="label-input100">Part/Type Number - </span>
-                                    <span class="label-input100" th:text="${indent.dtIndent.partType}"></span>
-                                </td>
-                                 <td>
-                                     <span class="label-input100">Qty - </span>
-                                     <span class="label-input100" th:text="${indent.dtIndent.quantity}"></span>
-                                 </td>
-                                 
-                            </tr>  
-                              <tr>
-                                <td>
-                                     <span class="label-input100">Source Data - </span>
-                                     <span class="label-input100" th:text="${indent.hdIndent.sourceData}"></span>
-                                 </td>
-                                <td>
-                                    <span class="label-input100">Qty in Stock - </span>
-                                    <span class="label-input100">Qty </span>
-                                </td>
-                                
-                            </tr>   
-                            <tr>
-                                <td>
-                                     <span class="label-input100">Price/Unit - </span>
-                                     <span class="label-input100" th:text="${indent.dtIndent.pricePerUnit}"></span>
-                                </td>
-                                
-                                 <td>
-                                    <span class="label-input100">Delivery Mth & yr.- </span>
-                                    <span class="label-input100" th:text="${indent.dtIndent.expectedMonthYearOfDelivery}"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                     <span class="label-input100">Suggested Vendors - </span>
-                                     <span class="label-input100" th:text="${indent.hdIndent.suggestedVendors}"></span>
-                                 </td>
-                                <td>
-                                    <span class="label-input100">Mode of Dispatch - </span>
-                                    <span class="label-input100" th:text="${indent.hdIndent.modeOfDispatch}"></span>
-                                </td>
-                            </tr>   
-                            <tr>
-                                <td>
-                                     <span class="label-input100">Remarks - </span>
-                                     <span class="label-input100" th:text="${indent.dtIndent.remarks}"></span>
-                                 </td>
-                                 <td>
-                                     <span class="label-input100">Previous Purchase if any - </span>
-                                     <span class="label-input100" th:text="${indent.hdIndent.previousReferenceOfPurchaseIfAny}"></span>
-                                 </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                       </div>
-				
-			</form>
-                  </div>
-	</div>
+                                                                                    <th:block th:each="dindent,rowStat : ${indent.indentDetailList}" >
+                                   
+                                                                                        <tr  >
+                                                                                            <th colspan="14" style="text-align:left;" th:text="'Item'+${rowStat.count}"></th>
+                                                                                        </tr>
+                                                                                        <tr class="row1"  >
+                                        <th colspan="2" style="text-align:left;" >Classification Of Material</th>
+                                      <td colspan="2" style="text-align:left;" th:text="${dindent.classification.classification}"></td>
+                                       <th colspan="2" style="text-align:left;" >Item Group</th>
+     <td colspan="2" style="text-align:left;" th:text="${dindent.itemGroup.groupName}"></td>
+      <th colspan="2" style="text-align:left;" >Item Name</th>
+     <td colspan="2" style="text-align:left;" th:text="${dindent.item.itemName}"></td>
+      <td colspan="2" style="text-align:left;" ></td> 
+                                   </tr>
+                                   <tr class="row1">
+                                       <th colspan="2" style="text-align:left;" >Description</th>
+     <td colspan="2" style="text-align:left;" th:text="${dindent.descriptionOfMaterial}"></td>
+      <th colspan="2" style="text-align:left;" >Manufacturer</th> 
+      <td colspan="2" style="text-align:left;" th:text="${dindent.manufacturer}"></td> 
+       <th colspan="2" style="text-align:left;" >Quantity</th>
+      <td colspan="2" style="text-align:left;" th:text="${dindent.quantity}"></td>
+       <td colspan="2" style="text-align:left;" ></td> 
+                                   </tr>
+                                   <tr class="row1">
+                                       <th colspan="2" style="text-align:left;" >Price Per Unit</th>
+       <td colspan="2" style="text-align:left;" th:text="${dindent.pricePerUnit}"></td>
+        <th colspan="2" style="text-align:left;" >Expected Date of Delivery </th>
+        <td colspan="2" style="text-align:left;" th:text="${dindent.expectedMonthYearOfDelivery}"></td>
+        <th colspan="2" style="text-align:left;" >Purchase type</th>
+        <td colspan="2" style="text-align:left;" th:text="${dindent.purchaseType.purchaseName}"></td>
+         <td colspan="2" style="text-align:left;" ></td> 
+                                   </tr>
+                                   <tr class="row1">
+                                        <th colspan="2" style="text-align:left;" >Mode Of Dispatch</th>
+         <td colspan="2" style="text-align:left;" th:text="${dindent.modeOfDispatch}"></td>
+          <th colspan="2" style="text-align:left;" >Status</th>
+          <td colspan="2" style="text-align:left;" th:text="${indent.status}"></td>
+            <th colspan="2" style="text-align:left;" >Suggested Vendors</th>
+            <td colspan="2" style="text-align:left;" th:text="${dindent.suggestedVendors}"></td> 
+             <td colspan="2" style="text-align:left;" ></td> 
+                                   </tr>
+                                   <tr class="row1">
+                                       <th colspan="2" style="text-align:left;" >Remarks</th>
+              <td colspan="12" style="text-align:left;" th:text="${dindent.remarks}"></td>
+                                   </tr>
+                                   
+                                                                                    </th:block>
+                                                                                    
+      
+</tr>
+                                                                                    </tbody></table>
+                                                                                <script>
 
-    </div>
+                                                                                </script>
+                                                                                <!--************End of Data Table********************-->
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <img style="width: 1px;height: 10px;border-width: 0px;display: block;" src="/theme/space.gif">
+                                                            </td>
+                                                            <td style="background-image: url(&#39;  /theme/r.gif&#39;)"><img style="width: 1px;height: 1px;display: block;" src="/theme/space.gif"></td>
+                                                        </tr>
+                                                        <tr id="trRow2"><td style="background-color: #4682b4;" colspan="5"><img style="width: 1px;height: 1px;border-width: 0px;display: block;" src="/theme/space.gif"></td></tr>
+                                                        <tr id="trRow3">
+                                                            <td colspan="5" align="right">
+
+                                                                 </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table border="0" cellpadding="0" cellspacing="0" width="960">
+                                                    <tbody><tr>
+                                                            <td align="center" width="9"></td>
+                                                            <td width="5"></td>
+                                                            <td width="950" style="text-align: right">
+                                                            </td>
+                                                            <td align="center" width="10"></td>
+                                                        </tr>
+                                                    </tbody></table>
+
+                                                <img style="width: 1px;height: 5px;border-width: 0px;" src="/theme/space.gif">                            
 
 
+                                                <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif"><br>
+                                                <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif">
+                                            </td>
+                                            <td style="width: 10px;background-image: url(&#39;  /theme/r.gif&#39;);background-position: center;background-repeat: repeat-y;">
+                                                <img style="width: 10px;height: 10px;border-width: 0px;display: block;" src="/theme/space.gif">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table style="width: 980px;background-color: #ffffff;border-width: 0px;" cellpadding="0" cellspacing="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width:8px;height: 23px;background-image: url(&#39;  /theme/2_m.gif&#39;);background-repeat: no-repeat;"><img style="width: 8px;height: 23px;border-width: 0px;" src="/theme/8_l.gif" alt=""></td>
+                                            <td style="height: 23px;background-image: url(&#39;  /theme/2_m1.gif&#39;);display: block;text-align:center;"><font color="#000000" size="2">C-DAC Delhi</font></td>
+                                            <td style="width: 8px;height: 23px;background-image: url(&#39;  /theme/2_m.gif&#39;);background-repeat: no-repeat;"><img style="width: 8px;height: 23px;border-width: 0px;" src="/theme/8_r.gif" alt=""></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td></tr>
+                    </tbody></table>
+            </form><canvas id="netbeans_glasspane"  style="position: fixed; top: 0px; left: 0px; z-index: 50000; pointer-events: none;" width="1686" height="820"></canvas>
 
-</body>
+        </div>
+
+
+
+
+
+
+    </body>
 </html>

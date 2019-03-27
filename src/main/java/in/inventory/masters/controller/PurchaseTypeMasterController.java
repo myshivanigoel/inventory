@@ -57,7 +57,7 @@ public class PurchaseTypeMasterController {
              model.addAttribute("message", "Invalid values");
             model.addAttribute("purchase", purchase);
             model.addAttribute("purchaseList",purchaseService.getAllPurchaseTypeList());
-             return "project-master";
+             return "purchase-master";
         }
         else
         {

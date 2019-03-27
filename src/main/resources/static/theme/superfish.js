@@ -24,7 +24,7 @@ function getInternetExplorerVersion()
     return rv;
 }
 ;(function($){
-    debugger;
+    //debugger;
 	$.fn.superfish = function(op){
 
 		var sf = $.fn.superfish,

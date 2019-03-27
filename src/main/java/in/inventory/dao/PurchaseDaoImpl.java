@@ -151,7 +151,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
         List<HdIndent> indentList=new ArrayList<>();
         System.out.println("in.inventory.dao.PurchaseDaoImpl.getIndentorsIndents()"+user.getUserId());
         indentList= sessionFactory.getCurrentSession()
-                .createQuery("from HdIndent where indentor.userId=:indentor").setParameter("indentor", user.getUserId())
+                .createQuery("from HdIndent where indentor.userId=:indentor order by  indentId desc").setParameter("indentor", user.getUserId())
                 .list();
         System.out.println("in.inventory.dao.PurchaseDaoImpl.getIndentorsIndents()"+indentList);
         return indentList;
@@ -167,7 +167,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
         
         List<Indent> indentList=new ArrayList<>();
         return sessionFactory.getCurrentSession()
-                .createQuery("from HdIndent").list();
+                .createQuery("from HdIndent order by  indentId desc").list();
         
     }
 
@@ -189,12 +189,10 @@ public class PurchaseDaoImpl implements PurchaseDao{
      * @return
      */
     @Override
-    public Object getIndent(Integer indentId) {
+    public HdIndent getIndent(Integer indentId) {
          HdIndent hdIndent= sessionFactory.getCurrentSession().get(HdIndent.class, indentId);
-                Indent indent=new Indent();
-                indent.setHdIndent(hdIndent);
-                indent.setDtIndent(hdIndent.getIndentDetailList().get(0));
-        return indent;
+                
+        return hdIndent;
     }
 
    
