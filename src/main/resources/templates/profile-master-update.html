@@ -20,7 +20,7 @@
                                 <td style="width: 9px" rowspan="4"><img style="width: 9px;height: 40px;display: block" src="/theme/title_01.gif"></td>
                                 <td style="vertical-align: top;background-image: url(&#39;  /theme/title_02.gif&#39;)" rowspan="2"></td>
                                 <td style="width: 199px;vertical-align:middle" rowspan="4"><img style="width: 199px;height: 40px;display: block" src="/theme/title_03.gif"></td>
-                                <td style="width: 144px;background-image: url(&#39;  /theme/title_04.gif&#39;);text-align: right;background-position:center;background-repeat: no-repeat" class="pageHeading" rowspan="4">Project Master</td>
+                                <td style="width: 144px;background-image: url(&#39;  /theme/title_04.gif&#39;);text-align: right;background-position:center;background-repeat: no-repeat" class="pageHeading" rowspan="4">Profile Master</td>
                                 <td style="width: 221px" colspan="3"><img style="width: 221px;height: 16px;display: block" src="/theme/title_05.gif"></td>
                                 <td><img style="width: 1px;height: 16px;display: block" src="/theme/spacer.gif"></td>
                         </tr>
@@ -31,7 +31,7 @@
                             <td style="width: 1px"><img style="width: 1px;height: 1px;display: block" src="/theme/spacer.gif"></td>
                         </tr>
                         <tr>
-                            <td style="background-image: url(&#39;  /theme/title_09.gif&#39;);text-align: left" rowspan="2" class="navigation"><a href="/" class="link4">Home</a> &gt;&gt;Project Master</td>
+                            <td style="background-image: url(&#39;  /theme/title_09.gif&#39;);text-align: left" rowspan="2" class="navigation"><a href="/" class="link4">Home</a> &gt;&gt;Profile Master</td>
                             <td style="width: 1px"><img style="width: 1px;height: 12px;display: block" src="/theme/spacer.gif"></td>
                         </tr>
                         <tr>
@@ -81,16 +81,34 @@
     $("#submit").click(function(event){
         debugger;
   event.preventDefault();
-  var projectCode=$("#projectCode").val().trim();
-     if(projectCode=="")
+  var userName=$("#userName").val().trim();
+     if(userName=="")
      {
-         $("#errorMessage").html("Project Code can not be empty.")
+         $("#errorMessage").html("user name can not be empty.")
          return;
      }
-     var projectName=$("#name").val().trim();
-     if(projectName=="")
+     var userEmployeeId=$("#userEmployeeId").val().trim();
+     if(userEmployeeId=="")
      {
-         $("#errorMessage").html("Project Name can not be empty.")
+         $("#errorMessage").html("user Employee Id can not be empty.")
+         return;
+     }
+       var userId=$("#userId").val().trim();
+     if(userId=="")
+     {
+         $("#errorMessage").html("Error.")
+         return;
+     }
+     var userEmail=$("#userEmail").val().trim();
+     if(userEmail=="")
+     {
+         $("#errorMessage").html("user user Email can not be empty.")
+         return;
+     }
+     var userContactNo=$("#userContactNo").val().trim();
+     if(userContactNo=="")
+     {
+         $("#errorMessage").html("user mobile number can not be empty.")
          return;
      }
      
@@ -100,7 +118,7 @@
 } );
      
      </script>
-<form name="frmEntrySlip" id="frmEntrySlip" method="post" th:object="${project}"    th:action="@{/masters/project/update}" >
+<form name="frmEntrySlip" id="frmEntrySlip" method="post" th:object="${user}"    th:action="@{/masters/users/update}" >
 
 
    
@@ -121,7 +139,7 @@
                                 <tr>
                                     <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
                                     <!-- *** Update Table Header -->
-                                    <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading">&nbsp;Update Project:</td>
+                                    <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading">&nbsp;Update User:</td>
                                     <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap"></td>
                                     <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
                                         <table style="width: 100%;border-width: 0px;"  cellspacing="0" cellpadding="0">
@@ -147,36 +165,84 @@
                                                 <td bgcolor="#dbeaf5">
                                                     <!--*************Starting of Data Table*******************-->
                                                     <table width="100%" border="0" cellpadding="4" cellspacing="1" style="padding: 0px 0px 0px 0px;">
-                                                        <tbody>
-                                                            
-                                                        <tr class="row2">
+                                                        <tbody><tr class="row2">
                                                             <td width="20%">
-                                                                Project Code
-                                                                <input th:field="${project.projectId}" name="projectId" maxlength="250" id="projectId" type="hidden" class="textbox" style="width:150px" value="">
-                                                                <font color="#CC0000"> *</font>
+                                                                Employee Name <font color="#CC0000"> *</font>
                                                             </td>
                                                             <td colspan="3"> 
-                                                                <input name="projectCode" th:field="${project.projectCode}" maxlength="250" id="projectCode" type="text" class="textbox" style="width:150px" value="">
+                                                                <input name="userName" th:field="${user.userName}" maxlength="250" id="userName" type="text" class="textbox" style="width:150px" value="">
+                                                                 <input name="userId" th:field="${user.userId}" maxlength="250" id="userId" type="hidden" class="textbox" style="width:150px" value="">
                                                                 
+                                                              
                                                                
                                                             </td>
                                                            
+                                                            
+                                                            
+                                                            
+                                                            
                                                         </tr>
                                                         <tr id="tbInTimeDet" class="heading" style="display:none"><td colspan="4" id="tdinTimeDet"></td></tr>
                                                         <tr class="row1">
-                                                            <td>Project Name	 
-                                                                 <font color="#CC0000"> *</font>
-                                                            </td>
-                                                            <td colspan="3">
-                                                                <input th:field="${project.name}" name="name" maxlength="250" id="name" type="text" class="textbox" style="width:150px" value="">
-                                                               	
-                                                          
+                                                            <td>Employee Id	 <input th:field="${user.userEmployeeId}" name="userEmail" maxlength="250" id="userEmployeeId" type="hidden" class="textbox" style="width:150px" value="">
+                                                                <input th:field="${user.userId}" name="userEmail" maxlength="6" id="userId" type="hidden" class="textbox" style="width:150px" value="">
+                                                               	 <font color="#CC0000"> *</font></td>
+                                                            <td colspan="3" th:text="${user.userEmployeeId}">
+                                                                
                                                             </td>
                                                            
                                                             </tr>
-                                                    
-                                                        </tbody>
-                                                    </table>
+                                                            <tr class="row2">
+                                                                 <td>Email Id<font color="#CC0000"> *</font></td>
+                                                            <td>
+                                                               
+                                                                 <input th:field="${user.userEmail}" name="userEmail" maxlength="250" id="userEmail" type="text" class="textbox" style="width:150px" value="">
+                                                              </td>
+                                                                <td>Mobile Number<font color="red">*</font></td>
+                                                                <td colspan="3">
+                                                                     <input th:field="${user.userContactNo}" name="userContactNo" maxlength="10" id="userContactNo" type="number" class="textbox" style="width:150px" value="">
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="row1">
+                                                                <td >
+                                                                   Head Of Department
+                                                               </td> 
+                                                               <td >
+                                                                    <select name='hod.userId' id='roleName' style="width:200px"  >
+                                                                      <option value="0">Select</option>
+
+                                                                     <option th:each="userObj : ${userList}" th:value="${userObj.userId}" th:text="${userObj.userEmployeeId}+' :: '+${userObj.userName}" th:selected="${ userObj==user.hod}"></option>
+       
+                                                                </select>
+                                                                </td>
+                                                               
+                                                               <td >
+                                                                   Competent Authority 
+                                                               </td> 
+                                                               <td >
+                                                                    <select name='authority.userId' id='roleName' style="width:200px"  >
+                                                                      <option value="0">Select</option>
+
+                                                                     <option th:each="userObj : ${userList}" th:value="${userObj.userId}" th:text="${userObj.userEmployeeId}+' :: '+${userObj.userName}" th:selected="${ userObj==user.authority}"></option>
+       
+                                                                </select>
+                                                                </td>
+                                                            </tr>
+                                                           <tr class="row2">
+                                                                <td >
+                                                                    User Type
+                                                               </td> 
+                                                               <td colspan="3">
+                                                                    <select name='userType' id='roleName' style="width:150px"  >
+                                                                     
+                                                                     <option th:each="userType : ${userTypeList}" th:value="${userType.roleId}" th:text="${userType.roleName}" th:selected="${userType.roleId==user.userType}"></option>
+       
+                                                                </select>
+                                                                </td>
+                                                               
+                                                               
+                                                            </tr>
+                                                    </tbody></table>
                                                     <script>
                                                         
                                                     </script>
@@ -215,7 +281,7 @@
                             <img style="width: 1px;height: 5px;border-width: 0px;" src="/theme/space.gif">                            
 
 
- <div th:replace="project-list :: project-list"></div>
+ <div th:replace="user-list :: user-list"></div>
 
             <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif"><br>
             <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif">

@@ -1,4 +1,4 @@
-package in.auth.user.dao;
+package in.inventory.dao;
 
 import java.util.Collection;
 import java.util.List;

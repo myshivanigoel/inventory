@@ -1,5 +1,5 @@
 package in.inventory.masters.controller;
-import in.auth.user.service.ProjectService;
+import in.inventory.service.ProjectService;
 import in.auth.user.service.UserService;
 import in.util.Utility;
 import in.util.entity.ResultDataMap;

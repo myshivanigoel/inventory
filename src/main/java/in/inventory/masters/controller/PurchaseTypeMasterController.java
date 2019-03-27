@@ -1,5 +1,5 @@
 package in.inventory.masters.controller;
-import in.auth.user.service.PurchaseTypeService;
+import in.inventory.service.PurchaseTypeService;
 import in.util.Utility;
 import in.util.entity.ResultDataMap;
 import java.util.List;
@@ -57,7 +57,7 @@ public class PurchaseTypeMasterController {
              model.addAttribute("message", "Invalid values");
             model.addAttribute("purchase", purchase);
             model.addAttribute("purchaseList",purchaseService.getAllPurchaseTypeList());
-             return "project-master";
+             return "purchase-master";
         }
         else
         {

@@ -1,6 +1,6 @@
-package in.auth.user.daoimpl;
+package in.inventory.dao;
 
-import in.auth.user.dao.ProjectDao;
+import in.inventory.dao.ProjectDao;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;

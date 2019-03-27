@@ -20,7 +20,7 @@
                                 <td style="width: 9px" rowspan="4"><img style="width: 9px;height: 40px;display: block" src="/theme/title_01.gif"></td>
                                 <td style="vertical-align: top;background-image: url(&#39;  /theme/title_02.gif&#39;)" rowspan="2"></td>
                                 <td style="width: 199px;vertical-align:middle" rowspan="4"><img style="width: 199px;height: 40px;display: block" src="/theme/title_03.gif"></td>
-                                <td style="width: 144px;background-image: url(&#39;  /theme/title_04.gif&#39;);text-align: right;background-position:center;background-repeat: no-repeat" class="pageHeading" rowspan="4">Project Master</td>
+                                <td style="width: 144px;background-image: url(&#39;  /theme/title_04.gif&#39;);text-align: right;background-position:center;background-repeat: no-repeat" class="pageHeading" rowspan="4">Designation Master</td>
                                 <td style="width: 221px" colspan="3"><img style="width: 221px;height: 16px;display: block" src="/theme/title_05.gif"></td>
                                 <td><img style="width: 1px;height: 16px;display: block" src="/theme/spacer.gif"></td>
                         </tr>
@@ -31,7 +31,7 @@
                             <td style="width: 1px"><img style="width: 1px;height: 1px;display: block" src="/theme/spacer.gif"></td>
                         </tr>
                         <tr>
-                            <td style="background-image: url(&#39;  /theme/title_09.gif&#39;);text-align: left" rowspan="2" class="navigation"><a href="/" class="link4">Home</a> &gt;&gt;Project Master</td>
+                            <td style="background-image: url(&#39;  /theme/title_09.gif&#39;);text-align: left" rowspan="2" class="navigation"><a href="/" class="link4">Home</a> &gt;&gt;Designation Master</td>
                             <td style="width: 1px"><img style="width: 1px;height: 12px;display: block" src="/theme/spacer.gif"></td>
                         </tr>
                         <tr>
@@ -81,16 +81,11 @@
     $("#submit").click(function(event){
         debugger;
   event.preventDefault();
-  var projectCode=$("#projectCode").val().trim();
-     if(projectCode=="")
+ 
+     var designationName=$("#designationName").val().trim();
+     if(designationName=="")
      {
-         $("#errorMessage").html("Project Code can not be empty.")
-         return;
-     }
-     var projectName=$("#name").val().trim();
-     if(projectName=="")
-     {
-         $("#errorMessage").html("Project Name can not be empty.")
+         $("#errorMessage").html("Designation Name can not be empty.")
          return;
      }
      
@@ -100,7 +95,7 @@
 } );
      
      </script>
-<form name="frmEntrySlip" id="frmEntrySlip" method="post" th:object="${project}"    th:action="@{/masters/project/update}" >
+<form name="frmEntrySlip" id="frmEntrySlip" method="post" th:object="${designation}"    th:action="@{/masters/designation/update}" >
 
 
    
@@ -121,7 +116,7 @@
                                 <tr>
                                     <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
                                     <!-- *** Update Table Header -->
-                                    <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading">&nbsp;Update Project:</td>
+                                    <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading">&nbsp;Update Designation:</td>
                                     <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap"></td>
                                     <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
                                         <table style="width: 100%;border-width: 0px;"  cellspacing="0" cellpadding="0">
@@ -151,30 +146,22 @@
                                                             
                                                         <tr class="row2">
                                                             <td width="20%">
-                                                                Project Code
-                                                                <input th:field="${project.projectId}" name="projectId" maxlength="250" id="projectId" type="hidden" class="textbox" style="width:150px" value="">
+                                                                Designation Name
+                                                                <input th:field="${designation.designationId}" name="designationId" maxlength="250" id="designationId" type="hidden" class="textbox" style="width:150px" value="">
                                                                 <font color="#CC0000"> *</font>
                                                             </td>
                                                             <td colspan="3"> 
-                                                                <input name="projectCode" th:field="${project.projectCode}" maxlength="250" id="projectCode" type="text" class="textbox" style="width:150px" value="">
+                                                                <input name="designationName" th:field="${designation.designationName}" maxlength="250" id="designationName" type="text" class="textbox" style="width:150px" value="">
                                                                 
                                                                
                                                             </td>
                                                            
+                                                            
+                                                            
+                                                            
+                                                            
                                                         </tr>
-                                                        <tr id="tbInTimeDet" class="heading" style="display:none"><td colspan="4" id="tdinTimeDet"></td></tr>
-                                                        <tr class="row1">
-                                                            <td>Project Name	 
-                                                                 <font color="#CC0000"> *</font>
-                                                            </td>
-                                                            <td colspan="3">
-                                                                <input th:field="${project.name}" name="name" maxlength="250" id="name" type="text" class="textbox" style="width:150px" value="">
-                                                               	
-                                                          
-                                                            </td>
-                                                           
-                                                            </tr>
-                                                    
+                                                     
                                                         </tbody>
                                                     </table>
                                                     <script>
@@ -215,7 +202,7 @@
                             <img style="width: 1px;height: 5px;border-width: 0px;" src="/theme/space.gif">                            
 
 
- <div th:replace="project-list :: project-list"></div>
+ <div th:replace="designation-list :: designation-list"></div>
 
             <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif"><br>
             <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif">
