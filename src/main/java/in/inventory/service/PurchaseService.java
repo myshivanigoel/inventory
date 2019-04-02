@@ -7,9 +7,10 @@ package in.inventory.service;
 
 import in.db.auth.entity.MstUser;
 import in.db.inventory.entity.HdIndent;
+import in.db.inventory.entity.IndentStatus;
 import in.db.inventory.entity.Receipt;
 import in.db.inventory.entity.ReceiptConsumable;
-import in.util.entity.Indent;
+
 import in.util.entity.ResultDataMap;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,23 @@ public interface PurchaseService {
     public List<HdIndent> getIndentsListToBeVerifiedByUser(MstUser userId);
 
     public HdIndent getIndent(Integer indentId);
+
+    public List<HdIndent> getIndentsToBeAuthorizedByUser(Integer userId);
+
+    public List<HdIndent> getMyPendingIndents(Integer userId);
+
+    public ResultDataMap acceptIndent(Integer indentId, Integer userId);
+
+    public ResultDataMap rejectIndent(Integer indentId, Integer userId);
    
+    
+    public IndentStatus ifUserAuthenticatedIndent(Integer authenticator,Integer indentId);
+
+    public List<HdIndent> getRequestedIndentsList(Integer userId);
+
+   
+    public List<IndentStatus> getauthorizationStatusList(HdIndent indent);
+
+    public List<HdIndent> getApprovedIndentsList(Integer userId);
     
 }

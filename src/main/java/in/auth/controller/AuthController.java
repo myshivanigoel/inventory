@@ -34,13 +34,15 @@ public class AuthController {
 
     @PostMapping("/")
     public String home() {
-        return "home";
+        //return "home";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/")
     public String home(@RequestParam(name = "message", required = false) String message, Model model) {
 
-        return "home";
+        //return "home";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("forgot-password")

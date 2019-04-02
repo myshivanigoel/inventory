@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import in.auth.user.dao.UserDao;
 import in.db.auth.entity.Authorities;
+import in.db.auth.entity.EmployeeAuthorityLevel;
 import in.db.auth.entity.MstRole;
 import in.db.auth.entity.RoleAuthorities;
 import in.db.auth.entity.Tocken;
@@ -41,7 +42,7 @@ public class UserDaoImpl implements UserDao {
 				" where a.id=r.authorityId " + 
 				" and r.roleId=u.roleId " + 
 				" and u.userId=? ",Authorities.class)*/
-		roles=(List<MstRole>) session.createQuery(" FROM MstRole r where r.roleId in (select roleId from UserRole where userId=:userId) ",MstRole.class)
+		roles=(List<MstRole>) session.createQuery(" FROM MstRole r where r.roleId in (select roleId from UserRole where userId=:userId and enabled=1) ",MstRole.class)
 				.setParameter("userId", userId)
 				.getResultList();
 	
@@ -271,8 +272,10 @@ public class UserDaoImpl implements UserDao {
             System.out.println("in.auth.user.daoimpl.UserDaoImpl.updateUserOnly()"+user.getUserId());
 		sessionFactory.getCurrentSession().update(user);
                  System.out.println("in.auth.user.daoimpl.UserDaoImpl.updateUserOnly()"+user);
-		return new ResultDataMap().setStatus(true).setMessage(Strings.savedSuccessfully);
-	}
+		
+                 return new ResultDataMap().setStatus(true).setMessage(Strings.savedSuccessfully);
+	
+        }
 
     public LinkedHashMap getLocationNames(Integer userId) {
         LinkedHashMap<String,String> map= new LinkedHashMap<String, String>();
@@ -339,5 +342,88 @@ public class UserDaoImpl implements UserDao {
         session.persist(user);
     }
 
-	
+
+    @Override
+    public ResultDataMap updateEmployeeAuthorityLevel(Integer userId,List<EmployeeAuthorityLevel> newEmployeeAuthorityLevelList) {
+        
+    Session session=sessionFactory.getCurrentSession();
+      
+        List<EmployeeAuthorityLevel> dbEmployeeAuthorityLevelList=session.createQuery(" from EmployeeAuthorityLevel where employee.userId=:userId and activeFlag='Y' ")
+                                                                          .setParameter("userId", userId)
+                                                                          .list();
+        
+           
+               // List<EmployeeAuthorityLevel> toBeSaved=new ArrayList<>();
+                List<EmployeeAuthorityLevel> toBeDeleted=new ArrayList<>();
+                for (EmployeeAuthorityLevel employeeAuthorityLevel : newEmployeeAuthorityLevelList) {
+            employeeAuthorityLevel.setEmployee(new MstUser(userId));
+        }
+                
+                 for (EmployeeAuthorityLevel employeeAuthorityLevel : dbEmployeeAuthorityLevelList) {
+                if(newEmployeeAuthorityLevelList.contains(employeeAuthorityLevel))
+                {
+                    //do nothing already saved
+                 // toBeSaved.add(employeeAuthorityLevel);
+                   
+                }else{
+                    //disable old entry no longer requied
+                    employeeAuthorityLevel.setActiveFlag('N');
+                    employeeAuthorityLevel.setDtModificationDate(new Date());
+                    session.update(employeeAuthorityLevel);
+                }
+               
+                
+            }
+                 newEmployeeAuthorityLevelList.removeAll(dbEmployeeAuthorityLevelList);
+                 newEmployeeAuthorityLevelList.forEach((employeeAuthorityLevel) -> {
+                     if(employeeAuthorityLevel.getAuthorizedEmployee()==null
+                             || employeeAuthorityLevel.getAuthorizedEmployee().getUserId()==null
+                             || employeeAuthorityLevel.getAuthorizedEmployee().getUserId()==0)
+                         {
+                             
+                         }else{
+                     employeeAuthorityLevel.setEmployee(new MstUser(userId));
+                     employeeAuthorityLevel.setDtEntryDate(new Date());
+                     session.save(employeeAuthorityLevel);
+                     }
+            });
+                 
+                 return new ResultDataMap().setStatus(Boolean.TRUE).setMessage(Strings.savedSuccessfully);
+    }
+
+    @Override
+    public List<EmployeeAuthorityLevel> getEmployeeAuthorityLevelList(Integer userId) {
+         return sessionFactory.getCurrentSession().createQuery(" from EmployeeAuthorityLevel where employee.userId=:userId and activeFlag='Y' order By authorityLevel ")
+                                                                          .setParameter("userId", userId)
+                                                                          .list();
+        
+    }
+
+    @Override
+    public List<MstUser> getMySubordinatesList(Integer userId) {
+       return sessionFactory.getCurrentSession()
+               .createQuery("from MstUser where userId in (select employee.userId FROM EmployeeAuthorityLevel where authorizedEmployee.userId=:userId)",MstUser.class)
+               .setParameter("userId", userId)
+               .list();
+    }
+
+    @Override
+    public boolean ifLastAuthorityLevel(Integer userId, Integer authorityId) {
+       Object dbAuthorityId= sessionFactory.getCurrentSession()
+               .createQuery("SELECT authorizedEmployee.userId FROM EmployeeAuthorityLevel " +
+                                            " where  employee.userId=:userId  " +
+                                            " and authorityLevel=(select max(authorityLevel) " +
+                                            "						from EmployeeAuthorityLevel where employee.userId=:userId)")
+               .setParameter("userId", userId)
+               .uniqueResult();
+       
+            if(dbAuthorityId==null)
+            {
+                return false;
+            }
+            return dbAuthorityId.equals(authorityId);
+            
+        
+        
+    }
 }

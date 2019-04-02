@@ -1,5 +1,5 @@
 package in.inventory.masters.controller;
-import in.inventory.service.DesignationService;
+import in.auth.user.service.DesignationService;
 import in.util.Utility;
 import in.util.entity.ResultDataMap;
 import java.util.List;
@@ -8,7 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import in.db.inventory.entity.Designation;
+import in.db.auth.entity.Designation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

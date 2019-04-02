@@ -1,5 +1,6 @@
 package in.auth.user.service;
 
+import in.db.auth.entity.EmployeeAuthorityLevel;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import in.db.auth.entity.Tocken;
 import in.db.auth.entity.MstUser;
 import in.db.dashboard.entity.MenuGroup;
 import in.util.entity.ResultDataMap;
+import in.util.entity.UserWrapper;
 import java.util.LinkedHashMap;
 
 
@@ -34,7 +36,7 @@ public interface UserService {
 	public ResultDataMap generatePasswordResetLink(MstUser user, String contextPath);
 	public ResultDataMap resetPassword(String tockenNo, String password1);
 	public Tocken ifValidTocken(String tockenNo,String typeOfTocken);
-	public ResultDataMap updateUser(MstUser user,String contextPath);
+	public ResultDataMap updateUser(UserWrapper user,String contextPath);
 	public ResultDataMap changePassword(String password2, Integer userId);
 
      public LinkedHashMap<String, String> getLocationNames(Integer userId);
@@ -49,6 +51,12 @@ public interface UserService {
     public ResultDataMap activateUser(Integer userId, Integer userId0);
 
     public ResultDataMap sendOtp(MstUser userId);
+
+    public List<EmployeeAuthorityLevel> getEmployeeAuthorityLevelList(Integer userId);
+
+    public List<MstUser> getMySubordinatesList(Integer userId);
+
+    public boolean ifLastAuthorityLevel(Integer userId, Integer userId0);
 
    
 	

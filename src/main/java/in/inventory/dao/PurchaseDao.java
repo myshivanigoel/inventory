@@ -7,9 +7,10 @@ package in.inventory.dao;
 
 import in.db.auth.entity.MstUser;
 import in.db.inventory.entity.HdIndent;
+import in.db.inventory.entity.IndentStatus;
 import in.db.inventory.entity.Receipt;
 import in.db.inventory.entity.ReceiptConsumable;
-import in.util.entity.Indent;
+
 import in.util.entity.ResultDataMap;
 import java.util.List;
 
@@ -30,9 +31,21 @@ public interface PurchaseDao {
 
     public List<HdIndent> getAllIndentsList();
 
-    public List<HdIndent> getIndentsListToBeVerifiedByUser(MstUser userId);
+    public List<HdIndent> getRequestedIndentsList(Integer userId);
 
     public HdIndent getIndent(Integer indentId);
+
+    public List<HdIndent> getMyPendingIndents(Integer userId);
+
+    public IndentStatus ifUserAuthenticatedIndent(Integer userId, Integer indentId);
+
+    public void updateHdIndent(HdIndent indent);
+
+    public void saveIndentStatus(IndentStatus indentStatus);
+
+    public List<HdIndent> getIndentsListToBeVerifiedByUser(MstUser userId);
+
+    public List<HdIndent> getApprovedIndentsList(Integer userId);
 
   
  

@@ -1,31 +1,37 @@
-<div class="user-list" th:fragment="user-list">
+<div class="pending-indent-list" th:fragment="pending-indent-list">
     
         
         <script type="text/javascript">
     $(document).ready(function() {
         debugger;
- 
+  
+  
+  
+  
     $(".update").click(function(event){
     
      
      debugger;
      event.preventDefault();
-     userId=this.id;
-     userId=userId.substring(7);
-    window.location.replace("update?userId="+userId);
+     itemId=this.id;
+     itemId=itemId.substring(7);
+    window.location.replace("/masters/item/update/"+itemId);
     });
+    
+    
      $(".activate").click(function(event){
     
       var csrf=$('[name="_csrf"]').val();
      debugger;
      event.preventDefault();
-     userId=this.id;
-     userId=userId.substring(9);
-     $.post("activate/"+userId, {_csrf: csrf}, function(result){
+    itemId=this.id;
+     itemId=itemId.substring(9);
+    
+     $.post("/masters/item/activate/"+itemId, {_csrf: csrf}, function(result){
          if(result.status)
          {
               $("#errorMessage").html(result.message);
-              window.location.replace("add");
+              window.location.replace("/masters/item/add");
          }else{
              $("#errorMessage").html(result.message);
          }
@@ -34,25 +40,30 @@
     
    // window.location.replace("activate/"+userId);
     });
+    
      $(".deactivate").click(function(event){
     
-     var csrf=$('[name="_csrf"]').val();
+      var csrf=$('[name="_csrf"]').val();
      debugger;
      event.preventDefault();
-     userId=this.id;
-     userId=userId.substring(11);
-        $.post("deactivate/"+userId, {_csrf: csrf}, function(result){
-          if(result.status)
+    itemId=this.id;
+     itemId=itemId.substring(11);
+    
+     $.post("/masters/item/deactivate/"+itemId, {_csrf: csrf}, function(result){
+         if(result.status)
          {
-              window.location.replace("add");
+              $("#errorMessage").html(result.message);
+              window.location.replace("/masters/item/add");
          }else{
              $("#errorMessage").html(result.message);
          }
-  });
+        
    // window.location.replace("deactivate/"+userId);
     });
-           
+     });
+          
   $('#datatable_user').DataTable( {
+        bSort : false,
         dom: 'Bfrtip',
         buttons: [
              'csv', 'excel', 'pdf', 'print'
@@ -66,7 +77,7 @@
                                     <tr id="trRow333">
                                         <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
                                         <!-- *** Update Table Header -->
-                                        <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading" >&nbsp;Users</td>
+                                        <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading" >&nbsp;My pending indents</td>
                                         <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);"></td>
                                         <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
                                             <table style="width: 100%;border-width: 0px;" cellspacing="0" cellpadding="0" >
@@ -97,43 +108,26 @@
 
 <table id="datatable_user" style="width:100%" cellpadding="3" class="list" cellspacing="1">
 <thead>
-<tr>
-<th>Employee Id</th>
-<th>Employee Name</th>
-<th>Email Id</th>
-<th>Mobile Number</th>
-<th>User Type</th>
-<!--<th>HOD</th>
-<th>Authority</th>-->
-<th>update</th>
-<th>activate/de-activate</th></tr></thead>
+    <tr>
+        <th>Indent Id</th>    
+        <th>Indent Date</th>
+        <th>status</th>
+         <th></th>
+    </tr>
+</thead>
 <tbody>
     
     
-<tr class="" th:each="user,rowStat : ${userList}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
-    <td style="text-align:left;" th:text="${user.userEmployeeId}"><p th:text="${userList}"></p></td>
-<td style="text-align:left;" th:text="${user.userName}">27-SEP-2017</td>
-<td style="text-align:left;" th:text="${user.userEmail}">18-SEP-2017</td>
-<td style="text-align:left;" th:text="${user.userContactNo}">10:30</td>
-<td style="text-align:left;" th:switch="${user.userType}">
-    <p th:case="0">Employee</p>
-    <p th:case="1">Admin</p>
-    <p th:case="2">MMG</p>
-    <p th:case="4">Finance</p>
-    <p th:case="3">Employee</p>
-    
-</td>
-<!--<td style="text-align:left;" th:text="${user.hod?.userEmployeeId+' :: '+user.hod?.userName}">10:30</td>
-<td style="text-align:left;" th:text="${user.authority?.userEmployeeId+' :: '+user.authority?.userName}">10:30</td>-->
-<td style="text-align:left;"><a   style="color: #ffffff" class="btn btn-xs btn-primary update" th:id="'update_'+${user.userId}" ><span class="glyphicon glyphicon-edit"></span> update</a>
-
-<td style="text-align:center;" th:switch="${user.activeFlag}">
-    <a href="#" class="btn btn-xs btn-danger deactivate"  th:id="'deactivate_'+${user.userId}"  style="color: #ffffff" th:case="'Y'" th:onclick="'deactivateUser('+${user.userId}+')'"><span class="glyphicon glyphicon-remove"></span> deactivate</a>
-    
-    <a href="#" class="btn btn-xs btn-success activate"  th:id="'activate_'+${user.userId}"  style="color: #ffffff" th:case="'N'" th:onclick="'activateUser('+${user.userId}+')'"><span class="glyphicon glyphicon-check"></span> activate</a>
-</td>
-
-
+<tr class="" th:each="indent,rowStat : ${indentList}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
+    <td style="text-align:left;" th:text="${indent.indentId}"></td>
+     <td style="text-align:left;" th:text="${indent.indentDate}"></td>
+     <td style="text-align:left;" th:text="${indent.status}"></td>
+      <td style="text-align:left;">
+            <a th:href="'/indent-view?indentId='+${indent.indentId}"  style="color: #ffffff" class="btn btn-xs btn-primary " th:id="'detail'+${indent.indentId}" >
+            <span class="glyphicon glyphicon-view"></span> View Details
+            </a>
+        </td>
+</tr>
                                             </tbody>
                                             </table>
                                             <img src="/theme/space.gif" border="0" height="10" width="1"><br>

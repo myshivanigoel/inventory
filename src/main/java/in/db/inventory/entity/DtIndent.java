@@ -194,11 +194,7 @@ public class DtIndent implements Serializable {
         this.purchaseType = purchaseType;
     }
 
-    @Override
-    public String toString() {
-        return "DtIndent{" + "dtIndentId=" + dtIndentId + ", classification=" + classification + ", classificationNameManual=" + classificationNameManual + ", itemGroup=" + itemGroup + ", sNo=" + sNo + ", partType=" + partType + ", descriptionOfMaterial=" + descriptionOfMaterial + ", manufacturer=" + manufacturer + ", quantity=" + quantity + ", pricePerUnit=" + pricePerUnit + ", unitForPrice=" + unitForPrice + ", expectedMonthYearOfDelivery=" + expectedMonthYearOfDelivery + ", Remarks=" + Remarks + ", suggestedVendors=" + suggestedVendors + ", vendors=" + vendors + ", item=" + item + ", purchaseType=" + purchaseType + ", modeOfDispatch=" + modeOfDispatch + '}';
-    }
-
+   
    
 
     public String getSuggestedVendors() {

@@ -50,7 +50,9 @@
 
 
                                     <ul class="sf-menu sf-js-enabled">                    
-
+                                            <li>
+                                                      <a href="/">Home</a>
+                                         </li>
 
                                         <li sec:authorize="hasAuthority('ROLE_ADMIN')">
 
@@ -92,11 +94,23 @@
                                             </ul>
                                         </li>
 
-                                         <li>
-                                                      <a href="/indent-form">Indent</a>
+                                         <li > 
+                                            <a href="#">Indent</a>
+                                            <ul style="float: none; width: 12em; display: none; visibility: hidden;">
+                                              <li>
+                                                      <a href="/indent-form">My Indents</a>
+                                                </li>
+                                                 <li >
+                                                      <a href="/requested-indents">Requested Indents</a>
+                                                </li>
+                                                <li sec:authorize="hasAuthority('ROLE_MMG')">
+                                                      <a href="/approved-indents">Approved Indents</a>
+                                                </li>
+                                            </ul>
+                                                      
                                          </li>
                                           <li>
-                                                      <a href="/masters/profile/add">Profile</a>
+                                                      <a href="/profile">Profile</a>
                                          </li>
                                     </ul>
 

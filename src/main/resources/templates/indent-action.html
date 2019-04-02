@@ -99,8 +99,7 @@
                    
                    
                       debugger;
-                   
-                   
+                  
                      $('#indentDetails').DataTable({
                                 bSort : false,
                                 searching: false, 
@@ -115,6 +114,39 @@
                             
                              
                         });
+                        
+                        function acceptIndent(indentId)
+                        {
+                            
+                        debugger;
+                        event.preventDefault();
+                        var csrf=$('[name="_csrf"]').val();
+                        
+                           $.post("/indent-action-accept?indentId="+indentId, {_csrf: csrf}, function(result){
+                             if(result.status)
+                            {
+                                 window.location.replace("/dashboard");
+                            }else{
+                                $("#errorMessage").html(result.message);
+                            }
+                     });
+                        }
+                        
+                        function rejectIndent(indentId)
+                        {
+                            
+                        debugger;
+                        event.preventDefault();
+                        var csrf=$('[name="_csrf"]').val();
+                           $.post("/indent-action-reject?indentId="+indentId, {_csrf: csrf}, function(result){
+                             if(result.status)
+                            {
+                                 window.location.replace("/dashboard");
+                            }else{
+                                $("#errorMessage").html(result.message);
+                            }
+                     });
+                        }
                         
                         function printDiv() {
        window.print();
@@ -184,9 +216,7 @@
                                             <th colspan="9"  width="80%" style="text-justify: none;"><h3>Center of Development Of Advance Computing, New Delhi </h3></th>
                                            
                                             <th colspan="2"  width="2%"></th>
-                                            
-                                            
-                                             <tr class='row2'>
+                                        <tr class='row2'>
                                            
                                             
                                             <th  colspan="5" th:text="'Employee Id :'+${indent.indentor.userEmployeeId}"></th>
@@ -194,8 +224,8 @@
                                              <th  colspan="4" th:text="'Employee Name :'+${indent.indentor.userName}"></th>
                                            
                                             <th  colspan="5" th:text="'Department : '+${indent.indentor.department?.departmentName}"></th>
-                                        </tr> 
-                                       <tr class='row2'>
+                                        </tr>   
+                                        <tr class='row2'>
                                              
                                             <th  colspan="5">Purchase Requisition</th>
                                              
@@ -266,24 +296,27 @@
               <td colspan="12" style="text-align:left;" th:text="${dindent.remarks}"></td>
                                    </tr>
                                    
-                                                                                    </th:block>
-                                                                                    
-      
-    <tr class="row1">                                                             
+                     <tr class="row1">                                                                </th:block>
                    <th colspan="14">Authorization Status</th>    
                                                                                 </tr>
-                                                                 
-                                                                                
+                                                                                   
                   <th:block th:each="authorities,rowStat : ${authorizationStatusList}"  >
                       <tr>
                       <td    th:text="${authorities.authorizedEmployee?.userName}+' : '+${authorities.status}" style="text-align:left;" ></td>
                         
                     </tr>  
-                    </th:block>         
+                    </th:block>                                                               
+                                                                                    
+                                                                                    
+      
                                                                                     </tbody></table>
-                                                                                <script>
-
-                                                                                </script>
+                                                                                
+                 <a href="#" class="btn btn-xs btn-success activate"  th:id="accept"  style="color: #ffffff"  th:onclick="'acceptIndent('+${indent.indentId}+')'"><span class="glyphicon glyphicon-check"></span> Approved</a>
+    
+                <a href="#" class="btn btn-xs btn-danger deactivate"  th:id="reject"  style="color: #ffffff" th:onclick="'rejectIndent('+${indent.indentId}+')'"><span class="glyphicon glyphicon-remove"></span>Reject</a>
+    
+                                               
+                                                                                
                                                                                 <!--************End of Data Table********************-->
                                                                             </td>
                                                                         </tr>

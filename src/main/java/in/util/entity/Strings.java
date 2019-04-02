@@ -73,6 +73,9 @@ public class Strings {
     public static String ItemInUse="This Item is used, can not be altered or deleted";
     public static String GroupInUse="This Group is used,  can not be altered or deleted";
           public static String pending="Pending";
+    public static String IndentStatusApproved="Approved";
+    public static String IndentStatusPending="In process";
+    public static String IndentStatusRejected="Rejected";
         
 }
 

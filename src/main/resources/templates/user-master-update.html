@@ -74,11 +74,48 @@
             </tr>
         </tbody></table>
         <script type="text/javascript">
+   
     $(document).ready(function() {
-        debugger;
-    
-    
-    $("#submit").click(function(event){
+                    setTimeout( removeMessage, 10000 ); 
+                   
+                      debugger;
+                    
+                    var t = $('#user').DataTable({bSort : false,searching: false, paging: false, info: false});
+                    
+                    var itemCounter=t.rows().count()-5;
+                    var i=itemCounter+1;
+                    console.log(itemCounter);
+                            var counter = 1;
+                        $('#addRow').on( 'click', function () {
+                            debugger;
+                            itemCounter++;
+                             var i=itemCounter+1;
+                          var row=    t.row.add( [
+                              i+" Authority User",
+                        " <input type='hidden' name='employeeAuthorityLevelList["+itemCounter+"].authorityLevel' value="+itemCounter+" >"
+                                +" <select name='employeeAuthorityLevelList["+itemCounter+"].authorizedEmployee.userId' id='nextAuthority"+itemCounter+"' style='width:200px'  >"
+                                                                      +"<option value='0'>Select</option>"
+                                                                     
+                                                                   +"</select>",
+                                                           " <a  href='#'  class='btn btn-xs btn-default '><span id='remove_"+counter+"' class='glyphicon glyphicon-minus-sign remove'></span> </a>",
+                                                           "",
+                                                           ""
+                            
+                      
+                            ] ).draw( false );
+
+
+                          
+                            
+                            
+                            
+                            $(row).addClass("left-align");
+                            counter++;
+                           
+                             getUserList(itemCounter); 
+                        } );
+                            //  $('#addRow').click();  
+                              $("#submit").click(function(event){
         debugger;
   event.preventDefault();
   var userName=$("#userName").val().trim();
@@ -114,9 +151,49 @@
      
         $("#frmEntrySlip").submit();
 });
-   
+        $(document).on('click','.remove',function(e) {
+  //handler code here
+    event.preventDefault();
+    var totalCount=t.rows().count();
+                                  debugger;
+                                  
+                                  
+                                 var selectedrow= $(this).closest("tr");
+                                var selectedrowIndex= selectedrow.index();
+                                 t.row( selectedrow ).remove().draw();
+                                 
+                                 
+                                 
+                                  
+                                  console.log(row);
+   });
+                              
+    
 } );
-     
+function getUserList(sno)
+              {
+                  $.get('/masters/users/', function(data) 
+                                 {
+                                     
+                                            if (data.length === 0)
+                                            {
+                                            $("#errorMessageJs").html("No User Found ");
+                                            } else{
+                                                    $("#errorMessageJs").html("");
+                                                    $("#purchasetype"+sno).html("");
+                                                    var option = "";
+                                                    data.forEach(function(user, i) {
+                                                    debugger;
+                                                    option = option + "<option value = " + user.userId + ">" +user.userId+" :: "+ user.userName + "</option>";
+                                                    });
+                                                    $("#nextAuthority"+sno).append(option);
+                                            }
+                                    });  
+              }
+     function removeMessage()
+              {
+                   $("#errorMessage").html("");
+              }
      </script>
 <form name="frmEntrySlip" id="frmEntrySlip" method="post" th:object="${user}"    th:action="@{/masters/users/update}" >
 
@@ -160,88 +237,148 @@
                                         <img style="width: 1px;height: 10px;border-width: 0px;display: block;" src="/theme/space.gif">
                                         
                                         <table style="width: 100%;border-width: 0" id="tdataTable" cellpadding="0" cellspacing="0" >
+                                           
                                         <tbody>
                                             <tr>
                                                 <td bgcolor="#dbeaf5">
                                                     <!--*************Starting of Data Table*******************-->
-                                                    <table width="100%" border="0" cellpadding="4" cellspacing="1" style="padding: 0px 0px 0px 0px;">
+                                                    <table id="user" width="100%" border="0" cellpadding="4" cellspacing="1" style="padding: 0px 0px 0px 0px;">
+                                                        <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    
+                                                    
+                                                </tr>
+                                            </thead>
+                                                        
                                                         <tbody><tr class="row2">
                                                             <td width="20%">
                                                                 Employee Name <font color="#CC0000"> *</font>
                                                             </td>
-                                                            <td colspan="3"> 
-                                                                <input name="userName" th:field="${user.userName}" maxlength="250" id="userName" type="text" class="textbox" style="width:150px" value="">
-                                                                 <input name="userId" th:field="${user.userId}" maxlength="250" id="userId" type="hidden" class="textbox" style="width:150px" value="">
+                                                            <td> 
+                                                                <input name="user.userName" th:field="${userWrapper.user.userName}" maxlength="250" id="userName" type="text" class="textbox" style="width:150px" value="">
+                                                                 <input name="user.userId" th:field="${userWrapper.user.userId}" maxlength="250" id="userId" type="hidden" class="textbox" style="width:150px" value="">
                                                                 
                                                               
                                                                
                                                             </td>
-                                                           
-                                                            
+                                                            <td></td>
+                                                            <td></td>
                                                             
                                                             
                                                             
                                                         </tr>
-                                                        <tr id="tbInTimeDet" class="heading" style="display:none"><td colspan="4" id="tdinTimeDet"></td></tr>
+                                                        
                                                         <tr class="row1">
-                                                            <td>Employee Id	 <input th:field="${user.userEmployeeId}" name="userEmail" maxlength="250" id="userEmployeeId" type="hidden" class="textbox" style="width:150px" value="">
-                                                                <input th:field="${user.userId}" name="userEmail" maxlength="6" id="userId" type="hidden" class="textbox" style="width:150px" value="">
+                                                            <td>Employee Id	 <input th:field="${userWrapper.user.userEmployeeId}" name="user.userEmail" maxlength="250" id="userEmployeeId" type="hidden" class="textbox" style="width:150px" value="">
+                                                                <input th:field="${userWrapper.user.userId}" name="user.userEmail" maxlength="6" id="userId" type="hidden" class="textbox" style="width:150px" value="">
                                                                	 <font color="#CC0000"> *</font></td>
-                                                            <td colspan="3" th:text="${user.userEmployeeId}">
+                                                            <td colspan="1" th:text="${userWrapper.user.userEmployeeId}">
                                                                 
                                                             </td>
-                                                           
+                                                            <td >
+                                                                    User Type
+                                                               </td> 
+                                                               <td >
+                                                                    <select name='user.userType' id='roleName' style="width:150px"  >
+                                                                     
+                                                                     <option th:each="userType : ${userTypeList}" th:value="${userType.roleId}" th:text="${userType.roleName}" th:selected="${userType.roleId==userWrapper.user.userType}"></option>
+       
+                                                                </select>
+                                                                </td>
                                                             </tr>
                                                             <tr class="row2">
                                                                  <td>Email Id<font color="#CC0000"> *</font></td>
                                                             <td>
                                                                
-                                                                 <input th:field="${user.userEmail}" name="userEmail" maxlength="250" id="userEmail" type="text" class="textbox" style="width:150px" value="">
+                                                                 <input th:field="${userWrapper.user.userEmail}" name="user.userEmail" maxlength="250" id="userEmail" type="text" class="textbox" style="width:150px" value="">
                                                               </td>
                                                                 <td>Mobile Number<font color="red">*</font></td>
-                                                                <td colspan="3">
-                                                                     <input th:field="${user.userContactNo}" name="userContactNo" maxlength="10" id="userContactNo" type="number" class="textbox" style="width:150px" value="">
+                                                                <td>
+                                                                     <input th:field="${userWrapper.user.userContactNo}" name="user.userContactNo" maxlength="10" id="userContactNo" type="number" class="textbox" style="width:150px" value="">
                                                                 </td>
                                                             </tr>
+                                                             <tr class="row1">
+                                                                <td >
+                                                                   Department
+                                                               </td> 
+                                                               <td >
+                                                                    <select name='user.department.departmentId' id='roleName' style="width:200px"  >
+                                                                      <option value="0">Select</option>
+
+                                                                     <option th:each="obj : ${departmentList}" th:value="${obj.departmentId}" th:text="${obj.departmentName}" th:selected="${ obj.departmentId==userWrapper.user.department?.departmentId}"></option>
+       
+                                                                </select>
+                                                                </td>
+                                                               
+                                                               <td >
+                                                                   Designation
+                                                               </td> 
+                                                               <td >
+                                                                    <select name='user.designation.designationId' id='roleName' style="width:200px"  >
+                                                                      <option value="0">Select</option>
+
+                                                                      <option th:each="obj : ${designationList}" th:value="${obj.designationId}" th:text="${obj.designationName}" th:selected="${ obj.designationId==userWrapper.user.designation?.designationId}"></option>
+       
+                                                                </select>
+                                                                </td>
+                                                            </tr>
+                                                            
+                                                            
                                                             <tr class="row1">
                                                                 <td >
-                                                                   Head Of Department
+                                                                  1 Authority User
                                                                </td> 
                                                                <td >
-                                                                    <select name='hod.userId' id='roleName' style="width:200px"  >
+                                                                   <input type="hidden" name="employeeAuthorityLevelList[0].authorityLevel" value="1" th:field="${userWrapper.employeeAuthorityLevelList[0].authorityLevel}">
+                                                                    <select name='employeeAuthorityLevelList[0].authorizedEmployee.userId' id='roleName' style="width:200px"  >
                                                                       <option value="0">Select</option>
 
-                                                                     <option th:each="userObj : ${userList}" th:value="${userObj.userId}" th:text="${userObj.userEmployeeId}+' :: '+${userObj.userName}" th:selected="${ userObj==user.hod}"></option>
-       
+                                                                      <option th:each="userObj : ${userList}" 
+                                                                              th:value="${userObj.userId}" 
+                                                                              th:text="${userObj.userEmployeeId}+' :: '+${userObj.userName}"
+                                                                              th:selected="${userWrapper?.employeeAuthorityLevelList!=null and !userWrapper?.employeeAuthorityLevelList?.empty and userObj.userId==userWrapper?.employeeAuthorityLevelList[0]?.authorizedEmployee?.userId}"
+                                                                              ></option>
+       <!-- th:selected="${userWrapper.employeeAuthorityLevelList!=null and !user.employeeAuthorityLevelList.empty and userObj.userId==userWrapper.employeeAuthorityLevelList[0].employee.userId}"-->
                                                                 </select>
                                                                 </td>
                                                                
-                                                               <td >
-                                                                   Competent Authority 
+                                                              <td style="float: right;"  id="addRow"><a href="#" class="btn btn-xs btn-default">Add next level authority<span class="glyphicon glyphicon-plus"></span> </a></td>
+                                                                                       
+                                                              <td></td>
+                                                            </tr>
+                                                        <th:block th:each="dindent,iter : ${userWrapper.employeeAuthorityLevelList}">
+                                                            
+                                                            
+                                                            <tr class="row1" th:if="${iter.index>0}">
+                                                                <td th:text="${iter.index+1}+' Authority User'">
+                                                                
                                                                </td> 
                                                                <td >
-                                                                    <select name='authority.userId' id='roleName' style="width:200px"  >
+                                                                   
+                                         <input type="hidden" name="employeeAuthorityLevelList[0].authorityLevel" th:value="${iter.index+1}" th:field="${userWrapper.employeeAuthorityLevelList[0].authorityLevel}">
+                                                                   
+                                                           
+                                                                    <select th:name="'employeeAuthorityLevelList['+${iter.index}+'].authorizedEmployee.userId'" th:id="'nextAuthority'+${iter.index}" style="width:200px"  >
                                                                       <option value="0">Select</option>
 
-                                                                     <option th:each="userObj : ${userList}" th:value="${userObj.userId}" th:text="${userObj.userEmployeeId}+' :: '+${userObj.userName}" th:selected="${ userObj==user.authority}"></option>
-       
+                                                                      <option th:each="userObj : ${userList}" 
+                                                                              th:value="${userObj.userId}" 
+                                                                              th:text="${userObj.userEmployeeId}+' :: '+${userObj.userName}"
+                                                                              th:selected="${userWrapper.employeeAuthorityLevelList!=null and !userWrapper.employeeAuthorityLevelList.empty and userObj.userId==userWrapper.employeeAuthorityLevelList[iter.index]?.authorizedEmployee?.userId}"
+                                                                              ></option>
+       <!--    -->
                                                                 </select>
                                                                 </td>
+                                                                <td> <a  href='#'  class='btn btn-xs btn-default '><span th:id="'remove_'+${iter.index}" class='glyphicon glyphicon-minus-sign remove'></span> </a></td>
+                                                                                       
+                                                              <td></td>
                                                             </tr>
-                                                           <tr class="row2">
-                                                                <td >
-                                                                    User Type
-                                                               </td> 
-                                                               <td colspan="3">
-                                                                    <select name='userType' id='roleName' style="width:150px"  >
-                                                                     
-                                                                     <option th:each="userType : ${userTypeList}" th:value="${userType.roleId}" th:text="${userType.roleName}" th:selected="${userType.roleId==user.userType}"></option>
-       
-                                                                </select>
-                                                                </td>
-                                                               
-                                                               
-                                                            </tr>
+                                                        </th:block>
+                                                           
                                                     </tbody></table>
                                                     <script>
                                                         

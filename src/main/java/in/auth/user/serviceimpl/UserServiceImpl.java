@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import in.auth.user.dao.UserDao;
 import in.auth.user.service.UserService;
+import in.db.auth.entity.EmployeeAuthorityLevel;
 import in.db.auth.entity.MstRole;
 import in.db.auth.entity.Tocken;
 import in.db.auth.entity.MstUser;
@@ -23,6 +24,7 @@ import in.util.entity.Mail;
 import in.util.entity.ResultDataMap;
 import in.util.entity.Strings;
 import in.util.Utility;
+import in.util.entity.UserWrapper;
 import in.utility.EmailServiceImpl;
 import java.util.LinkedHashMap;
 import org.springframework.transaction.annotation.Transactional;
@@ -214,9 +216,24 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
-            public ResultDataMap updateUser(MstUser user,String contextPath) {
+        
+        public List<EmployeeAuthorityLevel> setLevels(List<EmployeeAuthorityLevel> list)
+        {
+            int counter=1;
+            for (EmployeeAuthorityLevel employeeAuthorityLevel : list) {
+                employeeAuthorityLevel.setAuthorityLevel(counter);
+                counter++;
+            }
+            
+            return list;
+        }
+        
+        
+        
+            public ResultDataMap updateUser(UserWrapper userWrapper,String contextPath) {
+                setLevels(userWrapper.getEmployeeAuthorityLevelList());
                ResultDataMap rdm=new ResultDataMap();
-                 
+                 MstUser user=userWrapper.getUser();
 		Tocken tockenObj=null;
                 MstUser dbUser=userdao.getUserById(user.getUserId());
                 if(dbUser==null)
@@ -257,7 +274,7 @@ public class UserServiceImpl implements UserService{
                     }
                     
                     //check if role changed 
-                    if(!dbUser.getUserType().equals(userdao.getUserRole(user.getUserId()).get(0)))
+                    if(!dbUser.getUserType().equals(user.getUserType()))
                     {
                         userdao.updateRole(user.getUserId(),user.getUserType());
                     }
@@ -266,30 +283,29 @@ public class UserServiceImpl implements UserService{
                         }
                         dbUser.setAddress(user.getAddress());
                         dbUser.setDateOfModification(new Date());
-                        dbUser.setDepartmentId(user.getDepartmentId());
+                        dbUser.setDepartment(user.getDepartment());
+                        dbUser.setDesignation(user.getDesignation());
                         dbUser.setModifiedBy(user.getUserId());
                         dbUser.setUserContactNo(user.getUserContactNo());
                         dbUser.setUserEmail(user.getUserEmail());
                         dbUser.setUserName(user.getUserName());
-                        try{
-                        dbUser.setHod(userdao.getUserById(user.getHod().getUserId()));
-                        dbUser.setAuthority(userdao.getUserById(user.getAuthority().getUserId()));
-                        }catch(Exception e)
-                        {
-                             return new ResultDataMap().setStatus(false).setMessage(Strings.InvalidData);
-                        }
+                        dbUser.setUserType(user.getUserType());
+                       
+                       
                     if(tockenObj==null)
                     {
                        
                        
-                        rdm=userdao.updateUserOnly(dbUser);
+                      
+                        
                     }else{
                          dbUser.setEmailVerifiedFlag('N');
-                         rdm=userdao.updateUserOnly(dbUser);
+                         
                          rdm=userdao.saveOrUpdateTocken(tockenObj);
                          
                     }
-                    
+                      rdm=userdao.updateUserOnly(dbUser);
+                      rdm=userdao.updateEmployeeAuthorityLevel(dbUser.getUserId(),userWrapper.getEmployeeAuthorityLevelList());
                     if(rdm.getStatus() && tockenObj!=null)
 		{
 			try {
@@ -394,6 +410,31 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		return rdm;
+    }
+
+    @Override
+    public List<EmployeeAuthorityLevel> getEmployeeAuthorityLevelList(Integer userId) {
+        return userdao.getEmployeeAuthorityLevelList(userId);
+    }
+
+    @Override
+    public List<MstUser> getMySubordinatesList(Integer userId) {
+        return userdao.getMySubordinatesList(userId);
+    }
+
+    /**
+     *
+     * @param userId
+     * @param authorityId
+     * 
+     * first paramaetr userId takes the subordinates Id 
+     * second paramater takes its authority Id  to check if its top authority
+     * @return
+     */
+    @Override
+    public boolean ifLastAuthorityLevel(Integer userId, Integer authorityId) {
+        return userdao.ifLastAuthorityLevel(userId,authorityId);
+
     }
 	
 }

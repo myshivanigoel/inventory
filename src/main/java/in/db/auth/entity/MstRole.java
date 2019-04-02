@@ -41,7 +41,21 @@ public class MstRole {
                     inverseJoinColumns = @JoinColumn(name="userId")
                     )
         private List<MstUser> users;
+
+    public MstRole(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public MstRole() {
+    }
+
+    public MstRole(Integer roleId, String roleName) {
+        this.roleId = roleId;
+        this.roleName = roleName;
+    }
 	
+         
+         
 	public Integer getRoleId() {
 		return roleId;
 	}

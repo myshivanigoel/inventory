@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Repository;
-import in.db.inventory.entity.Designation;
+import in.db.auth.entity.Designation;
 import in.util.entity.ResultDataMap;
 import in.util.entity.Strings;
 import java.util.LinkedHashMap;

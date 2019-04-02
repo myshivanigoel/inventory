@@ -1,12 +1,13 @@
-package in.inventory.service;
+package in.auth.user.serviceimpl;
 
+import in.auth.user.service.DesignationService;
 import in.inventory.dao.DesignationDao;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-import in.db.inventory.entity.Designation;
+import in.db.auth.entity.Designation;
 import in.util.entity.ResultDataMap;
 import in.util.entity.Strings;
 import in.util.Utility;

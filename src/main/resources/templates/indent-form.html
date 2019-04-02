@@ -108,7 +108,7 @@
 
                             t.row.add( [
                               "MaterialClassification",
-                        " <select name='indentDetailList["+itemCounter+"].itemGroup.classification.classificationId' class='classification' id='classification"+itemCounter+"' style='width:150px'  >"
+                        " <select name='indentDetailList["+itemCounter+"].classification.classificationId' class='classification' id='classification"+itemCounter+"' style='width:150px'  >"
                         + "<option value='0'>Select</option>"
 
                         + " <option th:each='classificationObj : ${classList}' th:value='${classificationObj.classificationId}' th:text='${classificationObj.classification}' ></option>"

@@ -8,10 +8,11 @@ package in.inventory.dao;
 import in.db.auth.entity.MstUser;
 import in.db.inventory.entity.DtIndent;
 import in.db.inventory.entity.HdIndent;
+import in.db.inventory.entity.IndentStatus;
 import in.db.inventory.entity.Receipt;
 import in.db.inventory.entity.ReceiptConsumable;
 import in.db.inventory.entity.Stock;
-import in.util.entity.Indent;
+
 import in.util.entity.ResultDataMap;
 import in.util.entity.Strings;
 import java.util.ArrayList;
@@ -165,7 +166,6 @@ public class PurchaseDaoImpl implements PurchaseDao{
     @Override
     public List<HdIndent> getAllIndentsList() {
         
-        List<Indent> indentList=new ArrayList<>();
         return sessionFactory.getCurrentSession()
                 .createQuery("from HdIndent order by  indentId desc").list();
         
@@ -178,8 +178,11 @@ public class PurchaseDaoImpl implements PurchaseDao{
      * @return
      */
     @Override
-    public List<HdIndent> getIndentsListToBeVerifiedByUser(MstUser userId) {
-        return null;
+    public List<HdIndent> getRequestedIndentsList(Integer userId) {
+        return sessionFactory.getCurrentSession()
+                .createQuery(" FROM HdIndent where indentId in (SELECT indent.indentId FROM IndentStatus where authorizedEmployee.userId=:userId)")
+                .setParameter("userId", userId)
+                .list();
     }
 
     /**
@@ -193,6 +196,64 @@ public class PurchaseDaoImpl implements PurchaseDao{
          HdIndent hdIndent= sessionFactory.getCurrentSession().get(HdIndent.class, indentId);
                 
         return hdIndent;
+    }
+
+    /**
+     *
+     * @param userId
+     * 
+     * @return
+     */
+    @Override
+    public List<HdIndent> getMyPendingIndents(Integer userId) {
+        List<HdIndent> indentList=new ArrayList<>();
+        indentList= sessionFactory.getCurrentSession()
+                .createQuery("from HdIndent where indentor.userId=:indentor and status=:status order by  indentId desc")
+                .setParameter("indentor", userId)
+                .setParameter("status", Strings.IndentStatusPending)
+                .list();
+        System.out.println("in.inventory.dao.PurchaseDaoImpl.getIndentorsIndents()"+indentList);
+        return indentList;
+    }
+
+    /**
+     *
+     * @param userId
+     * @param indentId
+     * 
+     * 
+     * 
+     * @return
+     */
+    @Override
+    public IndentStatus ifUserAuthenticatedIndent(Integer userId, Integer indentId) {
+       return sessionFactory.getCurrentSession()
+               .createQuery("from IndentStatus where authorizedEmployeeId=:userId and indentId=:indentId",IndentStatus.class)
+               .setParameter("userId", userId)
+               .setParameter("indentId", indentId)
+               .uniqueResult();
+    }
+
+    @Override
+    public void updateHdIndent(HdIndent indent) {
+       sessionFactory.getCurrentSession().update(indent);
+    }
+
+    @Override
+    public void saveIndentStatus(IndentStatus indentStatus) {
+         sessionFactory.getCurrentSession().save(indentStatus);
+    }
+
+    @Override
+    public List<HdIndent> getIndentsListToBeVerifiedByUser(MstUser userId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<HdIndent> getApprovedIndentsList(Integer userId) {
+          return sessionFactory.getCurrentSession()
+                .createQuery(" FROM HdIndent where status='"+Strings.IndentStatusApproved+"'")
+                .list();
     }
 
    

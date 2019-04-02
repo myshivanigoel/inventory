@@ -3,7 +3,7 @@ package in.inventory.dao;
 import java.util.Collection;
 import java.util.List;
 import in.db.dashboard.entity.MenuGroup;
-import in.db.inventory.entity.Designation;
+import in.db.auth.entity.Designation;
 import in.util.entity.ResultDataMap;
 import java.util.LinkedHashMap;
 public interface DesignationDao {

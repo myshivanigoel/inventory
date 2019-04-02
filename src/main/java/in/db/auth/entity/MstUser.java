@@ -31,7 +31,10 @@ import org.springframework.stereotype.Component;
 
 import in.db.util.entity.Address;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.UniqueConstraint;
@@ -51,7 +54,9 @@ public class MstUser implements Serializable{
 	private Integer userId;
         
         private String userEmployeeId;
-    	private String designation;
+        @JoinColumn(name = "designationId")
+        @ManyToOne
+    	private Designation designation;
 	@NotNull(message=" name is required")
 	@Size(min=5,message="min size is 2")
 	private String userName;
@@ -75,15 +80,16 @@ public class MstUser implements Serializable{
         @Column(length = 10)
 	private Date dateOfModification;
 	private Address address;
-	private Integer departmentId;
-	@NotNull
+        
+        @JoinColumn(name = "departmentId")
+        @ManyToOne
+	private Department department;
+	
+        @NotNull
 	@Min(value=1,message="please choose a role")
 	private Integer userType;
 	private Character emailVerifiedFlag;
-        @OneToOne
-        private MstUser hod;
-        @OneToOne
-        private MstUser authority;
+        
         
         
 	
@@ -93,6 +99,7 @@ public class MstUser implements Serializable{
     
           @OneToMany(mappedBy = "user")    
             private List<Receipt> receiptList;
+         
 
 	@Transient
 	private Collection<Authorities> authorities;
@@ -101,6 +108,10 @@ public class MstUser implements Serializable{
 	
 	@Transient
 	private String roleName;
+
+    public MstUser(Integer userId) {
+        this.userId = userId;
+    }
 	
       
         
@@ -109,24 +120,9 @@ public class MstUser implements Serializable{
 	public MstUser() {
 		
 	}
-	public MstUser(String username, String password, Collection<? extends GrantedAuthority> authorities, Integer userId,
-			String designation, String userName2, String password2, Character activeFlag, String userEmail,
-			String userContactNo, Date dateofEntry, Date dateOfModification, Address address, Integer userType,
-			Collection<Authorities> authorities2) {
-		super();
-		this.userId = userId;
-		this.designation = designation;
-		userName = userName2;
-		password = password2;
-		this.activeFlag = activeFlag;
-		this.userEmail = userEmail;
-		this.userContactNo = userContactNo;
-		this.dateofEntry = dateofEntry;
-		this.dateOfModification = dateOfModification;
-		this.address = address;
-		this.userType = userType;
-		authorities = authorities2;
-	}
+
+   
+	
 	/**
 	 * @return the userId
 	 */
@@ -211,13 +207,15 @@ public class MstUser implements Serializable{
 		this.address = address;
 	}
 
-    public String getDesignation() {
+    public Designation getDesignation() {
         return designation;
     }
 
-    public void setDesignation(String designation) {
+    public void setDesignation(Designation designation) {
         this.designation = designation;
     }
+
+    
 
 
 	
@@ -270,12 +268,15 @@ public class MstUser implements Serializable{
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-	public Integer getDepartmentId() {
-		return departmentId;
-	}
-	public void setDepartmentId(Integer departmentId) {
-		this.departmentId = departmentId;
-	}
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+	
 	public Character getEmailVerifiedFlag() {
 		return emailVerifiedFlag;
 	}
@@ -309,21 +310,7 @@ public class MstUser implements Serializable{
 
     
 
-    public MstUser getHod() {
-        return hod;
-    }
-
-    public void setHod(MstUser hod) {
-        this.hod = hod;
-    }
-
-    public MstUser getAuthority() {
-        return authority;
-    }
-
-    public void setAuthority(MstUser authority) {
-        this.authority = authority;
-    }
+    
 
     @Override
     public int hashCode() {
@@ -352,6 +339,13 @@ public class MstUser implements Serializable{
             return false;
         }
         return true;
+    }
+
+  
+
+    @Override
+    public String toString() {
+        return "MstUser{" + "userId=" + userId + ", userEmployeeId=" + userEmployeeId + ", designation=" + designation + ", userName=" + userName + ", password=" + password + ", activeFlag=" + activeFlag + ", userEmail=" + userEmail + ", userContactNo=" + userContactNo + ", registeredBy=" + registeredBy + ", dateofEntry=" + dateofEntry + ", modifiedBy=" + modifiedBy + ", dateOfModification=" + dateOfModification + ", address=" + address + ", department=" + department + ", userType=" + userType + ", emailVerifiedFlag=" + emailVerifiedFlag + ", authorities=" + authorities + ", tocken=" + tocken + ", roleName=" + roleName + '}';
     }
 
     

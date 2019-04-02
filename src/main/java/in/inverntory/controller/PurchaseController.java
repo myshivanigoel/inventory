@@ -11,6 +11,7 @@ import in.db.auth.entity.MstUser;
 import in.db.inventory.entity.Classification;
 import in.db.inventory.entity.DtIndent;
 import in.db.inventory.entity.HdIndent;
+import in.db.inventory.entity.IndentStatus;
 import in.db.inventory.entity.Issue;
 import in.db.inventory.entity.ItemMaster;
 import in.db.inventory.entity.MstGroup;
@@ -22,7 +23,7 @@ import in.inventory.service.ItemService;
 import in.inventory.service.PurchaseService;
 import in.inventory.service.StockDao;
 import in.inventory.service.StockService;
-import in.util.entity.Indent;
+
 import in.util.entity.ResultDataMap;
 import in.utility.SantizingUtility;
 import java.beans.IntrospectionException;
@@ -135,15 +136,16 @@ public class PurchaseController {
                 int error=0;
                 for (DtIndent t :  indent.getIndentDetailList()) {
               
-                    if(t.getItem()==null || t.getItem().getItemId()==null)
+                   if(t.getItem()==null || t.getItem().getItemId()==null ||  t.getItem().getItemId()==0 )
                     {
                         t.setItem(new ItemMaster(1));
                     }
                     
                     
-                    if( t.getItem().getItemId()==0 || t.getItem().getItemId()==1)
+                    if( t.getItem().getItemId()==1)
                     {
-                        if(t.getDescriptionOfMaterial()==null || t.getDescriptionOfMaterial().trim().equals(""))
+                    
+                     if(t.getDescriptionOfMaterial()==null || t.getDescriptionOfMaterial().trim().equals(""))
                         {
                              model.addAttribute("indent",indent);
                              model.addAttribute("message","please  add description");
@@ -416,7 +418,7 @@ public class PurchaseController {
             return "indent-list";
     }
     
-     @GetMapping("indent-list")
+   /*  @GetMapping("indent-list")
     public String indentList(Model model)
     {
         
@@ -446,12 +448,48 @@ public class PurchaseController {
         
     }
     
-    
+    */
     @GetMapping("indent-view")
     public String indentView(@RequestParam("indentId")Integer indentId,Model model)
     {
-        model.addAttribute("indent", purchaseService.getIndent(indentId));
+        HdIndent indent=purchaseService.getIndent(indentId);
+        model.addAttribute("indent", indent);
+        model.addAttribute("authorizationStatusList",purchaseService.getauthorizationStatusList(indent));
         return "indent-view";
+    }
+    
+     @GetMapping("indent-action")
+    public String indentAction(@RequestParam("indentId")Integer indentId,Model model)
+    {
+        model.addAttribute("indent", purchaseService.getIndent(indentId));
+        return "indent-action";
+    }
+    @PostMapping("indent-action-accept")
+    public @ResponseBody ResultDataMap indentActionAccept(@RequestParam("indentId")Integer indentId,Model model)
+    {
+        MstUser user=(MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        IndentStatus i=purchaseService.ifUserAuthenticatedIndent(user.getUserId(), indentId);
+        if(i==null)
+        {
+            return purchaseService.acceptIndent(indentId,user.getUserId());
+        }else{
+            return new ResultDataMap().setStatus(false).setMessage("indent already "+i.getStatus());
+        }
+        
+        
+        
+    }
+    @PostMapping("indent-action-reject")
+    public @ResponseBody ResultDataMap indentActionReject(@RequestParam("indentId")Integer indentId,Model model)
+    {
+       MstUser user=(MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         IndentStatus i=purchaseService.ifUserAuthenticatedIndent(user.getUserId(), indentId);
+        if(i==null)
+        {
+            return purchaseService.rejectIndent(indentId,user.getUserId());
+        }else{
+            return new ResultDataMap().setStatus(false).setMessage("indent already "+i.getStatus());
+        }
     }
     
      @GetMapping("get-purchasetype")
@@ -461,6 +499,26 @@ public class PurchaseController {
         return purchaseTypeService.getAllPurchaseTypeList();
     }
     
+    @GetMapping("requested-indents")
+    public String getRequestedIndentsList(Model model)
+    {
+        List<HdIndent> indents=new ArrayList<>();
+        MstUser user=(MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       
+        indents=purchaseService.getRequestedIndentsList(user.getUserId());
+        model.addAttribute("indentsList", indents);
+        return "requested-indents-list";
+    }
     
     
+    @GetMapping("approved-indents")
+    public String getApprovedIndentsList(Model model)
+    {
+        List<HdIndent> indents=new ArrayList<>();
+        MstUser user=(MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       
+        indents=purchaseService.getApprovedIndentsList(user.getUserId());
+        model.addAttribute("indentsList", indents);
+        return "approved-indents-list";
+    }
 }

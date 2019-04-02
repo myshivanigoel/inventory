@@ -139,7 +139,7 @@
                                 <tr>
                                     <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
                                     <!-- *** Update Table Header -->
-                                    <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading">&nbsp;Update User:</td>
+                                    <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading">&nbsp;Update details:</td>
                                     <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap"></td>
                                     <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
                                         <table style="width: 100%;border-width: 0px;"  cellspacing="0" cellpadding="0">
@@ -203,45 +203,7 @@
                                                                      <input th:field="${user.userContactNo}" name="userContactNo" maxlength="10" id="userContactNo" type="number" class="textbox" style="width:150px" value="">
                                                                 </td>
                                                             </tr>
-                                                            <tr class="row1">
-                                                                <td >
-                                                                   Head Of Department
-                                                               </td> 
-                                                               <td >
-                                                                    <select name='hod.userId' id='roleName' style="width:200px"  >
-                                                                      <option value="0">Select</option>
-
-                                                                     <option th:each="userObj : ${userList}" th:value="${userObj.userId}" th:text="${userObj.userEmployeeId}+' :: '+${userObj.userName}" th:selected="${ userObj==user.hod}"></option>
-       
-                                                                </select>
-                                                                </td>
-                                                               
-                                                               <td >
-                                                                   Competent Authority 
-                                                               </td> 
-                                                               <td >
-                                                                    <select name='authority.userId' id='roleName' style="width:200px"  >
-                                                                      <option value="0">Select</option>
-
-                                                                     <option th:each="userObj : ${userList}" th:value="${userObj.userId}" th:text="${userObj.userEmployeeId}+' :: '+${userObj.userName}" th:selected="${ userObj==user.authority}"></option>
-       
-                                                                </select>
-                                                                </td>
-                                                            </tr>
-                                                           <tr class="row2">
-                                                                <td >
-                                                                    User Type
-                                                               </td> 
-                                                               <td colspan="3">
-                                                                    <select name='userType' id='roleName' style="width:150px"  >
-                                                                     
-                                                                     <option th:each="userType : ${userTypeList}" th:value="${userType.roleId}" th:text="${userType.roleName}" th:selected="${userType.roleId==user.userType}"></option>
-       
-                                                                </select>
-                                                                </td>
-                                                               
-                                                               
-                                                            </tr>
+                                                           
                                                     </tbody></table>
                                                     <script>
                                                         
@@ -281,7 +243,6 @@
                             <img style="width: 1px;height: 5px;border-width: 0px;" src="/theme/space.gif">                            
 
 
- <div th:replace="user-list :: user-list"></div>
 
             <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif"><br>
             <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif">

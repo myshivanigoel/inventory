@@ -5,6 +5,7 @@
  */
 package in.db.inventory.entity;
 
+import in.db.auth.entity.EmployeeAuthorityLevel;
 import in.db.auth.entity.MstUser;
 import in.util.entity.Strings;
 import java.io.Serializable;
@@ -55,26 +56,43 @@ public class HdIndent implements Serializable {
     private Date indentorAuthenticationDate;
  
     
-    @ManyToOne
-    @JoinColumn(name="sectionHead")
-    private MstUser sectionHead;
-     private Character sectionHeadAuthenticationFlag;
-     @Temporal(TemporalType.DATE)
-    private Date sectionHeadAuthenticationDate;
-   
     
-    @ManyToOne
-    @JoinColumn(name="approvingAuthority")
-    private MstUser approvingAuthority;
-   private Character approvingAuthorityAuthenticationFlag;
-   @Temporal(TemporalType.DATE)
-    private Date approvingAuthorityAuthenticationDate;
- 
     @OneToMany(mappedBy = "hdIndent",cascade = CascadeType.ALL)
     private List<DtIndent> indentDetailList=new ArrayList<>();
     
+     @OneToMany(mappedBy = "indent",cascade = CascadeType.ALL)
+    private List<IndentStatus> indentStatusList=new ArrayList<>();
+     
+     @Transient
+    List<EmployeeAuthorityLevel> authoritiesList=new ArrayList<>();
+    
     private String status=Strings.pending;
 
+    public HdIndent(Integer indentId) {
+        this.indentId = indentId;
+    }
+
+    public HdIndent() {
+    }
+
+    public HdIndent(Integer indentId, String prNo, Date indentDate, String budgetYear, Project project, String sourceData, String previousReferenceOfPurchaseIfAny, MstUser indentor, Character indentorAuthenticationFlag, Date indentorAuthenticationDate) {
+        this.indentId = indentId;
+        this.prNo = prNo;
+        this.indentDate = indentDate;
+        this.budgetYear = budgetYear;
+        this.project = project;
+        this.sourceData = sourceData;
+        this.previousReferenceOfPurchaseIfAny = previousReferenceOfPurchaseIfAny;
+        this.indentor = indentor;
+        this.indentorAuthenticationFlag = indentorAuthenticationFlag;
+        this.indentorAuthenticationDate = indentorAuthenticationDate;
+    }
+
+    
+    
+    
+    
+    
     public Integer getIndentId() {
         return indentId;
     }
@@ -144,53 +162,7 @@ public class HdIndent implements Serializable {
         this.indentorAuthenticationDate = indentorAuthenticationDate;
     }
 
-    public MstUser getSectionHead() {
-        return sectionHead;
-    }
-
-    public void setSectionHead(MstUser sectionHead) {
-        this.sectionHead = sectionHead;
-    }
-
-    public Character getSectionHeadAuthenticationFlag() {
-        return sectionHeadAuthenticationFlag;
-    }
-
-    public void setSectionHeadAuthenticationFlag(Character sectionHeadAuthenticationFlag) {
-        this.sectionHeadAuthenticationFlag = sectionHeadAuthenticationFlag;
-    }
-
-    public Date getSectionHeadAuthenticationDate() {
-        return sectionHeadAuthenticationDate;
-    }
-
-    public void setSectionHeadAuthenticationDate(Date sectionHeadAuthenticationDate) {
-        this.sectionHeadAuthenticationDate = sectionHeadAuthenticationDate;
-    }
-
-    public MstUser getApprovingAuthority() {
-        return approvingAuthority;
-    }
-
-    public void setApprovingAuthority(MstUser approvingAuthority) {
-        this.approvingAuthority = approvingAuthority;
-    }
-
-    public Character getApprovingAuthorityAuthenticationFlag() {
-        return approvingAuthorityAuthenticationFlag;
-    }
-
-    public void setApprovingAuthorityAuthenticationFlag(Character approvingAuthorityAuthenticationFlag) {
-        this.approvingAuthorityAuthenticationFlag = approvingAuthorityAuthenticationFlag;
-    }
-
-    public Date getApprovingAuthorityAuthenticationDate() {
-        return approvingAuthorityAuthenticationDate;
-    }
-
-    public void setApprovingAuthorityAuthenticationDate(Date approvingAuthorityAuthenticationDate) {
-        this.approvingAuthorityAuthenticationDate = approvingAuthorityAuthenticationDate;
-    }
+   
 
     public List<DtIndent> getIndentDetailList() {
         return indentDetailList;
@@ -225,14 +197,9 @@ public class HdIndent implements Serializable {
         this.project = project;
     }
 
-    @Override
-    public String toString() {
-        return "HdIndent{" + "indentId=" + indentId + ", prNo=" + prNo + ", indentDate=" + indentDate + ", budgetYear=" + budgetYear + ", project=" + project + ", sourceData=" + sourceData + ", previousReferenceOfPurchaseIfAny=" + previousReferenceOfPurchaseIfAny + ", indentor=" + indentor + ", indentorAuthenticationFlag=" + indentorAuthenticationFlag + ", indentorAuthenticationDate=" + indentorAuthenticationDate + ", sectionHead=" + sectionHead + ", sectionHeadAuthenticationFlag=" + sectionHeadAuthenticationFlag + ", sectionHeadAuthenticationDate=" + sectionHeadAuthenticationDate + ", approvingAuthority=" + approvingAuthority + ", approvingAuthorityAuthenticationFlag=" + approvingAuthorityAuthenticationFlag + ", approvingAuthorityAuthenticationDate=" + approvingAuthorityAuthenticationDate + ", indentDetailList=" + indentDetailList + ", status=" + status + '}';
-    }
-
    
 
-   
+    
     
 
     public String getStatus() {
@@ -241,6 +208,22 @@ public class HdIndent implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<IndentStatus> getIndentStatusList() {
+        return indentStatusList;
+    }
+
+    public void setIndentStatusList(List<IndentStatus> indentStatusList) {
+        this.indentStatusList = indentStatusList;
+    }
+
+    public List<EmployeeAuthorityLevel> getAuthoritiesList() {
+        return authoritiesList;
+    }
+
+    public void setAuthoritiesList(List<EmployeeAuthorityLevel>  authoritiesList) {
+        this.authoritiesList = authoritiesList;
     }
 
     

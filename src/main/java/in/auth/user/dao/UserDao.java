@@ -1,5 +1,6 @@
 package in.auth.user.dao;
 
+import in.db.auth.entity.EmployeeAuthorityLevel;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,5 +44,14 @@ public interface UserDao {
     public List<MstRole> getAllRolesList();
 
     public void updateRole(Integer userId, Integer userType);
+
+   
+    public ResultDataMap updateEmployeeAuthorityLevel(Integer userId,List<EmployeeAuthorityLevel> employeeAuthorityLevel);
+
+    public List<EmployeeAuthorityLevel> getEmployeeAuthorityLevelList(Integer userId);
+
+    public List<MstUser> getMySubordinatesList(Integer userId);
+
+    public boolean ifLastAuthorityLevel(Integer userId, Integer authorityId);
 	
 }

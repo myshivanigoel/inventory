@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package in.db.inventory.entity;
+package in.db.auth.entity;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -15,21 +15,20 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
 /**
  *
  * @author shivani
  */
 @Entity
-@Table(name="department")
-public class Department implements Serializable{
+@Table(name="designation")
+public class Designation implements Serializable{
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="departmentId")
-    private Integer departmentId;
-    @Column(name="departmentName")
-    private String departmentName;
+    @Column(name="designationId")
+    private Integer designationId;
+    @Column(name="designationName")
+    private String designationName;
     @Column(name="activeFlag")
     private Character activeFlag;
     @Column(name="dateOfEntry")
@@ -39,20 +38,20 @@ public class Department implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfModification;
 
-    public Integer getDepartmentId() {
-        return departmentId;
+    public Integer getDesignationId() {
+        return designationId;
     }
 
-    public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
+    public void setDesignationId(Integer designationId) {
+        this.designationId = designationId;
     }
 
-    public String getDepartmentName() {
-        return departmentName;
+    public String getDesignationName() {
+        return designationName;
     }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
+    public void setDesignationName(String designationName) {
+        this.designationName = designationName;
     }
 
     public Character getActiveFlag() {
@@ -81,7 +80,7 @@ public class Department implements Serializable{
 
     @Override
     public String toString() {
-        return "Department{" + "departmentId=" + departmentId + ", departmentName=" + departmentName + ", activeFlag=" + activeFlag + ", dateOfEntry=" + dateOfEntry + ", dateOfModification=" + dateOfModification + '}';
+        return "Designation{" + "designationId=" + designationId + ", designationName=" + designationName + ", activeFlag=" + activeFlag + ", dateOfEntry=" + dateOfEntry + ", dateOfModification=" + dateOfModification + '}';
     }
     
     
