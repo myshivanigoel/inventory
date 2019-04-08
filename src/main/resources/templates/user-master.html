@@ -163,7 +163,7 @@
                                                                 Employee Name <font color="#CC0000"> *</font>
                                                             </td>
                                                             <td colspan="3"> 
-                                                                <input name="userName" maxlength="250" id="userName" type="text" class="textbox" style="width:150px" value="">
+                                                                <input name="userName" th:field="${user.userName}" maxlength="250" id="userName" type="text" class="textbox" style="width:150px" value="">
                                                                 
                                                                
                                                             </td>
@@ -177,7 +177,7 @@
                                                         <tr class="row1">
                                                             <td>Employee Id		 <font color="#CC0000"> *</font></td>
                                                             <td colspan="3">
-                                                                 <input name="userEmployeeId" maxlength="6" id="userEmployeeId" type="text" class="textbox" style="width:150px" value="">
+                                                                 <input name="userEmployeeId" th:field="${user.userEmployeeId}" maxlength="6" id="userEmployeeId" type="text" class="textbox" style="width:150px" value="">
                                                              
                                                             </td>
                                                            
@@ -186,11 +186,11 @@
                                                                  <td>Email Id<font color="#CC0000"> *</font></td>
                                                             <td>
                                                                
-                                                                 <input name="userEmail" maxlength="250" id="userEmail" type="text" class="textbox" style="width:150px" value="">
+                                                                 <input name="userEmail" th:field="${user.userEmail}" maxlength="250" id="userEmail" type="text" class="textbox" style="width:150px" value="">
                                                               </td>
                                                                 <td>Mobile Number<font color="red">*</font></td>
                                                                 <td colspan="3">
-                                                                     <input name="userContactNo" maxlength="10" id="userContactNo" type="text" class="textbox" style="width:150px" value="">
+                                                                     <input name="userContactNo" th:field="${user.userContactNo}"  maxlength="10" id="userContactNo" type="text" class="textbox" style="width:150px" value="">
                                                            
                                                                 </td>
                                                             </tr>

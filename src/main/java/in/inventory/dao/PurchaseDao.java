@@ -12,6 +12,7 @@ import in.db.inventory.entity.Receipt;
 import in.db.inventory.entity.ReceiptConsumable;
 
 import in.util.entity.ResultDataMap;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public interface PurchaseDao {
 
     public IndentStatus ifUserAuthenticatedIndent(Integer userId, Integer indentId);
 
-    public void updateHdIndent(HdIndent indent);
+    public ResultDataMap updateHdIndent(HdIndent indent);
 
     public void saveIndentStatus(IndentStatus indentStatus);
 
@@ -47,8 +48,13 @@ public interface PurchaseDao {
 
     public List<HdIndent> getApprovedIndentsList(Integer userId);
 
+    public List<HdIndent> getRequestsForFinanceApproval(Integer userId);
+
+    public Collection<? extends HdIndent> getFinanceRejectedIndents(Integer userId);
+
+    public void deleteOldDtIndentEntries(Integer indentId);
+
   
- 
    
 
    

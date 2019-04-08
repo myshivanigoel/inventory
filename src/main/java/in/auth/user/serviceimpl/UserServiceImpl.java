@@ -437,4 +437,40 @@ public class UserServiceImpl implements UserService{
 
     }
 	
+    
+     public MstUser getFinanceUser()
+    {
+        return userdao.getFinanceUser();
+    }
+
+    @Override
+    public ResultDataMap updateProfile(MstUser user) {
+        MstUser dbUser=getUserById(user.getUserId());
+        if(!dbUser.getUserEmail().equals(user.getUserEmail()))
+        {
+            if(getUserByIdOrEmailOrMobile(user.getUserEmail())==null)
+            {
+                dbUser.setUserEmail(user.getUserEmail());
+            }else{
+                return new ResultDataMap().setStatus(Boolean.FALSE).setMessage(Strings.EmailIdExist);
+            }
+            
+        }
+        if(!dbUser.getUserName().equals(user.getUserName()))
+        {
+            dbUser.setUserName(user.getUserName());
+        }
+        if(!dbUser.getUserContactNo().equals(user.getUserContactNo()))
+        {
+            if(getUserByIdOrEmailOrMobile(user.getUserContactNo())==null)
+            {
+                dbUser.setUserContactNo(user.getUserContactNo());
+            }else{
+                return new ResultDataMap().setStatus(Boolean.FALSE).setMessage(Strings.MobileNoExist);
+            }
+        }
+        dbUser.setDateOfModification(new Date());
+        dbUser.setModifiedBy(user.getUserId());
+        return userdao.updateUserOnly(dbUser);
+    }
 }

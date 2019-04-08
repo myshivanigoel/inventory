@@ -74,8 +74,12 @@ public class Strings {
     public static String GroupInUse="This Group is used,  can not be altered or deleted";
           public static String pending="Pending";
     public static String IndentStatusApproved="Approved";
-    public static String IndentStatusPending="In process";
+    public static String IndentStatusInProcess="In process";
     public static String IndentStatusRejected="Rejected";
+    public static String IndentStatusForFinanceApproval="In process for finance approval";
+    public static String IndentFinanceStatusAcceptable="Acceptable";
+     public static String IndentFinanceStatusNotAcceptable="Not acceptable";
+    public static String IndentStatusFinanceRejected="Declined by finance, in review";
         
 }
 

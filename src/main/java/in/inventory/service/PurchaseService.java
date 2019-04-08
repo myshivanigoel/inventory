@@ -63,5 +63,15 @@ public interface PurchaseService {
     public List<IndentStatus> getauthorizationStatusList(HdIndent indent);
 
     public List<HdIndent> getApprovedIndentsList(Integer userId);
+
+    public List<HdIndent> getRequestsForFinanceApproval(Integer userId);
+
+    public ResultDataMap indentActionFinance(Integer indentId, String remarks, String financeStatus);
+
+    public boolean isSecondLastAuthenticator(Integer indentorId, Integer userId);
+
+    public ResultDataMap acceptIndent(Integer indentId, Integer userId, String remarks);
+
+    public ResultDataMap updateIndentForm(HdIndent indent);
     
 }

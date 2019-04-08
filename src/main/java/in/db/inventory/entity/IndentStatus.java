@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -41,6 +42,9 @@ public class IndentStatus implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dtModificationDate;
 
+    @Transient
+    private String Remarks="";
+    
     public IndentStatus() {
     }
 
@@ -112,7 +116,17 @@ public class IndentStatus implements Serializable {
 
     @Override
     public String toString() {
-        return "IndentStatus{" + "id=" + id + ", indent=" + indent + ", authorizedEmployee=" + authorizedEmployee + ", status=" + status + ", dtEntryDate=" + dtEntryDate + ", activeFlag=" + activeFlag + ", dtModificationDate=" + dtModificationDate + '}';
+        return "IndentStatus{" + "id=" + id + ", indent=" + indent + ", authorizedEmployee=" + authorizedEmployee + ", status=" + status + ", dtEntryDate=" + dtEntryDate + ", activeFlag=" + activeFlag + ", dtModificationDate=" + dtModificationDate + ", Remarks=" + Remarks + '}';
+    }
+
+   
+
+    public String getRemarks() {
+        return Remarks;
+    }
+
+    public void setRemarks(String Remarks) {
+        this.Remarks = Remarks;
     }
     
     

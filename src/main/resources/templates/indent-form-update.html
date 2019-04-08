@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/defaultcdac">
+
+    <body>
+
+        <div id="page" layout:fragment="content">
+            <!--********************************* First Table , For Screen Header**********************************************-->
+            <table style="width: 980px;border-collapse: collapse;margin:0px; padding:0px;background-color:#ffffff;border-spacing:0px" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td style="width: 9px;background-image: url(&#39;  /theme/l.gif&#39;);text-align: center"></td>
+                        <td style="width: 955px;background-image:url(&#39;  /theme/topcellback11.gif&#39;);text-align: center;" colspan="2">
+                            <img style="widows: 1px;height: 11px;border: 0px" src="/theme/space.gif">
+                            <table style="width: 958px;border-collapse: collapse;margin:0px; padding:0px;border-spacing:0px" cellpadding="0" cellspacing="0">
+                                <tbody><tr>
+                                        <td style="width: 9px" rowspan="4"><img style="width: 9px;height: 40px;display: block" src="/theme/title_01.gif"></td>
+                                        <td style="vertical-align: top;background-image: url(&#39;  /theme/title_02.gif&#39;)" rowspan="2"></td>
+                                        <td style="width: 199px;vertical-align:middle" rowspan="4"><img style="width: 199px;height: 40px;display: block" src="/theme/title_03.gif"></td>
+                                        <td style="width: 144px;background-image: url(&#39;  /theme/title_04.gif&#39;);text-align: right;background-position:center;background-repeat: no-repeat" class="pageHeading" rowspan="4">Indent</td>
+                                        <td style="width: 221px" colspan="3"><img style="width: 221px;height: 16px;display: block" src="/theme/title_05.gif"></td>
+                                        <td><img style="width: 1px;height: 16px;display: block" src="/theme/spacer.gif"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 199px" rowspan="3"><img style="width: 199px;height: 24px;display: block" src="/theme/title_06.gif"></td>
+                                        <td style="width: 12px" rowspan="2"><img style="width: 12px;height: 13px;display: block" src="/theme/title_07.gif"></td>
+                                        <td style="width: 10px" rowspan="3"><img style="width: 10px;height: 24px;display: block" src="/theme/title_08.gif"></td>
+                                        <td style="width: 1px"><img style="width: 1px;height: 1px;display: block" src="/theme/spacer.gif"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-image: url(&#39;  /theme/title_09.gif&#39;);text-align: left" rowspan="2" class="navigation"><a href="/" class="link4">Home</a> &gt;&gt;Update Indent</td>
+                                        <td style="width: 1px"><img style="width: 1px;height: 12px;display: block" src="/theme/spacer.gif"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 12px"><img style="width: 12px;height: 11px;display: block" src="/theme/title_10.gif"></td>
+                                        <td style="width: 1px"><img style="width: 1px;height: 11px;display: block" src="/theme/spacer.gif"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="width: 10px;background-image: url(&#39;  /theme/r.gif&#39;);text-align: center"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--********************************* Second Table, For Error Messages **********************************************-->
+
+
+            <table border="0" cellpadding="0" cellspacing="0" width="980">
+                <tbody><tr>
+                        <td align="center" background="/theme/l.gif" width="9"></td>
+                        <td width="5"><img src="/theme/space.gif" border="0" height="10" width="1"></td>
+                        <td width="950">
+                            <div id="errorMessage" class="errcolor" th:text="${message}"></div>  
+                            <div id="errorMessageJs" class="errcolor" ></div>  
+                        </td>
+                        <td align="center" background="/theme/r.gif" width="10"></td>
+                    </tr>
+                </tbody></table>
+
+            <table border="0" cellpadding="0" cellspacing="0" width="980">
+                <tbody><tr>
+                        <td align="center" background="/theme/l.gif" width="9"></td>
+                        <td width="5"><img src="/theme/space.gif" border="0" height="10" width="1"></td>
+                        <td colspan="2" style="text-align: right">
+
+
+
+                            <div id="qualReportAuthDiv" style="display: none;height: auto;padding : 0px 0px 0px 0px;" align="left"></div>
+
+                        </td>
+                        <td align="center" background="/theme/r.gif" width="10"></td>
+                    </tr>
+                </tbody></table>
+            <style>
+                .left-align{
+                    float: left;
+                }
+            </style>
+            <script type="text/javascript">
+                var purchaseTypeList = {};
+                var classificationList = {};
+                $(document).ready(function() {
+                setTimeout(removeMessage, 10000);
+                debugger;
+                var itemCounter = $("#itemCounter").val();
+                var t = $('#indentItems').DataTable({bSort : false, searching: false, paging: false, info: false});
+                var counter =  $("#counter").val();
+                $('#addRow').on('click', function () {
+                debugger;
+                itemCounter++;
+                t.row.add([
+                        " ",
+                        "",
+                        "",
+                        "",
+                        "",
+                        " <a  href='#'  class='btn btn-xs btn-default '><span id='remove_" + counter + "' class='glyphicon glyphicon-minus-sign remove'></span> </a>"
+
+
+                ]).draw(false);
+                t.row.add([
+                        "MaterialClassification",
+                        " <select name='indentDetailList[" + itemCounter + "].classification.classificationId' class='classification' id='classification" + itemCounter + "' style='width:150px'  >"
+                        + "<option value='0'>Select</option>"
+
+                        + " <option th:each='classificationObj : ${classList}' th:value='${classificationObj.classificationId}' th:text='${classificationObj.classification}' ></option>"
+
+                        + " </select>",
+                        "Group",
+                        " <select name='indentDetailList[" + itemCounter + "].itemGroup.groupId' class='group' id='group" + itemCounter + "' style='width:150px'  >"
+                        + " <option value='0'>Select</option>"
+                        + "</select>",
+                        " Item",
+                        "      <select name='indentDetailList[" + itemCounter + "].item.itemId' class='item' id='item" + itemCounter + "' style='width:150px'  >"
+                        + "<option value=0>Select</option>"
+                        + "  <option value=>not in list</option>"
+                        + "   </select>"
+                ]).draw(false);
+                var row = t.row.add([
+                        " Description <font color='#CC0000'> *</font>",
+                        "  <input class='input100 description' type='text'  name='indentDetailList[" + itemCounter + "].descriptionOfMaterial'  id='description" + itemCounter + "'  >",
+                        "Quantity<font color='#CC0000'> *</font>",
+                        " <input class='input100 quantity' type='number' min='0' name='indentDetailList[" + itemCounter + "].quantity'  id='quantity" + itemCounter + "'  >",
+                        "Manufacturer<font color='#CC0000'> *</font>",
+                        "<input class='input100 manufacturer' type='text'  name='indentDetailList[" + itemCounter + "].manufacturer'  id='manufacturer" + itemCounter + "'  >"
+
+                ]).draw(false);
+                var row = t.row.add([
+                        "Estimated Price/Unit",
+                        " <input class='input100 pricePerUnit' type='number' min='0'  name='indentDetailList[" + itemCounter + "].pricePerUnit'  id='pricePerUnit" + itemCounter + "'  >",
+                        "Estimated Delivery Date",
+                        " <input class='input100 expectedMonthYearOfDelivery' type='date'  name='indentDetailList[" + itemCounter + "].expectedMonthYearOfDelivery'  id='expectedMonthYearOfDelivery" + itemCounter + "'  >",
+                        " Remarks ",
+                        "  <input class='input100 remarks' type='text'  name='indentDetailList[" + itemCounter + "].remarks'  id='remarks" + itemCounter + "'  >"
+                ]).draw(false);
+                t.row.add([
+                        "Purchase Type",
+                        " <select name='indentDetailList[" + itemCounter + "].purchaseType.purchaseId' class='purchasetype' id='purchasetype" + itemCounter + "'  style='width:150px'  >"
+                        ,
+                        "Suggested Vendors",
+                        "  <input class='input100 suggestedVendors' type='text'  name='indentDetailList[" + itemCounter + "].suggestedVendors'  id='suggestedVendors" + itemCounter + "'   >",
+                        " Mode Of Dispatch",
+                        "      <select name='indentDetailList[" + itemCounter + "].modeOfDispatch' style='width:150px'   class='modeOfDispatch' id='suggestedVendors" + itemCounter + "' >"
+                        + "<option value=0>Select</option>"
+                        + " <option>Any</option>"
+                        + "<option>AIR</option>"
+                        + "<option>SEA</option>"
+                        + "<option>ROAD</option>"
+                        + "<option>RAIL</option>"
+                        + "<option>POST</option>"
+                        + "<option>BY HAND</option>"
+                ]).draw(false);
+                console.log(row);
+                $(row).addClass("left-align");
+                counter++;
+                getClass(itemCounter);
+                getPurchaseType(itemCounter);
+                });
+                $('#addRow').click();
+                /////////////////ajax calls begin///////////////////////////////////////////////////////////////////////////////////////////////////////
+                getClass(0);
+                getPurchaseType(0);
+                $(document).on('change', ".classification", function(){
+                //$(".classification").on('change',function(event) {
+                debugger;
+                var classificationId = event.target.id;
+                var sno = classificationId.substring(14);
+                $("#group" + sno).html("");
+                $("#item" + sno).html("");
+                var url = "/get-class-groups";
+                var classificationId = $("#" + classificationId).val();
+                if (classificationId != 0)
+                {
+                url = url + "?classificationId=" + classificationId;
+                $.get(url, function(data)
+                {
+                if (data.length === 0)
+                {
+                $("#errorMessageJs").html("No groups in this category");
+                } else{
+                $("#errorMessageJs").html("");
+                $("#group" + sno).empty();
+                var option = "<option value = 0>Select</option>";
+                data.forEach(function(group, i) {
+                debugger;
+                option = option + "<option value = " + group.groupId + ">" + group.groupName + "</option>";
+                });
+                $("#group" + sno).append(option);
+                }
+                });
+                }
+                });
+                $(document).on('change', ".group", function(){
+                //$(".group").on('change',function(event) {
+                debugger;
+                var groupId = event.target.id;
+                var sno = groupId.substring(5);
+                $("#item" + sno).html("");
+                var url = "/get-group-items";
+                var groupId = $("#" + groupId).val();
+                if (groupId != 0)
+                {
+                url = url + "?groupId=" + groupId;
+                $.get(url, function(data)
+                {
+                if (data.length === 0)
+                {
+                $("#errorMessageJs").html("No Items in this group");
+                } else{
+                $("#errorMessageJs").html("");
+                $("#item" + sno).empty();
+                var option = "<option value = 0>Select</option>";
+                data.forEach(function(item, i) {
+                debugger;
+                option = option + "<option value = " + item.itemId + ">" + item.itemName + "</option>";
+                });
+                $("#item" + sno).append(option);
+                }
+                });
+                }
+                });
+                ///////////////ajax calls end/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                $("#submit").click(function(event){
+                debugger;
+                event.preventDefault();
+                var error = 0;
+                if ($.trim($("#budgetYear").val()) == "")
+                {
+                $("#errorMessageJs").html("Budget year can not be empty.");
+                error = 1;
+                return error;
+                }
+                if ($.trim($("#indentDate").val()) == "")
+                {
+                $("#errorMessageJs").html("indent Date can not be empty.");
+                error = 1;
+                return error;
+                }
+
+                $('.item').each(function(i, obj){
+                console.log($(this).val());
+                var itemId = $(this).attr("id");
+                var sno = itemId.substring(4);
+                if ($(this).val() == "" || $(this).val() == 0 || $(this).val() == 1)
+                {   if ($.trim($("#description" + sno).val()) == "")
+                {
+                $("#errorMessageJs").html("please choose item or enter description.");
+                error = 1;
+                } else{
+
+                }
+                } else{
+
+                }
+
+                });
+                if (error == 1)
+                {
+
+                } else{
+
+
+                $('.quantity').each(function(i, obj){
+                debugger;
+                console.log($(this).val());
+                var quantityId = $(this).attr("id");
+                var sno = quantityId.substring(8);
+                if ($(this).val() == "" || $(this).val() == 0)
+                {   error = 1;
+                $("#errorMessageJs").html("please enter quantity for  item no " + parseInt(sno) + 1);
+                } else{
+
+                }
+
+                });
+                }
+
+                if (error == 0)
+                {
+                $("#indent").submit();
+                }
+                });
+                $(document).on('click', '.remove', function(e) {
+                //handler code here
+                event.preventDefault();
+                var totalCount = t.rows().count();
+                if (totalCount <= 8){
+                return false;
+                }
+                debugger;
+                var selectedrow = $(this).closest("tr");
+                var selectedrowIndex = selectedrow.index();
+                t.row(selectedrow).remove().draw(false);
+                var row = t.row(selectedrowIndex);
+                row.remove().draw(false);
+                row = t.row(selectedrowIndex);
+                row.remove().draw(false);
+                row = t.row(selectedrowIndex);
+                row.remove().draw(false);
+                row = t.row(selectedrowIndex);
+                row.remove().draw(false);
+                console.log(row);
+                });
+                });
+                function getClass(sno)
+                {
+
+                $.get('get-class', function(data)
+                {
+                classificationList = data;
+                if (data.length === 0)
+                {
+                $("#errorMessageJs").html("No class");
+                } else{
+                $("#errorMessageJs").html("");
+                $("#classification" + sno).html("");
+                var option = "<option value = 0>Select</option>";
+                data.forEach(function(classification, i) {
+                debugger;
+                option = option + "<option value = " + classification.classificationId + ">" + classification.classification + "</option>";
+                });
+                $("#classification" + sno).append(option);
+                }
+                });
+                }
+
+
+                function getPurchaseType(sno)
+                {
+                $.get('get-purchasetype', function(data)
+                {
+                purchaseTypeList = data;
+                if (data.length === 0)
+                {
+                $("#errorMessageJs").html("No purchase type");
+                } else{
+                $("#errorMessageJs").html("");
+                $("#purchasetype" + sno).html("");
+                var option = "";
+                data.forEach(function(purchasetype, i) {
+                debugger;
+                option = option + "<option value = " + purchasetype.purchaseId + ">" + purchasetype.purchaseName + "</option>";
+                });
+                $("#purchasetype" + sno).append(option);
+                }
+                });
+                }
+                function removeMessage()
+                {
+                $("#errorMessage").html("");
+                }
+            </script>
+            <form name="indent" id="indent" method="post" th:object="${indent}"    th:action="@{/indent-save}" >
+
+
+
+                <!-- Include File To Display Header and Menu -->        
+
+                <table style="width: 980px;text-align: left;" cellspacing="0" cellpadding="0">
+                    <tbody> 
+                        <tr>
+                            <td style="width:8px;background-image: url(&#39;  /theme/l.gif&#39;);text-align:left"><img style="width: 1px;height: 1px;border-width: 0px;display: block" src="/theme/space.gif"></td>
+                            <td style="width: 962px">
+                                <table style="widows: 960px;border-width: 0px;background-color:#ffffff" cellpadding="0" cellspacing="0">
+
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 100%;vertical-align: top;">
+
+                                                <table style="width: 960px;border-width: 0px;background-color:#ffffff;text-align: center;" id="tblAdvanceApp" cellpadding="0" cellspacing="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
+                                                            <!-- *** Update Table Header -->
+                                                            <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading">&nbsp;Update Indent:</td>
+                                                            <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap"></td>
+                                                            <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
+                                                                <table style="width: 100%;border-width: 0px;"  cellspacing="0" cellpadding="0">
+                                                                    <tbody><tr>
+                                                                            <td style="width: 85%"></td>
+                                                                            <td style="width: 15%;text-align: right">
+                                                                                <span id="spcol" onclick="ToggleTable3( & #39; trRow1 & #39; , & #39; trRow2 & #39; , & #39; trRow3 & #39; , & #39; spexp & #39; , & #39; spcol & #39; , & #39; C & #39; ); return false; " style="cursor: pointer"><img style="width: 13px;height: 13px;border-width: 0px;" src="/theme/ico_collapse.gif" id="imgcol" alt="Collapse"></span>
+                                                                                <span id="spexp" onclick="ToggleTable3( & #39; trRow1 & #39; , & #39; trRow2 & #39; , & #39; trRow3 & #39; , & #39; spexp & #39; , & #39; spcol & #39; , & #39; E & #39; ); return false;" style="cursor: pointer; display: none;"><img style="width: 13px;height: 13px;border-width: 0px;" src="/theme/ico_expand.gif" id="imgexp" alt="Expand"></span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody></table>
+                                                            </td>
+                                                            <td><img style="width: 10px;height: 23px;border-width: 0px;display: block;" src="/theme/6_r.gif" alt=""></td>
+                                                        </tr>
+                                                        <tr id="trRow1">
+                                                            <td style="width: 1px;height: 1px;background-image: url(&#39;  /theme/l.gif&#39;)"><img style="width: 1px;height: 1px;border-width: 0px;" src="/theme/space.gif"></td>
+                                                            <td colspan="3">
+                                                                <img style="width: 1px;height: 10px;border-width: 0px;display: block;" src="/theme/space.gif">
+
+                                                                <table style="width: 100%;border-width: 0" id="tdataTable" cellpadding="0" cellspacing="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td bgcolor="#dbeaf5">
+                                                                                <!--*************Starting of Data Table*******************-->
+                                                                                <table width="100%" border="0" cellpadding="4" cellspacing="1" id="indentItems" style="padding: 0px 0px 0px 0px;">
+
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th width="20%"></th>
+                                                                                            <th width="20%"></th>
+                                                                                            <th width="20%"></th>
+                                                                                            <th width="20%"></th>
+                                                                                            <th width="20%"></th>
+                                                                                            <th width="20%"></th>
+                                                                                        </tr>
+                                                                                    </thead>
+
+
+                                                                                    <tbody>
+                                                                                        <tr class="row1">
+                                                                                            <td>Budget Year<font color="#CC0000"> *</font></td>
+                                                                                            <td>
+                                                                                                <select class="input100" name="budgetYear" th:field="${indent.budgetYear}" id="budgetYear">
+                                                                                                    <option th:value="20">select</option>
+                                                                                                    <option th:value="2017-2018">2017-2018</option>
+                                                                                                    <option th:value="2018-2019">2018-2019</option>
+
+                                                                                                </select>                                                              </td>
+                                                                                            <td width="20%">
+                                                                                                Date<font color="#CC0000"> *</font>
+                                                                                            </td>
+                                                                                            <td> 
+                                                                                                <input name="indentDate"  maxlength="250" id="indentDate" type="date" class="textbox" style="width:200px" value="">
+                                                                                            </td>
+                                                                                            <td>Project Code</td>
+                                                                                            <td>
+                                                                                                <select name='project.projectId' th:field="${indent.project.projectId}"  id='projectCode' style="width:150px"  >
+                                                                                                    <option value=0>Select</option>
+                                                                                                    <option th:each="projectObj : ${projectList}" th:value="${projectObj.projectId}" th:text="${projectObj.projectCode}+'::'+${projectObj.name}" ></option>
+                                                                                                </select>
+                                                                                            </td>
+                                                                                        </tr>
+
+                                                                                        <tr  style="background-color: #c7dae0">
+                                                                                            <td >Items</td>
+                                                                                            <td ></td>
+                                                                                            <td ></td>
+                                                                                            <td ></td>
+                                                                                            <td ></td>
+                                                                                            <td style="float: right;"><a href="#" id="addRow" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-plus"></span> </a></td>
+
+                                                                                        </tr>
+                                                                                    <th:block th:each="dtIndent,rowStat : ${indent.indentDetailList}">
+                                                                                        <tr>
+                                                                                            <td></td>
+                                                                                            <td></td> 
+                                                                                            <td></td>
+                                                                                            <td></td>
+                                                                                            <td ></td>
+                                                                                            <td><a  href='#'  class='btn btn-xs btn-default '><span th:id="'remove_'+${rowStat.index}" class='glyphicon glyphicon-minus-sign remove'></span> </a></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Material Classification</td>
+                                                                                            <td> <select th:name="'indentDetailList[' + ${rowStat.index} +'].classification.classificationId'"  class='classification' th:id="'classification'+${rowStat.index}" style='width:150px'  >
+                                                                                                    <option value='0'>Select</option>
+
+                                                                                                    <option th:each='classificationObj : ${classList}' th:value='${classificationObj.classificationId}' th:text='${classificationObj.classification}' th:selected="${classificationObj.classificationId == indent.indentDetailList[rowStat.index].classification.classificationId}" ></option>
+
+                                                                                                </select></td>
+                                                                                            <td>Group</td>
+                                                                                            <td> <select th:name="'indentDetailList[' + ${rowStat.index} +'].itemGroup.groupId'" class='group' th:id="'group'+${rowStat.index}"  style='width:150px'  >
+                                                                                                    <option value='0'>Select</option>
+                                                                                                <option th:each='groupObj : ${indent.indentDetailList[rowStat.index].groupList}' th:value='${groupObj.groupId}' th:text='${groupObj.groupName}' th:selected="${groupObj.groupId == indent.indentDetailList[rowStat.index].itemGroup.groupId}" ></option>
+
+                                                                                                </select>
+                                                                                            </td>
+                                                                                            <td>Item</td>
+                                                                                            <td>  <select th:name="'indentDetailList[' + ${rowStat.index} +'].item.itemId'" class='item' th:id="'item'+${rowStat.index}"  style='width:150px'  >
+                                                                                                    <option value=0>Select</option>
+                                                                                                    <option value=>not in list</option>
+                                                                                                      <option th:each='itemObj : ${indent.indentDetailList[rowStat.index].itemList}' th:value='${itemObj.itemId}' th:text='${itemObj.itemName}' th:selected="${itemObj.itemId == indent.indentDetailList[rowStat.index].item.itemId}" ></option>
+                                                                                                </select></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td> Description <font color='#CC0000'> *</font></td>
+                                                                                            <td>  <input class='input100 description' type='text'  th:field="*{indentDetailList[__${rowStat.index}__].descriptionOfMaterial}" th:id="'description'+${rowStat.index}"    ></td>
+                                                                                            <td>Quantity<font color='#CC0000'> *</font></td>
+                                                                                            <td> <input class='input100 quantity' type='number' min='0' th:field="*{indentDetailList[__${rowStat.index}__].quantity}"  th:id="'quantity'+${rowStat.index}"   ></td>
+                                                                                            <td>Manufacturer<font color='#CC0000'> *</font></td>
+                                                                                            <td><input class='input100 manufacturer' type='text' th:field="*{indentDetailList[__${rowStat.index}__].manufacturer}"  th:id="'manufacturer'+${rowStat.index}"   ></td>
+
+                                                                                            
+                                                                                        </tr>
+                                                                                        
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                Estimated Price/Unit
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input class='input100 pricePerUnit' type='number' min='0'  th:field="*{indentDetailList[__${rowStat.index}__].pricePerUnit}" th:id="'pricePerUnit'+${rowStat.index}"    >
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                Estimated Delivery Date
+                                                                                            </td>
+                                                                                            
+                                                                                           <td> 
+                                                                                               <input class='input100 expectedMonthYearOfDelivery' type='date'  th:field="*{indentDetailList[__${rowStat.index}__].expectedMonthYearOfDelivery}" th:id="'expectedMonthYearOfDelivery'+${rowStat.index}"     >
+                                                                                           </td>
+                                                                                            <td>
+                                                                                                Remarks 
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input class='input100 remarks' type='text'  th:field="*{indentDetailList[__${rowStat.index}__].remarks}" th:id="'remarks'+${rowStat.index}"    >
+                                                                                            </td>
+               
+                                                                                            
+                                                                                            
+                                                                                        </tr>
+                                                                                        
+                                                                                        <tr>
+                                                                                            <td>Purchase Type</td>
+                                                                                            <td> <select th:field="*{indentDetailList[__${rowStat.index}__].purchaseType.purchaseId}" class='purchasetype' th:id="'purchasetype'+${rowStat.index}"  style='width:150px'  >
+                                                                                                </select>
+                                                                                            </td>
+                                                                                            
+                                                                                            <td>                       Suggested Vendors</td>
+                        <td><input class='input100 suggestedVendors' type='text'  th:field="*{indentDetailList[__${rowStat.index}__].suggestedVendors}"  th:id="'suggestedVendors'+${rowStat.index}"     ></td>
+                          <td>Mode Of Dispatch</td>
+                         <td>
+                             <select th:field="*{indentDetailList[__${rowStat.index}__].modeOfDispatch}" style='width:150px'   class='modeOfDispatch' th:id="'modeOfDispatch'+${rowStat.index}"  >
+                        
+                              <option th:each='moObj : ${indent.indentDetailList[rowStat.index].listmodeOfDispatch} ' th:value='${moObj.classificationId}' th:text='${moObj}' th:selected="${moObj == indent.indentDetailList[rowStat.index].modeOfDispatch}" ></option>
+
+                                 <option listmodeOfDispatch></option>
+                                 <option value=0>Select</option>
+                         <option value="">Any</option>
+                        <option>AIR</option>
+                        <option>SEA</option>
+                        <option>ROAD</option>
+                        <option>RAIL</option>
+                        <option>POST</option>
+                        <option>BY HAND</option>
+                             </select>
+                                                                                    </td>
+                                                                                            
+                                                                                        </tr>
+                                                                                        
+                                                                                    </th:block>
+                                                                                   
+                                                                    </tbody></table>
+                                                                                 <input type="hidden" id="itemCounter" th:value="${#lists.size(indent.indentDetailList)}">
+                                                                                    <input type="hidden" id="counter" th:value="${#lists.size(indent.indentDetailList)-1}">
+                                                                <script>
+
+                                                                </script>
+                                                                <!--************End of Data Table********************-->
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <img style="width: 1px;height: 10px;border-width: 0px;display: block;" src="/theme/space.gif">
+                                            </td>
+                                            <td style="background-image: url(&#39;  /theme/r.gif&#39;)"><img style="width: 1px;height: 1px;display: block;" src="/theme/space.gif"></td>
+                                        </tr>
+                                        <tr id="trRow2"><td style="background-color: #4682b4;" colspan="5"><img style="width: 1px;height: 1px;border-width: 0px;display: block;" src="/theme/space.gif"></td></tr>
+                                        <tr id="trRow3">
+                                            <td colspan="5" align="right">
+
+                                                <input type="image" border="0" height="22" width="79" src="/theme/send.gif" id="submit">
+
+                                                <input type="image" src="/theme/cancel.gif" border="0" height="22" width="79" id="cancel" >
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table border="0" cellpadding="0" cellspacing="0" width="960">
+                                    <tbody><tr>
+                                            <td align="center" width="9"></td>
+                                            <td width="5"></td>
+                                            <td width="950" style="text-align: right">
+                                            </td>
+                                            <td align="center" width="10"></td>
+                                        </tr>
+                                    </tbody></table>
+
+                                <img style="width: 1px;height: 5px;border-width: 0px;" src="/theme/space.gif">                            
+
+
+                                <div th:replace="indent-list :: indent-list"></div>
+
+                                <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif"><br>
+                                <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif">
+                            </td>
+                            <td style="width: 10px;background-image: url(&#39;  /theme/r.gif&#39;);background-position: center;background-repeat: repeat-y;">
+                                <img style="width: 10px;height: 10px;border-width: 0px;display: block;" src="/theme/space.gif">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="width: 980px;background-color: #ffffff;border-width: 0px;" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td style="width:8px;height: 23px;background-image: url(&#39;  /theme/2_m.gif&#39;);background-repeat: no-repeat;"><img style="width: 8px;height: 23px;border-width: 0px;" src="/theme/8_l.gif" alt=""></td>
+                            <td style="height: 23px;background-image: url(&#39;  /theme/2_m1.gif&#39;);display: block;text-align:center;"><font color="#000000" size="2">C-DAC Delhi</font></td>
+                            <td style="width: 8px;height: 23px;background-image: url(&#39;  /theme/2_m.gif&#39;);background-repeat: no-repeat;"><img style="width: 8px;height: 23px;border-width: 0px;" src="/theme/8_r.gif" alt=""></td>
+                        </tr>
+                    </tbody>
+                </table>
+                </td></tr>
+                </tbody></table>
+            </form><canvas id="netbeans_glasspane"  style="position: fixed; top: 0px; left: 0px; z-index: 50000; pointer-events: none;" width="1686" height="820"></canvas>
+
+        </div>
+
+
+
+
+
+
+    </body>
+</html>

@@ -112,28 +112,8 @@
                             });
                             var counter = 1;
                             
-                            
-                            
                              
                         });
-                        
-                         function acceptIndentAgain(indentId)
-                        {
-                                 debugger;
-                                   event.preventDefault();
-                                   var csrf=$('[name="_csrf"]').val();
-                                    var remarks=$('#remarks').val();
-                                     var indentId=$('#indentId').val();
-
-                                      $.post("/indent-action-accept?indentId="+indentId, {_csrf: csrf,'remarks':remarks}, function(result){
-                                        if(result.status)
-                                       {
-                                            window.location.replace("/dashboard");
-                                       }else{
-                                           $("#errorMessage").html(result.message);
-                                       }
-                                });
-                        }
                         
                         function acceptIndent(indentId)
                         {
@@ -145,7 +125,7 @@
                            $.post("/indent-action-accept?indentId="+indentId, {_csrf: csrf}, function(result){
                              if(result.status)
                             {
-                                 window.location.replace("/dashboard?message="+result.message);
+                                 window.location.replace("/dashboard");
                             }else{
                                 $("#errorMessage").html(result.message);
                             }
@@ -174,7 +154,7 @@
                        
             </script>
            
-
+            
 
                 <!-- Include File To Display Header and Menu -->        
 
@@ -226,8 +206,7 @@
                                                                             <td bgcolor="#dbeaf5">
                                                                                 <!--*************Starting of Data Table*******************-->
                                                                                 <table width="100%" border="0" cellpadding="4" cellspacing="1" id="indentDetails" style="padding: 0px 0px 0px 0px;">
-                                                                                    <form id="formAp" method="post"  th:action="@{/indent-action-accept}">
-                                                                                
+                                                                                   
                                                                                     <thead>
                                         <tr class='row2'>
                                            
@@ -321,32 +300,45 @@
                                                                                    
                   <th:block th:each="authorities,rowStat : ${authorizationStatusList}"  >
                       <tr>
-                          <td  colspan="4"   th:text="${authorities.authorizedEmployee?.userName}+' : '+${authorities.status}" style="text-align:left;" ></td>
-                          <td  colspan="5"  th:text="${authorities.remarks}" style="text-align:left;" ></td>
-                      
+                      <td    th:text="${authorities.authorizedEmployee?.userName}+' : '+${authorities.status}" style="text-align:left;" ></td>
+                        
                     </tr>  
-                    </th:block>      
-                                                                               
-                                                                                <tr th:if="${indent.status=='Declined by finance, in review'}">
-                                                                                    <td colspan="4"> <input type='hidden' th:value="${indent.indentId}" id="indentId" name='indentId' >
-                                                                                        Remarks </td> <td colspan="5"><input  style="width: 300px" name="remarks" id="remarks" required="true">
-                                                                                    </td>
-                                                                                    <td>
-                                                                                
-                                                                                    </td>
-                                                                                
-                                                                                </tr><tr><td>
-                                                                                 <a  th:if="${indent.status=='Declined by finance, in review'}" href="#" class="btn btn-xs btn-success activate"  th:id="accept"  style="color: #ffffff"  th:onclick="'acceptIndentAgain('+${indent.indentId}+')'"><span class="glyphicon glyphicon-check"></span> Approve</a>  
-                                                                                        <a th:if="${indent.status!='Declined by finance, in review'}" href="#" class="btn btn-xs btn-success activate"  th:id="accept"  style="color: #ffffff"  th:onclick="'acceptIndent('+${indent.indentId}+')'"><span class="glyphicon glyphicon-check"></span> Approve</a>
-    
-                                                                                  <a href="#" class="btn btn-xs btn-danger deactivate"  th:id="reject"  style="color: #ffffff" th:onclick="'rejectIndent('+${indent.indentId}+')'"><span class="glyphicon glyphicon-remove"></span>Reject</a>
-                                                                                    </td></tr>
-    </form>
+                    </th:block>                                                               
                                                                                     
-                              </tbody></table>                                                            
+                                                                                    
       
-                      
+                                                                                    </tbody></table>
+                    
+                               
+                    
+                <div sec:authorize="hasAuthority('ROLE_FINANCE')">
+                    <form name="indent" id="indent" method="post"     th:action="@{/indent-action_finance}" >
+                        <table width="100%" border="0" cellpadding="4" cellspacing="1" id="indentDetails" style="padding: 0px 0px 0px 0px;">
+                           
+                            <tbody>
+                                 <tr class="row1">                                                                </th:block>
+                   <th colspan="14">Please fill the form</th>    
+                                                                                </tr>
+                            <tr style="text-align: left">
+                                <td >Remarks : <input style="width: 300px;" name="remarks" required="true"></input></td>
+                               
+                                <td colspan="1">
+                                    <input type="hidden"   th:value="${indent.indentId}" name="indentId" required="true"> 
+                                    <input type="radio"  value="Acceptable" name="financeStatus" required="true"> Acceptable 
+                                       <input type="radio"  value="Not acceptable"  name="financeStatus" required="true"> Not Acceptable 
+                                </td>
+                                <td>
+                                
+                            </td>
+                            </tr>
                             
+                      </tbody>
+                        </table>
+                        <input type="submit" value="Submit">
+                     </form>
+                </div>                                              
+                 
+                             
                                                                                 
                                                                                 <!--************End of Data Table********************-->
                                                                             </td>

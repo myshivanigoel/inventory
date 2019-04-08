@@ -53,7 +53,7 @@
         <td align="center" background="theme/l.gif" width="9"></td>
         <td width="5"><img src="/theme/space.gif" border="0" height="10" width="1"></td>
         <td width="950">
-           
+            <div id="errorMessage" class="errcolor" th:text="${message}"></div>            
         </td>
         <td align="center" background="theme/r.gif" width="10"></td>
     </tr>
@@ -65,8 +65,95 @@
                 <td width="5"><img src="/theme/space.gif" border="0" height="10" width="1"></td>
                 <td colspan="2" style="text-align: right">
                                                              
-                    <div th:replace="indents-to-approve-list :: indents-to-approve-list"></div>  
-        <div th:replace="pending-indent-list :: pending-indent-list"></div>                                                        
+                  <div class="item-list" th:fragment="indent-action-finance-list">
+    
+        
+        <script type="text/javascript">
+    $(document).ready(function() {
+        debugger;
+  
+  $('#datatable_user').DataTable( {
+        bSort : false,
+        dom: 'Bfrtip',
+        buttons: [
+             'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+} );
+     
+     </script>
+                            <table id="tbrecentApplications" align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tbody>
+                                    <tr id="trRow333">
+                                        <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
+                                        <!-- *** Update Table Header -->
+                                        <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading" >&nbsp;Indents for Finance approval</td>
+                                        <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);"></td>
+                                        <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
+                                            <table style="width: 100%;border-width: 0px;" cellspacing="0" cellpadding="0" >
+                                                <tbody><tr>
+                                                    <td style="width: 85%"></td>
+                                                    <td style="width: 15%;text-align: right">
+                                                        <span id="spcol3" onclick="ToggleTable2(&#39;trRow111&#39;,&#39;trRow222&#39;,&#39;spexp3&#39;,&#39;spcol3&#39;,&#39;C&#39;); return false; " style="cursor: pointer"><img style="width: 13px;height: 13px;border-width: 0px;" src="/theme/ico_collapse.gif" id="imgcol" alt="Collapse"></span>
+                                                        <span id="spexp3" onclick="ToggleTable2(&#39;trRow111&#39;,&#39;trRow222&#39;,&#39;spexp3&#39;,&#39;spcol3&#39;,&#39;E&#39;); return false;" style="cursor: pointer; display: none;"><img style="width: 13px;height: 13px;border-width: 0px;" src="/theme/ico_expand.gif" id="imgexp" alt="Expand"></span>
+                                                    </td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                        <td><img style="width: 10px;height: 23px;border-width: 0px;display: block;" src="/theme/6_r.gif" alt=""></td>
+                                    </tr>
+                                    <tr id="trRow111">
+                                        <td background="/theme/l.gif"><img src="/theme/space.gif" border="0" height="1" width="1"></td>
+                                        <td colspan="3">
+                                            <table id="tdataTable" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="vertical-align: top;text-align: center;padding-top: 10px;">
+                                                        
+                                                            
+                                                                 
+
+
+
+
+<table id="datatable_user" style="width:100%" cellpadding="3" class="list" cellspacing="1">
+<thead>
+    <tr>
+        <th>Indent Id</th>    
+        <th>Indent Date</th>
+        <th>status</th>
+         <th></th>
+    </tr>
+</thead>
+<tbody>
+    
+    
+<tr class="" th:each="indent,rowStat : ${indentsList}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
+    <td style="text-align:left;" th:text="${indent.indentId}"></td>
+     <td style="text-align:left;" th:text="${indent.indentDate}"></td>
+     <td style="text-align:left;" th:text="${indent.status}"></td>
+      <td style="text-align:left;">
+            <a th:href="'/indent-action_finance?indentId='+${indent.indentId}"  style="color: #ffffff" class="btn btn-xs btn-primary " th:id="'detail'+${indent.indentId}" >
+            <span class="glyphicon glyphicon-view"></span> View Details
+            </a>
+        </td>
+</tr>
+                                            </tbody>
+                                            </table>
+                                            <img src="/theme/space.gif" border="0" height="10" width="1"><br>
+                                        </td>
+                                        <td background="/theme/r.gif"><img src="/theme/space.gif" border="0" height="1" width="1"></td>
+                                    </tr>
+                                    <tr id="trRow222"><td style="background-color: #4682b4;" colspan="5"><img style="width: 1px;height: 1px;border-width: 0px;display: block;" src="/theme/space.gif"></td></tr>
+                                </tbody>
+                                </table>
+                            </td>
+                        </tr><tr>
+                </tr></tbody>
+            </table>
+           </div>
+
+                                             
 
 <div id="qualReportAuthDiv" style="display: none;height: auto;padding : 0px 0px 0px 0px;" align="left"></div>
                                                                    

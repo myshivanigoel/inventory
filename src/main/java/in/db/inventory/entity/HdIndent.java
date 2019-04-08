@@ -55,7 +55,9 @@ public class HdIndent implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date indentorAuthenticationDate;
  
-    
+    private String financeStatus;
+    private String financeRemarks;
+    private String specialApprovalRemark;
     
     @OneToMany(mappedBy = "hdIndent",cascade = CascadeType.ALL)
     private List<DtIndent> indentDetailList=new ArrayList<>();
@@ -66,7 +68,7 @@ public class HdIndent implements Serializable {
      @Transient
     List<EmployeeAuthorityLevel> authoritiesList=new ArrayList<>();
     
-    private String status=Strings.pending;
+    private String status=Strings.IndentStatusInProcess;
 
     public HdIndent(Integer indentId) {
         this.indentId = indentId;
@@ -224,6 +226,30 @@ public class HdIndent implements Serializable {
 
     public void setAuthoritiesList(List<EmployeeAuthorityLevel>  authoritiesList) {
         this.authoritiesList = authoritiesList;
+    }
+
+    public String getFinanceStatus() {
+        return financeStatus;
+    }
+
+    public void setFinanceStatus(String financeStatus) {
+        this.financeStatus = financeStatus;
+    }
+
+    public String getFinanceRemarks() {
+        return financeRemarks;
+    }
+
+    public void setFinanceRemarks(String financeRemarks) {
+        this.financeRemarks = financeRemarks;
+    }
+
+    public String getSpecialApprovalRemark() {
+        return specialApprovalRemark;
+    }
+
+    public void setSpecialApprovalRemark(String specialApprovalRemark) {
+        this.specialApprovalRemark = specialApprovalRemark;
     }
 
     

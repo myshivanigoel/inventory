@@ -16,6 +16,7 @@ import in.db.inventory.entity.Stock;
 import in.util.entity.ResultDataMap;
 import in.util.entity.Strings;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
@@ -210,7 +211,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
         indentList= sessionFactory.getCurrentSession()
                 .createQuery("from HdIndent where indentor.userId=:indentor and status=:status order by  indentId desc")
                 .setParameter("indentor", userId)
-                .setParameter("status", Strings.IndentStatusPending)
+                .setParameter("status", Strings.IndentStatusInProcess)
                 .list();
         System.out.println("in.inventory.dao.PurchaseDaoImpl.getIndentorsIndents()"+indentList);
         return indentList;
@@ -235,8 +236,9 @@ public class PurchaseDaoImpl implements PurchaseDao{
     }
 
     @Override
-    public void updateHdIndent(HdIndent indent) {
+    public ResultDataMap updateHdIndent(HdIndent indent) {
        sessionFactory.getCurrentSession().update(indent);
+       return new ResultDataMap().setStatus(Boolean.TRUE).setMessage(Strings.savedSuccessfully);
     }
 
     @Override
@@ -254,6 +256,28 @@ public class PurchaseDaoImpl implements PurchaseDao{
           return sessionFactory.getCurrentSession()
                 .createQuery(" FROM HdIndent where status='"+Strings.IndentStatusApproved+"'")
                 .list();
+    }
+
+    @Override
+    public List<HdIndent> getRequestsForFinanceApproval(Integer userId) {
+      return sessionFactory.getCurrentSession()
+                .createQuery(" FROM HdIndent where status='"+Strings.IndentStatusForFinanceApproval+"'")
+                .list();
+    }
+
+    @Override
+    public Collection<? extends HdIndent> getFinanceRejectedIndents(Integer userId) {
+       return sessionFactory.getCurrentSession()
+                .createQuery(" FROM HdIndent where status='"+Strings.IndentStatusFinanceRejected+"'")
+                .list();
+    }
+
+    @Override
+    public void deleteOldDtIndentEntries(Integer indentId) {
+        sessionFactory.getCurrentSession()
+                .createQuery("delete from DtIndent where indentId=:indentId")
+                .setParameter("indentId", indentId)
+                .executeUpdate();
     }
 
    

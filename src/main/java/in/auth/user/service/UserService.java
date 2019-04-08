@@ -58,6 +58,8 @@ public interface UserService {
 
     public boolean ifLastAuthorityLevel(Integer userId, Integer userId0);
 
-   
+   public MstUser getFinanceUser();
+
+    public ResultDataMap updateProfile(MstUser user);
 	
 }

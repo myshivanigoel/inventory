@@ -276,7 +276,8 @@
                                                                                 
                   <th:block th:each="authorities,rowStat : ${authorizationStatusList}"  >
                       <tr>
-                      <td    th:text="${authorities.authorizedEmployee?.userName}+' : '+${authorities.status}" style="text-align:left;" ></td>
+                          <td  colspan="5"  th:text="${authorities.authorizedEmployee?.userName}+' : '+${authorities.status}" style="text-align:left;" ></td>
+                        <td  colspan="5"  th:text="${authorities.remarks}" style="text-align:left;" ></td>
                         
                     </tr>  
                     </th:block>         

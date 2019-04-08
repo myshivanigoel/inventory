@@ -145,7 +145,18 @@ public class UserMasterController {
             model.addAttribute("user", user);
             model.addAttribute("userList",userService.getAllUserList());
              return "user-master";
-        }else{
+        }else if(user.getUserType().equals(4)){
+            MstUser fInUser=userService.getFinanceUser();
+            if(fInUser!=null)
+            {
+                model.addAttribute("message", "Finance user already exist\nFinace user Id : "+fInUser.getUserEmployeeId());
+            model.addAttribute("user", user);
+            model.addAttribute("userList",userService.getAllUserList());
+             return "user-master";
+            }
+            
+        }
+         else{
             Integer departmentId=userWrapper.getUser().getDepartment().getDepartmentId();
             if(departmentId==null || departmentId==0)
             {

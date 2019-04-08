@@ -6,6 +6,7 @@
 package in.db.inventory.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -64,6 +65,18 @@ public class DtIndent implements Serializable {
     private PurchaseType purchaseType;
     
     private String modeOfDispatch;
+    
+    @Transient
+    ModeOfDispatchEnum listmodeOfDispatch;
+    
+    @Transient
+    private List<MstGroup> groupList=new ArrayList<>();
+    
+    @Transient
+    private List<ItemMaster> itemList=new ArrayList<>();
+    
+ 
+   
     public HdIndent getHdIndent() {
         return hdIndent;
     }
@@ -229,5 +242,31 @@ public class DtIndent implements Serializable {
     public void setModeOfDispatch(String modeOfDispatch) {
         this.modeOfDispatch = modeOfDispatch;
     }
+
+    public List<MstGroup> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<MstGroup> groupList) {
+        this.groupList = groupList;
+    }
+
+    public List<ItemMaster> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<ItemMaster> itemList) {
+        this.itemList = itemList;
+    }
+
+    public ModeOfDispatchEnum getListmodeOfDispatch() {
+        return listmodeOfDispatch;
+    }
+
+    public void setListmodeOfDispatch(ModeOfDispatchEnum listmodeOfDispatch) {
+        this.listmodeOfDispatch = listmodeOfDispatch;
+    }
+    
+    
     
 }

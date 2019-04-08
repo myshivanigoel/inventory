@@ -273,7 +273,7 @@ public class UserDaoImpl implements UserDao {
 		sessionFactory.getCurrentSession().update(user);
                  System.out.println("in.auth.user.daoimpl.UserDaoImpl.updateUserOnly()"+user);
 		
-                 return new ResultDataMap().setStatus(true).setMessage(Strings.savedSuccessfully);
+                 return new ResultDataMap().setStatus(true).setMessage(Strings.savedSuccessfully).setDataObject(user);
 	
         }
 
@@ -425,5 +425,12 @@ public class UserDaoImpl implements UserDao {
             
         
         
+    }
+
+    @Override
+    public MstUser getFinanceUser() {
+        return sessionFactory.getCurrentSession()
+               .createQuery("from MstUser where userId in (select userId FROM UserRole where roleId=4 and enabled=1)",MstUser.class)
+              .uniqueResult();
     }
 }

@@ -130,7 +130,7 @@
                                 " Description <font color='#CC0000'> *</font>",
                        "  <input class='input100 description' type='text'  name='indentDetailList["+itemCounter+"].descriptionOfMaterial'  id='description"+itemCounter+"'  >",
                               "Quantity<font color='#CC0000'> *</font>",
-                        " <input class='input100 quantity' type='number'  name='indentDetailList["+itemCounter+"].quantity'  id='quantity"+itemCounter+"'  >",
+                        " <input class='input100 quantity' type='number' min='0' name='indentDetailList["+itemCounter+"].quantity'  id='quantity"+itemCounter+"'  >",
                        "Manufacturer<font color='#CC0000'> *</font>",
                         "<input class='input100 manufacturer' type='text'  name='indentDetailList["+itemCounter+"].manufacturer'  id='manufacturer"+itemCounter+"'  >"
                        
@@ -138,7 +138,7 @@
                           
                             var row=  t.row.add( [
                               "Estimated Price/Unit",
-                        " <input class='input100 pricePerUnit' type='number'  name='indentDetailList["+itemCounter+"].pricePerUnit'  id='pricePerUnit"+itemCounter+"'  >",
+                        " <input class='input100 pricePerUnit' type='number' min='0'  name='indentDetailList["+itemCounter+"].pricePerUnit'  id='pricePerUnit"+itemCounter+"'  >",
                        "Estimated Delivery Date",
                         " <input class='input100 expectedMonthYearOfDelivery' type='date'  name='indentDetailList["+itemCounter+"].expectedMonthYearOfDelivery'  id='expectedMonthYearOfDelivery"+itemCounter+"'  >",
                         " Remarks ",

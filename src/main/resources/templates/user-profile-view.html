@@ -1,4 +1,4 @@
-<div class="indents-to-approve-list" th:fragment="indents-to-approve-list">
+<div class="user-profile-view" th:fragment="user-profile-view">
     
         
         <script type="text/javascript">
@@ -7,7 +7,8 @@
   
   
   
-  $('#datatable_to_authorize').DataTable( {
+  
+  $('#datatable_user').DataTable( {
         bSort : false,
         dom: 'Bfrtip',
         buttons: [
@@ -22,7 +23,7 @@
                                     <tr id="trRow333">
                                         <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
                                         <!-- *** Update Table Header -->
-                                        <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading" >&nbsp;Accept/Reject Requested Indents</td>
+                                        <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading" >&nbsp;Profile</td>
                                         <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);"></td>
                                         <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
                                             <table style="width: 100%;border-width: 0px;" cellspacing="0" cellpadding="0" >
@@ -44,35 +45,61 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="vertical-align: top;text-align: center;padding-top: 10px;">
-                                                        
-                                                            
-                                                                 
-
-
-
-
-<table id="datatable_to_authorize" style="width:100%" cellpadding="3" class="list" cellspacing="1">
+<table id="datatable_user" style="width:100%" cellpadding="3" class="list" cellspacing="1">
 <thead>
     <tr>
-        <th>Indent Id</th>    
-        <th>Indent Date</th>
-        <th>status</th>
-         <th></th>
+        <th></th>
+        <th >User Profile</th>    
+       <th></th>
+       <th></th>
+       <th></th>
     </tr>
 </thead>
 <tbody>
-    
-    
-<tr class="" th:each="indent,rowStat : ${indentsToApprove}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
-    <td style="text-align:left;" th:text="${indent.indentId}"></td>
-     <td style="text-align:left;" th:text="${indent.indentDate}"></td>
-     <td style="text-align:left;" th:text="${indent.status}"></td>
-      <td style="text-align:left;">
-            <a th:href="'/indent-action?indentId='+${indent.indentId}"  style="color: #ffffff" class="btn btn-xs btn-primary " th:id="'detail'+${indent.indentId}" >
-            <span class="glyphicon glyphicon-view"></span> View Details
-            </a>
-        </td>
+    <tr>
+        <th>Employee Id</th>
+        <td  th:text="${user.userEmployeeId}"></td>
+    </tr><tr>
+        <th>Employee Name</th>
+        <td   th:text="${user.userName}"></td>
+    </tr><tr><th>Employee emailId</th>
+        <td  th:text="${user.userEmail}"></td>
+        
+    </tr>
+    <tr>
+        <th>Employee Contact Number</th>
+        <td  th:text="${user.userContactNo}"></td>
+    </tr>
+    <tr>
+      <th>Designation</th>
+        <td  th:text="${user.designation?.designationName}"></td>
+    </tr><tr><th>Department</th>
+        <td  th:text="${user.department?.departmentName}"></td>
+    </tr><tr><th>Type/Role</th>
+<th:block  th:switch="${user.userType}" >
+    <td th:case='1' th:text='Admin'></td>
+     <td th:case='2' th:text='MMG'></td>
+      <td th:case='3' th:text='Employee'></td>
+       <td th:case='4' th:text='Finance'></td>
+      
+</th:block>
 </tr>
+<tr>
+    <th></th>
+    <th > Authorities </th>
+    <th></th>
+    <th></th>
+    <th></th>
+    
+</tr>
+<th:block th:each="userAuthority,rowStat : ${userAuthoritiesList}"  >
+    <tr>
+        <td th:text="${userAuthority.authorizedEmployee?.userName}+' :: '+${userAuthority.authorizedEmployee?.userEmployeeId}"></td>
+         <td th:text="${userAuthority.authorizedEmployee?.userContactNo}"></td>
+    </tr>
+</th:block>
+        
+    </tr>
                                             </tbody>
                                             </table>
                                             <img src="/theme/space.gif" border="0" height="10" width="1"><br>

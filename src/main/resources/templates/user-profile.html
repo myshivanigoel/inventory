@@ -118,7 +118,7 @@
 } );
      
      </script>
-<form name="frmEntrySlip" id="frmEntrySlip" method="post" th:object="${user}"    th:action="@{/masters/users/update}" >
+<form name="frmEntrySlip" id="frmEntrySlip" method="post" th:object="${user}"    th:action="@{/profile}" >
 
 
    
@@ -213,7 +213,8 @@
                                             </tr>
                                         </tbody>
                                         </table>
-                                        
+                                                              
+                         
                                         <img style="width: 1px;height: 10px;border-width: 0px;display: block;" src="/theme/space.gif">
                                     </td>
                                     <td style="background-image: url(&#39;  /theme/r.gif&#39;)"><img style="width: 1px;height: 1px;display: block;" src="/theme/space.gif"></td>
@@ -230,6 +231,8 @@
                             </tbody>
                             </table>
                         </div>
+                         <div th:replace="user-profile-view :: user-profile-view"></div>
+
                             <table border="0" cellpadding="0" cellspacing="0" width="960">
                                 <tbody><tr>
                                     <td align="center" width="9"></td>

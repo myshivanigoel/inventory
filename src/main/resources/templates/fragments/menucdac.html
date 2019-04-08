@@ -1,5 +1,6 @@
 <div class="footer " th:fragment="menu">
-
+<div class='notifications top-right'></div>
+<input type="hidden" th:value="${message}" id="message">
     <link href="/theme/superfish.css" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" media="all" type="image/x-icon" href="theme/favicon.ico">
     <link rel="icon" media="all" type="image/x-icon" href="theme/animated_favicon1.gif">
@@ -23,6 +24,16 @@
             }).superfish();  // call supersubs first, then superfish, so that subs are 
             // not display:none when measuring. Call before initialising 
             // containing tabs for same reason. 
+            var message=$("#message").val();
+            if(message!="")
+            {
+             $('.top-right').notify({
+        message: {
+            text: message
+        }
+    
+    }).show();
+}
         });
 
     </script>
@@ -106,6 +117,9 @@
                                                 <li sec:authorize="hasAuthority('ROLE_MMG')">
                                                       <a href="/approved-indents">Approved Indents</a>
                                                 </li>
+                                                 <li sec:authorize="hasAuthority('ROLE_FINANCE')">
+                                                      <a href="/finance-request-indents">Finance Approval</a>
+                                                </li>
                                             </ul>
                                                       
                                          </li>
@@ -121,7 +135,8 @@
 
                                 </td>
 
-
+                                
+                                <td style="background-image: url(&#39;  /theme/22_m1.gif&#39;);height: 23px;width: 95px;background-position: bottom" sec:authentication="principal.userName"></td>
                                 <td style="background-image: url(&#39;  /theme/22_m1.gif&#39;);height: 23px;width: 95px;background-position: bottom">&nbsp;&nbsp;<a class="mlink" href="/logout" target="_top">LOGOUT</a></td>
                                 <td style="background-image: url(&#39;  /theme/22_m1.gif&#39;);height: 23px;width: 10px;background-position: bottom"><img src="/theme/5_r.gif" alt="" style="height: 23px;width: 10px;border: none;display: block"></td>
                             </tr>        

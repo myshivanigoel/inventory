@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -32,7 +33,7 @@ public class DashboardController {
     PurchaseService purchaseService;
     
     @GetMapping("dashboard")
-    public String dashboard(Model model)
+    public String dashboard(@RequestParam(name="message",required = false)String message,Model model)
     {
         Authentication authuntication=SecurityContextHolder.getContext().getAuthentication();
              MstUser user= (MstUser)authuntication.getPrincipal();
@@ -40,6 +41,7 @@ public class DashboardController {
         
         model.addAttribute("indentList",purchaseService.getMyPendingIndents(user.getUserId()));
         model.addAttribute("indentsToApprove",indentsToApprove);
+        model.addAttribute("message",message);
         
         return "home";
     }

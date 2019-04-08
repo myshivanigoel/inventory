@@ -53,5 +53,7 @@ public interface UserDao {
     public List<MstUser> getMySubordinatesList(Integer userId);
 
     public boolean ifLastAuthorityLevel(Integer userId, Integer authorityId);
+
+    public MstUser getFinanceUser();
 	
 }
