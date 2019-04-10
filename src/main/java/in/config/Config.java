@@ -6,6 +6,8 @@
 package in.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import in.db.auth.entity.MstUser;
+import in.util.entity.Strings;
 import java.beans.PropertyVetoException;
 import java.util.HashSet;
 import java.util.Properties;
@@ -19,16 +21,20 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.WebApplicationContext;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 /**
@@ -196,6 +202,11 @@ public JavaMailSender getJavaMailSender() {
     return mailSender;
 }
 	
-        
-
+      @Bean(name = "actor")
+        @Scope(
+          value = WebApplicationContext.SCOPE_SESSION, 
+          proxyMode = ScopedProxyMode.TARGET_CLASS)
+        public Actor actor() {
+            return new Actor(Strings.ActorEmployee);
+        }
 }

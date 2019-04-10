@@ -46,10 +46,7 @@ public class Classification {
 
     
     
-     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-  
-    private List<ItemMaster> items;
-
+    
     public Integer getClassificationId() {
         return classificationId;
     }
@@ -92,19 +89,8 @@ public class Classification {
         this.dateOfModification = dateOfModification;
     }
 
-    public List<ItemMaster> getItems() {
-        return items;
-    }
 
-    public void setItems(List<ItemMaster> items) {
-        this.items = items;
-    }
-
-    @Override
-    public String toString() {
-        return "Classification{" + "classificationId=" + classificationId + ", classification=" + classification + ", activeFlag=" + activeFlag + ", dateOfEntry=" + dateOfEntry + ", dateOfModification=" + dateOfModification + ", items=" + items + '}';
-    }
-
+   
     public Classification(Integer classificationId) {
         this.classificationId = classificationId;
     }

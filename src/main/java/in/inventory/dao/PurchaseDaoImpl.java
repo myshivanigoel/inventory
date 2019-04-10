@@ -153,7 +153,9 @@ public class PurchaseDaoImpl implements PurchaseDao{
         List<HdIndent> indentList=new ArrayList<>();
         System.out.println("in.inventory.dao.PurchaseDaoImpl.getIndentorsIndents()"+user.getUserId());
         indentList= sessionFactory.getCurrentSession()
-                .createQuery("from HdIndent where indentor.userId=:indentor order by  indentId desc").setParameter("indentor", user.getUserId())
+                .createQuery("from HdIndent where indentor.userId=:indentor and submittedStatus=:submittedStatus order by  indentId desc")
+                .setParameter("indentor", user.getUserId())
+                .setParameter("submittedStatus", Strings.SubmittedIndent)
                 .list();
         System.out.println("in.inventory.dao.PurchaseDaoImpl.getIndentorsIndents()"+indentList);
         return indentList;
@@ -181,8 +183,9 @@ public class PurchaseDaoImpl implements PurchaseDao{
     @Override
     public List<HdIndent> getRequestedIndentsList(Integer userId) {
         return sessionFactory.getCurrentSession()
-                .createQuery(" FROM HdIndent where indentId in (SELECT indent.indentId FROM IndentStatus where authorizedEmployee.userId=:userId)")
+                .createQuery(" FROM HdIndent where submittedStatus=:submittedStatus  and indentId in (SELECT indent.indentId FROM IndentStatus where authorizedEmployee.userId=:userId)")
                 .setParameter("userId", userId)
+                .setParameter("submittedStatus", Strings.SubmittedIndent)
                 .list();
     }
 
@@ -194,7 +197,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
      */
     @Override
     public HdIndent getIndent(Integer indentId) {
-         HdIndent hdIndent= sessionFactory.getCurrentSession().get(HdIndent.class, indentId);
+         HdIndent hdIndent= sessionFactory.getCurrentSession().load(HdIndent.class, indentId);
                 
         return hdIndent;
     }
@@ -209,8 +212,9 @@ public class PurchaseDaoImpl implements PurchaseDao{
     public List<HdIndent> getMyPendingIndents(Integer userId) {
         List<HdIndent> indentList=new ArrayList<>();
         indentList= sessionFactory.getCurrentSession()
-                .createQuery("from HdIndent where indentor.userId=:indentor and status=:status order by  indentId desc")
+                .createQuery("from HdIndent where indentor.userId=:indentor and submittedStatus=:submittedStatus and status=:status order by  indentId desc")
                 .setParameter("indentor", userId)
+                 .setParameter("submittedStatus", Strings.SubmittedIndent)
                 .setParameter("status", Strings.IndentStatusInProcess)
                 .list();
         System.out.println("in.inventory.dao.PurchaseDaoImpl.getIndentorsIndents()"+indentList);
@@ -229,8 +233,9 @@ public class PurchaseDaoImpl implements PurchaseDao{
     @Override
     public IndentStatus ifUserAuthenticatedIndent(Integer userId, Integer indentId) {
        return sessionFactory.getCurrentSession()
-               .createQuery("from IndentStatus where authorizedEmployeeId=:userId and indentId=:indentId",IndentStatus.class)
+               .createQuery("from IndentStatus where authorizedEmployeeId=:userId and indentId=:indentId ",IndentStatus.class)
                .setParameter("userId", userId)
+               
                .setParameter("indentId", indentId)
                .uniqueResult();
     }
@@ -254,31 +259,72 @@ public class PurchaseDaoImpl implements PurchaseDao{
     @Override
     public List<HdIndent> getApprovedIndentsList(Integer userId) {
           return sessionFactory.getCurrentSession()
-                .createQuery(" FROM HdIndent where status='"+Strings.IndentStatusApproved+"'")
+                .createQuery(" FROM HdIndent where status='"+Strings.IndentStatusApproved+"'and  submittedStatus=:submittedStatus ")
+                  .setParameter("submittedStatus", Strings.SubmittedIndent)
                 .list();
     }
 
     @Override
     public List<HdIndent> getRequestsForFinanceApproval(Integer userId) {
       return sessionFactory.getCurrentSession()
-                .createQuery(" FROM HdIndent where status='"+Strings.IndentStatusForFinanceApproval+"'")
-                .list();
+                .createQuery(" FROM HdIndent where status='"+Strings.IndentStatusForFinanceApproval+"' and submittedStatus=:submittedStatus ")
+ .setParameter("submittedStatus", Strings.SubmittedIndent)
+                    .list();
     }
 
     @Override
     public Collection<? extends HdIndent> getFinanceRejectedIndents(Integer userId) {
        return sessionFactory.getCurrentSession()
-                .createQuery(" FROM HdIndent where status='"+Strings.IndentStatusFinanceRejected+"'")
-                .list();
+                .createQuery(" FROM HdIndent where status='"+Strings.IndentStatusFinanceRejected+"' and  submittedStatus=:submittedStatus ")
+                .setParameter("submittedStatus", Strings.SubmittedIndent)
+               .list();
     }
 
     @Override
     public void deleteOldDtIndentEntries(Integer indentId) {
-        sessionFactory.getCurrentSession()
-                .createQuery("delete from DtIndent where indentId=:indentId")
-                .setParameter("indentId", indentId)
-                .executeUpdate();
+        
+        System.out.println("indent Id"+indentId);
+          int executeUpdate = sessionFactory.getCurrentSession()
+                  .createQuery("delete from DtIndent where hdIndent.indentId=:indentId")
+                  .setParameter("indentId", indentId)
+                  .executeUpdate();System.out.println("rows deleted "+executeUpdate);
     }
+
+    @Override
+    public List<HdIndent> getDraftedIndentsList(Integer userId) {
+        System.out.println("in.inventory.dao.PurchaseDaoImpl.getDraftedIndentsList()"+userId);
+       return sessionFactory.getCurrentSession()
+                  .createQuery("from HdIndent where indentor.userId=:userId and submittedStatus=:submittedStatus")
+                  .setParameter("userId", userId)
+                    .setParameter("submittedStatus", Strings.notSubmitted)
+                .list();
+    }
+
+    @Override
+    public int isIndentorsIndent(Integer userId, Integer indentId) {
+        Object i=sessionFactory.getCurrentSession()
+                  .createQuery("Select 1 from HdIndent where indentor.userId=:userId and indentId=:indentId")
+                  .setParameter("userId", userId)
+                    .setParameter("indentId", indentId)
+                .uniqueResult();
+        if(i!=null && i.equals(1))
+        {
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    @Override
+    public List<HdIndent> getIndentListForFinance() {
+        return sessionFactory.getCurrentSession()
+                  .createQuery("from HdIndent where financeStatus is not null ")
+                 
+                   
+                .list();
+    }
+
+  
 
    
 }

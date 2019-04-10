@@ -189,11 +189,6 @@ public class ItemMaster implements Serializable {
         this.receiptList = receiptList;
     }
 
-    @Override
-    public String toString() {
-        return "ItemMaster{" + "itemId=" + itemId + ", itemName=" + itemName + ", description=" + description + ", manufacturer=" + manufacturer + ", price=" + price + ", dateOfEntry=" + dateOfEntry + ", dateofModification=" + dateofModification + ", activeFlag=" + activeFlag + ", itemGroup=" + itemGroup + ", stock=" + stock + ", itemService=" + itemService + ", updatable=" + updatable + '}';
-    }
-
    
 
     

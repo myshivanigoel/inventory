@@ -109,7 +109,10 @@
                                             <a href="#">Indent</a>
                                             <ul style="float: none; width: 12em; display: none; visibility: hidden;">
                                               <li>
-                                                      <a href="/indent-form">My Indents</a>
+                                                      <a href="/indent-form">Indent form</a>
+                                                </li>
+                                                 <li>
+                                                      <a href="/indentors-indents-list">My Indents</a>
                                                 </li>
                                                  <li >
                                                       <a href="/requested-indents">Requested Indents</a>
@@ -120,6 +123,10 @@
                                                  <li sec:authorize="hasAuthority('ROLE_FINANCE')">
                                                       <a href="/finance-request-indents">Finance Approval</a>
                                                 </li>
+                                                 <li sec:authorize="hasAuthority('ROLE_FINANCE')">
+                                                      <a href="/indent-previous-finance">Previous Indents</a>
+                                                </li>
+                                                
                                             </ul>
                                                       
                                          </li>

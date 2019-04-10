@@ -80,7 +80,10 @@ public class Strings {
     public static String IndentFinanceStatusAcceptable="Acceptable";
      public static String IndentFinanceStatusNotAcceptable="Not acceptable";
     public static String IndentStatusFinanceRejected="Declined by finance, in review";
-        
+    public static String notSubmitted="Not submitted";
+    public static String SubmittedIndent="Submitted";
+    public static String ActorEmployee="Employee";
+       
 }
 
 

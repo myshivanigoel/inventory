@@ -54,6 +54,13 @@ public interface PurchaseDao {
 
     public void deleteOldDtIndentEntries(Integer indentId);
 
+    public List<HdIndent> getDraftedIndentsList(Integer userId);
+
+    public int isIndentorsIndent(Integer userId, Integer indentId);
+
+    public List<HdIndent> getIndentListForFinance();
+
+   
   
    
 

@@ -54,6 +54,8 @@
                         <td width="950">
                             <div id="errorMessage" class="errcolor" th:text="${message}"></div>  
                             <div id="errorMessageJs" class="errcolor" ></div>  
+                            <div id="successMessage" style="color: green;" ></div>  
+                            
                         </td>
                         <td align="center" background="/theme/r.gif" width="10"></td>
                     </tr>
@@ -86,10 +88,9 @@
                 debugger;
                 var itemCounter = $("#itemCounter").val();
                 var t = $('#indentItems').DataTable({bSort : false, searching: false, paging: false, info: false});
-                var counter =  $("#counter").val();
+                var counter = $("#counter").val();
                 $('#addRow').on('click', function () {
                 debugger;
-                itemCounter++;
                 t.row.add([
                         " ",
                         "",
@@ -120,10 +121,10 @@
                 ]).draw(false);
                 var row = t.row.add([
                         " Description <font color='#CC0000'> *</font>",
-                        "  <input class='input100 description' type='text'  name='indentDetailList[" + itemCounter + "].descriptionOfMaterial'  id='description" + itemCounter + "'  >",
+                        "  <input class='input100 description' type='text'  name='indentDetailList[" + itemCounter + "].descriptionOfMaterial' value='' id='description" + itemCounter + "'  >",
                         "Quantity<font color='#CC0000'> *</font>",
                         " <input class='input100 quantity' type='number' min='0' name='indentDetailList[" + itemCounter + "].quantity'  id='quantity" + itemCounter + "'  >",
-                        "Manufacturer<font color='#CC0000'> *</font>",
+                        "Manufacturer",
                         "<input class='input100 manufacturer' type='text'  name='indentDetailList[" + itemCounter + "].manufacturer'  id='manufacturer" + itemCounter + "'  >"
 
                 ]).draw(false);
@@ -157,11 +158,12 @@
                 counter++;
                 getClass(itemCounter);
                 getPurchaseType(itemCounter);
+                itemCounter++;
                 });
-                $('#addRow').click();
+               // $('#addRow').click();
                 /////////////////ajax calls begin///////////////////////////////////////////////////////////////////////////////////////////////////////
-                getClass(0);
-                getPurchaseType(0);
+                //getClass(0);
+                //getPurchaseType(0);
                 $(document).on('change', ".classification", function(){
                 //$(".classification").on('change',function(event) {
                 debugger;
@@ -226,22 +228,10 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-                $("#submit").click(function(event){
+                $("#indent").submit(function(e) {
                 debugger;
-                event.preventDefault();
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+
                 var error = 0;
                 if ($.trim($("#budgetYear").val()) == "")
                 {
@@ -296,10 +286,95 @@
 
                 if (error == 0)
                 {
-                $("#indent").submit();
+
+
+
+                var form = $(this);
+                var url = form.attr('action');
+                $.ajax({
+                type: "POST",
+                        url: url,
+                        data: form.serialize(), // serializes the form's elements.
+                        success: function(data)
+                        {
+                            if(data.status){
+                            $("#successMessage").html(data.message);
+                        }else{
+                            $("#errorMessage").html(data.message);
+                        }
+                      
+                        },
+                        error: function(message)
+                        {
+
+                        }
+                });
                 }
                 });
-                $(document).on('click', '.remove', function(e) {
+                /*
+                 
+                 
+                 $("#submit").click(function(event){
+                 debugger;
+                 event.preventDefault();
+                 var error = 0;
+                 if ($.trim($("#budgetYear").val()) == "")
+                 {
+                 $("#errorMessageJs").html("Budget year can not be empty.");
+                 error = 1;
+                 return error;
+                 }
+                 if ($.trim($("#indentDate").val()) == "")
+                 {
+                 $("#errorMessageJs").html("indent Date can not be empty.");
+                 error = 1;
+                 return error;
+                 }
+                 
+                 $('.item').each(function(i, obj){
+                 console.log($(this).val());
+                 var itemId = $(this).attr("id");
+                 var sno = itemId.substring(4);
+                 if ($(this).val() == "" || $(this).val() == 0 || $(this).val() == 1)
+                 {   if ($.trim($("#description" + sno).val()) == "")
+                 {
+                 $("#errorMessageJs").html("please choose item or enter description.");
+                 error = 1;
+                 } else{
+                 
+                 }
+                 } else{
+                 
+                 }
+                 
+                 });
+                 if (error == 1)
+                 {
+                 
+                 } else{
+                 
+                 
+                 $('.quantity').each(function(i, obj){
+                 debugger;
+                 console.log($(this).val());
+                 var quantityId = $(this).attr("id");
+                 var sno = quantityId.substring(8);
+                 if ($(this).val() == "" || $(this).val() == 0)
+                 {   error = 1;
+                 $("#errorMessageJs").html("please enter quantity for  item no " + parseInt(sno) + 1);
+                 } else{
+                 
+                 }
+                 
+                 });
+                 }
+                 
+                 if (error == 0)
+                 {
+                 $("#indent").submit();
+                 }
+                 });
+                 */                $(document).on('click', '.remove', function(e) {
                 //handler code here
                 event.preventDefault();
                 var totalCount = t.rows().count();
@@ -367,9 +442,13 @@
                 function removeMessage()
                 {
                 $("#errorMessage").html("");
+                 $("#errorMessageJs").html("");
+                  $("#successMessage").html("");
                 }
+
+                // this is the id of the form
             </script>
-            <form name="indent" id="indent" method="post" th:object="${indent}"    th:action="@{/indent-save}" >
+            <form name="indent" id="indent" method="post" th:object="${indent}"    th:action="@{/update-indent-form}" >
 
 
 
@@ -436,15 +515,17 @@
                                                                                             <td>
                                                                                                 <select class="input100" name="budgetYear" th:field="${indent.budgetYear}" id="budgetYear">
                                                                                                     <option th:value="20">select</option>
-                                                                                                    <option th:value="2017-2018">2017-2018</option>
-                                                                                                    <option th:value="2018-2019">2018-2019</option>
+                                                                                                    
+                                                                                                       <option th:each="budgetyear : ${budgetyearList}" th:value="${budgetyear}" th:text="${budgetyear}" ></option>
+                                                                                                   
 
                                                                                                 </select>                                                              </td>
                                                                                             <td width="20%">
                                                                                                 Date<font color="#CC0000"> *</font>
                                                                                             </td>
-                                                                                            <td> 
-                                                                                                <input name="indentDate"  maxlength="250" id="indentDate" type="date" class="textbox" style="width:200px" value="">
+                                                                                            <td>
+                                                                                                <input name="indentDate"  id="indentId" type="hidden" class="textbox" style="width:200px" th:field="${indent.indentId}">
+                                                                                                <input name="indentDate"  maxlength="250" id="indentDate" type="date" class="textbox" style="width:200px" th:field="${indent.indentDate}">
                                                                                             </td>
                                                                                             <td>Project Code</td>
                                                                                             <td>
@@ -484,7 +565,7 @@
                                                                                             <td>Group</td>
                                                                                             <td> <select th:name="'indentDetailList[' + ${rowStat.index} +'].itemGroup.groupId'" class='group' th:id="'group'+${rowStat.index}"  style='width:150px'  >
                                                                                                     <option value='0'>Select</option>
-                                                                                                <option th:each='groupObj : ${indent.indentDetailList[rowStat.index].groupList}' th:value='${groupObj.groupId}' th:text='${groupObj.groupName}' th:selected="${groupObj.groupId == indent.indentDetailList[rowStat.index].itemGroup.groupId}" ></option>
+                                                                                                    <option th:each='groupObj : ${indent.indentDetailList[rowStat.index].groupList}' th:value='${groupObj.groupId}' th:text='${groupObj.groupName}' th:selected="${groupObj.groupId == indent.indentDetailList[rowStat.index].itemGroup.groupId}" ></option>
 
                                                                                                 </select>
                                                                                             </td>
@@ -492,7 +573,7 @@
                                                                                             <td>  <select th:name="'indentDetailList[' + ${rowStat.index} +'].item.itemId'" class='item' th:id="'item'+${rowStat.index}"  style='width:150px'  >
                                                                                                     <option value=0>Select</option>
                                                                                                     <option value=>not in list</option>
-                                                                                                      <option th:each='itemObj : ${indent.indentDetailList[rowStat.index].itemList}' th:value='${itemObj.itemId}' th:text='${itemObj.itemName}' th:selected="${itemObj.itemId == indent.indentDetailList[rowStat.index].item.itemId}" ></option>
+                                                                                                    <option th:each='itemObj : ${indent.indentDetailList[rowStat.index].itemList}' th:value='${itemObj.itemId}' th:text='${itemObj.itemName}' th:selected="${itemObj.itemId == indent.indentDetailList[rowStat.index].item.itemId}" ></option>
                                                                                                 </select></td>
                                                                                         </tr>
                                                                                         <tr>
@@ -500,12 +581,12 @@
                                                                                             <td>  <input class='input100 description' type='text'  th:field="*{indentDetailList[__${rowStat.index}__].descriptionOfMaterial}" th:id="'description'+${rowStat.index}"    ></td>
                                                                                             <td>Quantity<font color='#CC0000'> *</font></td>
                                                                                             <td> <input class='input100 quantity' type='number' min='0' th:field="*{indentDetailList[__${rowStat.index}__].quantity}"  th:id="'quantity'+${rowStat.index}"   ></td>
-                                                                                            <td>Manufacturer<font color='#CC0000'> *</font></td>
+                                                                                            <td>Manufacturer</td>
                                                                                             <td><input class='input100 manufacturer' type='text' th:field="*{indentDetailList[__${rowStat.index}__].manufacturer}"  th:id="'manufacturer'+${rowStat.index}"   ></td>
 
-                                                                                            
+
                                                                                         </tr>
-                                                                                        
+
                                                                                         <tr>
                                                                                             <td>
                                                                                                 Estimated Price/Unit
@@ -516,54 +597,48 @@
                                                                                             <td>
                                                                                                 Estimated Delivery Date
                                                                                             </td>
-                                                                                            
-                                                                                           <td> 
-                                                                                               <input class='input100 expectedMonthYearOfDelivery' type='date'  th:field="*{indentDetailList[__${rowStat.index}__].expectedMonthYearOfDelivery}" th:id="'expectedMonthYearOfDelivery'+${rowStat.index}"     >
-                                                                                           </td>
+
+                                                                                            <td> 
+                                                                                                <input class='input100 expectedMonthYearOfDelivery' type='date'  th:field="*{indentDetailList[__${rowStat.index}__].expectedMonthYearOfDelivery}" th:id="'expectedMonthYearOfDelivery'+${rowStat.index}"     >
+                                                                                            </td>
                                                                                             <td>
                                                                                                 Remarks 
                                                                                             </td>
                                                                                             <td>
                                                                                                 <input class='input100 remarks' type='text'  th:field="*{indentDetailList[__${rowStat.index}__].remarks}" th:id="'remarks'+${rowStat.index}"    >
                                                                                             </td>
-               
-                                                                                            
-                                                                                            
+
+
+
                                                                                         </tr>
-                                                                                        
+
                                                                                         <tr>
                                                                                             <td>Purchase Type</td>
                                                                                             <td> <select th:field="*{indentDetailList[__${rowStat.index}__].purchaseType.purchaseId}" class='purchasetype' th:id="'purchasetype'+${rowStat.index}"  style='width:150px'  >
+                                                                                                    <option th:each='purchaseTypeObj : ${purchaseTypeList} ' th:value='${purchaseTypeObj.purchaseId}' th:text='${purchaseTypeObj.purchaseName}' th:selected="${purchaseTypeObj.purchaseId == indent.indentDetailList[rowStat.index].purchaseType.purchaseId}" ></option>
+
                                                                                                 </select>
                                                                                             </td>
-                                                                                            
-                                                                                            <td>                       Suggested Vendors</td>
-                        <td><input class='input100 suggestedVendors' type='text'  th:field="*{indentDetailList[__${rowStat.index}__].suggestedVendors}"  th:id="'suggestedVendors'+${rowStat.index}"     ></td>
-                          <td>Mode Of Dispatch</td>
-                         <td>
-                             <select th:field="*{indentDetailList[__${rowStat.index}__].modeOfDispatch}" style='width:150px'   class='modeOfDispatch' th:id="'modeOfDispatch'+${rowStat.index}"  >
-                        
-                              <option th:each='moObj : ${indent.indentDetailList[rowStat.index].listmodeOfDispatch} ' th:value='${moObj.classificationId}' th:text='${moObj}' th:selected="${moObj == indent.indentDetailList[rowStat.index].modeOfDispatch}" ></option>
 
-                                 <option listmodeOfDispatch></option>
-                                 <option value=0>Select</option>
-                         <option value="">Any</option>
-                        <option>AIR</option>
-                        <option>SEA</option>
-                        <option>ROAD</option>
-                        <option>RAIL</option>
-                        <option>POST</option>
-                        <option>BY HAND</option>
-                             </select>
-                                                                                    </td>
-                                                                                            
+                                                                                            <td>                       Suggested Vendors</td>
+                                                                                            <td><input class='input100 suggestedVendors' type='text'  th:field="*{indentDetailList[__${rowStat.index}__].suggestedVendors}"  th:id="'suggestedVendors'+${rowStat.index}"     ></td>
+                                                                                            <td>Mode Of Dispatch</td>
+                                                                                            <td>
+                                                                                                <select th:field="*{indentDetailList[__${rowStat.index}__].modeOfDispatch}" style='width:150px'   class='modeOfDispatch' th:id="'modeOfDispatch'+${rowStat.index}"  >
+
+                                                                                                    <option th:each='moObj : ${modeOfDispatchList} ' th:value='${moObj}' th:text='${moObj}' th:selected="${moObj == indent.indentDetailList[rowStat.index].modeOfDispatch}" ></option>
+
+
+                                                                                                </select>
+                                                                                            </td>
+
                                                                                         </tr>
-                                                                                        
+
                                                                                     </th:block>
-                                                                                   
+
                                                                     </tbody></table>
-                                                                                 <input type="hidden" id="itemCounter" th:value="${#lists.size(indent.indentDetailList)}">
-                                                                                    <input type="hidden" id="counter" th:value="${#lists.size(indent.indentDetailList)-1}">
+                                                                <input type="hidden" id="itemCounter" th:value="${#lists.size(indent.indentDetailList)}">
+                                                                <input type="hidden" id="counter" th:value="${#lists.size(indent.indentDetailList)-1}">
                                                                 <script>
 
                                                                 </script>

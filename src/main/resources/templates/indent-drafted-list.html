@@ -1,4 +1,4 @@
-<div class="item-list" th:fragment="indent-list">
+<div class="item-list" th:fragment="indent-drafted-list">
     
         
         <script type="text/javascript">
@@ -123,9 +123,9 @@
     <td style="text-align:left;" th:text="${indent.indentId}"></td>
      <td style="text-align:left;" th:text="${indent.indentDate}"></td>
      <td style="text-align:left;" th:text="${indent.status}"></td>
-      <td style="text-align:left;">
-            <a th:href="'/indent-view?indentId='+${indent.indentId}"  style="color: #ffffff" class="btn btn-xs btn-primary " th:id="'detail'+${indent.indentId}" >
-            <span class="glyphicon glyphicon-view"></span> View Details
+     <td style="text-align:left;">
+            <a th:href="'/submit-indent?indentId='+${indent.indentId}"  style="color: #ffffff" class="btn btn-xs btn-primary " th:id="'detail'+${indent.indentId}" >
+            <span class="glyphicon glyphicon-view"></span> View & Submit
             </a>
         </td>
         <td style="text-align:left;">

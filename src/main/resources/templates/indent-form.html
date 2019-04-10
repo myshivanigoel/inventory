@@ -131,7 +131,7 @@
                        "  <input class='input100 description' type='text'  name='indentDetailList["+itemCounter+"].descriptionOfMaterial'  id='description"+itemCounter+"'  >",
                               "Quantity<font color='#CC0000'> *</font>",
                         " <input class='input100 quantity' type='number' min='0' name='indentDetailList["+itemCounter+"].quantity'  id='quantity"+itemCounter+"'  >",
-                       "Manufacturer<font color='#CC0000'> *</font>",
+                       "Manufacturer",
                         "<input class='input100 manufacturer' type='text'  name='indentDetailList["+itemCounter+"].manufacturer'  id='manufacturer"+itemCounter+"'  >"
                        
                             ] ).draw( false );
@@ -471,10 +471,11 @@
                                                                                     <tr class="row1">
                                                                                             <td>Budget Year<font color="#CC0000"> *</font></td>
                                                                                             <td>
-                                                                                                <select class="input100" name="budgetYear" id="budgetYear">
-                                                                                                    <option value="">select</option>
-                                                                                                    <option>2017-2018</option>
-                                                                                                    <option>2018-2019</option>
+                                                                                                 <select class="input100" name="budgetYear" th:field="${indent.budgetYear}" id="budgetYear">
+                                                                                                    <option th:value="20">select</option>
+                                                                                                    
+                                                                                                       <option th:each="budgetyear : ${budgetyearList}" th:value="${budgetyear}" th:text="${budgetyear}" ></option>
+                                                                                                   
 
                                                                                                 </select>                                                              </td>
                                                                                             <td width="20%">
@@ -539,7 +540,7 @@
                                                 <img style="width: 1px;height: 5px;border-width: 0px;" src="/theme/space.gif">                            
 
 
-                                                <div th:replace="indent-list :: indent-list"></div>
+                                                <div th:replace="indent-drafted-list :: indent-drafted-list"></div>
 
                                                 <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif"><br>
                                                 <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif">

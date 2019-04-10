@@ -73,5 +73,13 @@ public interface PurchaseService {
     public ResultDataMap acceptIndent(Integer indentId, Integer userId, String remarks);
 
     public ResultDataMap updateIndentForm(HdIndent indent);
+
+    public Object getDraftedIndents(Integer userId);
+
+    public boolean isIndentorsIndent(Integer userId, Integer indentId);
+
+    public ResultDataMap submitIndent(Integer indentId);
+
+    public Object getIndentListForFinance();
     
 }

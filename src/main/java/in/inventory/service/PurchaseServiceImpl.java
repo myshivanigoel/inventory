@@ -163,12 +163,37 @@ public class PurchaseServiceImpl implements PurchaseService{
                    //else not found
                      else{
                          // he is the authority
-                         //get indentstatus
+                         
+
+
+            //check if he is the last authority
+                         if(isLastAuthenticator(employeeAuthorityLevelList,userId))
+                         {
+                             
+                             if( hdIndent.getFinanceStatus()==null)
+                             {
+                                 
+                             }else{
+                                 
+                                  indentStatus=purchaseDao.ifUserAuthenticatedIndent(userId,hdIndent.getIndentId());
+                                 if(indentStatus==null)
+                                    {
+                                        hdIndentList.add(hdIndent);
+                                    }
+                             }
+                         }else{
+                             //get indentstatus
                              indentStatus=purchaseDao.ifUserAuthenticatedIndent(userId,hdIndent.getIndentId());
                              if(indentStatus==null)
                              {
                                  hdIndentList.add(hdIndent);
                              }
+                         }
+                              
+                                     
+                ///////////////////////////////////////////         
+                         
+                         
                           
                      }
                        
@@ -221,7 +246,26 @@ public class PurchaseServiceImpl implements PurchaseService{
         return previousUserId;
     }
     
-    
+    private boolean isLastAuthenticator(List<EmployeeAuthorityLevel> list, Integer userId) {
+          list.sort(new Comparator<EmployeeAuthorityLevel>(){
+            @Override
+		public int compare(EmployeeAuthorityLevel o1, EmployeeAuthorityLevel o2) {
+			return o1.getAuthorityLevel()- o2.getAuthorityLevel();
+		}
+        });
+          System.out.println("in.inventory.service.PurchaseServiceImpl.isLastAuthenticator()"+list);
+        Integer previousUserId=null;
+        int lastIndex=list.size()-1;
+        EmployeeAuthorityLevel i=list.get(lastIndex);
+        if(i.getAuthorizedEmployee().getUserId().equals(userId))
+        {
+            return true;
+        }else{
+            return false;
+        }
+       
+    }
+
     
     @Override
     public List<HdIndent> getMyPendingIndents(Integer userId) {
@@ -317,9 +361,22 @@ public class PurchaseServiceImpl implements PurchaseService{
         List<IndentStatus> statusList=new ArrayList<>();
         List<EmployeeAuthorityLevel> authoritiesList =indent.getAuthoritiesList();
         List<IndentStatus> dbIndentStatusList=indent.getIndentStatusList();
+        if(dbIndentStatusList.size()<=1 && authoritiesList.size()==1 && indent.getFinanceStatus()!=null)
+        {
+             IndentStatus nmIndent=new IndentStatus();
+                                      nmIndent.setAuthorizedEmployee(userService.getFinanceUser());
+                                     nmIndent.setIndent(indent);
+                                     nmIndent.setStatus(indent.getFinanceStatus());
+                                     nmIndent.setRemarks(indent.getFinanceRemarks());
+                                     statusList.add(nmIndent);
+        }
         for (EmployeeAuthorityLevel employeeAuthorityLevel : authoritiesList) {
             int temp=0;
+            int finAdded=0;
             for (IndentStatus indentStatus : dbIndentStatusList) {
+                    
+                
+                
                 if(employeeAuthorityLevel.getAuthorizedEmployee().getUserId().equals(indentStatus.getAuthorizedEmployee().getUserId()))
                 {
                     
@@ -329,6 +386,9 @@ public class PurchaseServiceImpl implements PurchaseService{
                     if(isSecondLastAuthenticator(indent.getIndentor().getUserId()
                                                 , employeeAuthorityLevel.getAuthorizedEmployee().getUserId()
                                                 )
+                            
+                             
+                            
                       )
                     {
                             if(indent.getFinanceStatus()!=null)
@@ -370,6 +430,7 @@ public class PurchaseServiceImpl implements PurchaseService{
                             }else{
                                 // finance user accepted so next users entry will be added in next iteration
                             }
+                                finAdded=1;
                    }else{
                         // finance user has nt took any action yet 
                     }
@@ -383,6 +444,51 @@ public class PurchaseServiceImpl implements PurchaseService{
             }// searching in indent Status loop end
             if(temp==0)
             {
+                
+                List<EmployeeAuthorityLevel> toSortList=new ArrayList<>();
+                toSortList.addAll(authoritiesList);
+                
+                if(isLastAuthenticator(toSortList, employeeAuthorityLevel.getAuthorizedEmployee().getUserId()) 
+                        && indent.getFinanceStatus()!=null  && finAdded==1)
+                {
+                     /////////
+                                //Second last user approved it thats why finance user could see it
+                               // statusList.get(tempvar).setStatus(Strings.IndentStatusApproved);
+                                //////////////
+                                // add finance user action 
+                                IndentStatus nmIndent=new IndentStatus();
+                                      nmIndent.setAuthorizedEmployee(userService.getFinanceUser());
+                                     nmIndent.setIndent(indent);
+                                     nmIndent.setStatus(indent.getFinanceStatus());
+                                     nmIndent.setRemarks(indent.getFinanceRemarks());
+                                     statusList.add(nmIndent);
+                                
+                                if(indent.getFinanceStatus().equals(Strings.IndentFinanceStatusNotAcceptable))
+                                {
+                                    
+                                    //check if secondLast user re approved or not
+                                    if(indent.getSpecialApprovalRemark()!=null 
+                                            && !indent.getSpecialApprovalRemark().trim().equals("")){
+                                    
+                                     nmIndent=new IndentStatus();
+                                     nmIndent.setAuthorizedEmployee(employeeAuthorityLevel.getAuthorizedEmployee());
+                                     nmIndent.setIndent(indent);
+                                     nmIndent.setStatus("Approved");
+                                     nmIndent.setRemarks(indent.getSpecialApprovalRemark());
+                                     statusList.add(nmIndent);
+                                }else if(indent.getStatus().equals(Strings.IndentStatusRejected)){
+                                    //second last user rejected after fincance advice
+                                      nmIndent=new IndentStatus();
+                                     nmIndent.setAuthorizedEmployee(employeeAuthorityLevel.getAuthorizedEmployee());
+                                     nmIndent.setIndent(indent);
+                                     nmIndent.setStatus(indent.getStatus());
+                                     
+                                     statusList.add(nmIndent);
+                                }
+                            }else{
+                                // finance user accepted so next users entry will be added in next iteration
+                            }
+                }
                     IndentStatus indentStatus=new IndentStatus();
                    indentStatus.setAuthorizedEmployee(employeeAuthorityLevel.getAuthorizedEmployee());
                    indentStatus.setIndent(indent);
@@ -470,11 +576,48 @@ public class PurchaseServiceImpl implements PurchaseService{
         dbIndent.setProject(indent.getProject());
         dbIndent.setSourceData(indent.getSourceData());
         
-        purchaseDao.updateHdIndent(indent);
+      return  purchaseDao.updateHdIndent(dbIndent);
         
-        return new ResultDataMap().setStatus(Boolean.FALSE);
+        
     }
 
+    @Override
+    public List<HdIndent> getDraftedIndents(Integer userId) {
+        List<HdIndent> list= purchaseDao.getDraftedIndentsList(userId);
+        System.out.println("in.inventory.service.PurchaseServiceImpl.getDraftedIndents()"+list);
+        return list;
+    }
+
+    @Override
+    public boolean isIndentorsIndent(Integer userId, Integer indentId) {
+       int i= purchaseDao.isIndentorsIndent(userId,indentId);
+       if(i==1)
+       {
+           return true;
+       }else{
+           return false;
+       }
+    }
+
+    @Override
+    public ResultDataMap submitIndent(Integer indentId) {
+     
+        HdIndent dbIndent=purchaseDao.getIndent(indentId);
+        dbIndent.setSubmittedStatus(Strings.SubmittedIndent);
+        List<EmployeeAuthorityLevel> list=userService.getEmployeeAuthorityLevelList(dbIndent.getIndentor().getUserId());
+        if(list.size()==1)
+        {
+            dbIndent.setStatus(Strings.IndentStatusForFinanceApproval);
+        }
+        return purchaseDao.updateHdIndent(dbIndent);
+    }
+
+    @Override
+    public List<HdIndent> getIndentListForFinance() {
+        return purchaseDao.getIndentListForFinance();
+    }
+
+    
    
 
     

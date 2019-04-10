@@ -16,5 +16,6 @@ public interface ProjectDao {
         public Project getProjectById(Integer projectId);
         
         public ResultDataMap updateProjectOnly(Project project);
+        
 }
 

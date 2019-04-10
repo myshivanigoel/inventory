@@ -87,7 +87,7 @@
                                     <tr id="trRow333">
                                         <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
                                         <!-- *** Update Table Header -->
-                                        <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading" >&nbsp;Pending Indents for Finance approval</td>
+                                        <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading" >&nbsp;Indents </td>
                                         <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);"></td>
                                         <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
                                             <table style="width: 100%;border-width: 0px;" cellspacing="0" cellpadding="0" >
@@ -128,12 +128,12 @@
 <tbody>
     
     
-<tr class="" th:each="indent,rowStat : ${indentsList}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
+<tr class="" th:each="indent,rowStat : ${indentList}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
     <td style="text-align:left;" th:text="${indent.indentId}"></td>
      <td style="text-align:left;" th:text="${indent.indentDate}"></td>
      <td style="text-align:left;" th:text="${indent.status}"></td>
-      <td style="text-align:left;">
-            <a th:href="'/indent-action_finance?indentId='+${indent.indentId}"  style="color: #ffffff" class="btn btn-xs btn-primary " th:id="'detail'+${indent.indentId}" >
+     <td style="text-align:left;">
+            <a th:href="'/indent-view?indentId='+${indent.indentId}"  style="color: #ffffff" class="btn btn-xs btn-primary " th:id="'detail'+${indent.indentId}" >
             <span class="glyphicon glyphicon-view"></span> View Details
             </a>
         </td>

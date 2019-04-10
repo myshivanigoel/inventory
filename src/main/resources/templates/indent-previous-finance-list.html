@@ -128,12 +128,12 @@
 <tbody>
     
     
-<tr class="" th:each="indent,rowStat : ${indentsList}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
+<tr class="" th:each="indent,rowStat : ${indentList}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
     <td style="text-align:left;" th:text="${indent.indentId}"></td>
      <td style="text-align:left;" th:text="${indent.indentDate}"></td>
      <td style="text-align:left;" th:text="${indent.status}"></td>
       <td style="text-align:left;">
-            <a th:href="'/indent-action_finance?indentId='+${indent.indentId}"  style="color: #ffffff" class="btn btn-xs btn-primary " th:id="'detail'+${indent.indentId}" >
+            <a th:href="'/indent-view?indentId='+${indent.indentId}"  style="color: #ffffff" class="btn btn-xs btn-primary " th:id="'detail'+${indent.indentId}" >
             <span class="glyphicon glyphicon-view"></span> View Details
             </a>
         </td>

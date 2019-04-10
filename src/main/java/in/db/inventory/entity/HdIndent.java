@@ -37,7 +37,7 @@ public class HdIndent implements Serializable {
     private Integer indentId;
     private String prNo;
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
      private Date indentDate;
     private String budgetYear;
     
@@ -58,6 +58,7 @@ public class HdIndent implements Serializable {
     private String financeStatus;
     private String financeRemarks;
     private String specialApprovalRemark;
+    private String submittedStatus=Strings.notSubmitted;
     
     @OneToMany(mappedBy = "hdIndent",cascade = CascadeType.ALL)
     private List<DtIndent> indentDetailList=new ArrayList<>();
@@ -250,6 +251,14 @@ public class HdIndent implements Serializable {
 
     public void setSpecialApprovalRemark(String specialApprovalRemark) {
         this.specialApprovalRemark = specialApprovalRemark;
+    }
+
+    public String getSubmittedStatus() {
+        return submittedStatus;
+    }
+
+    public void setSubmittedStatus(String submittedStatus) {
+        this.submittedStatus = submittedStatus;
     }
 
     

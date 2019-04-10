@@ -31,6 +31,7 @@ import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -39,6 +40,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.Authentication;
@@ -77,15 +79,31 @@ public class PurchaseController {
     private PurchaseService purchaseService;
     
     @Autowired
-    private StockService stockService;
+    private PurchaseTypeService purchaseTypeService;
     
     @Autowired
     private ItemService itemService;
-      @Autowired
-    private PurchaseTypeService purchaseTypeService;
-        @Autowired
+          @Autowired
     private ProjectService projectService;
     
+          
+       public List<String> getBudgetYearList()
+       {
+           List<String> list=new ArrayList<>();
+           Integer year = Calendar.getInstance().get(Calendar.YEAR);
+         
+           for(int i=0;i<10;i++)
+           {
+               Integer prev=year-1;
+             
+               String yearString=prev.toString()+"-"+year.toString();
+               list.add(yearString);
+               year=year+1;
+           }
+           System.out.println("in.inverntory.controller.PurchaseController.getBudgetYearList()\n"+list);
+          return list;
+       }
+          
     @GetMapping("indent-form")
     public String indentForm(@RequestParam(name = "message",required = false)String message,Model model)
     {
@@ -94,7 +112,8 @@ public class PurchaseController {
         model.addAttribute("projectList",projectService.getAllProjectList());
         model.addAttribute("classList",itemService.getClassificationList());
          MstUser user=(MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-       model.addAttribute("indentList",purchaseService.getIndentorsIndents(user));
+       model.addAttribute("indentList",purchaseService.getDraftedIndents(user.getUserId()));
+       model.addAttribute("budgetyearList",getBudgetYearList());
        model.addAttribute("indent",new HdIndent());
          model.addAttribute("message", message);
         return indentForm;
@@ -193,21 +212,42 @@ public class PurchaseController {
           model.addAttribute("message","error");
                       return "indent-form";
     }
-
     
+    public List<String> getPurchaseTypeList()
+    {
+        List<String> list=new ArrayList(Arrays.asList( "General","Specific brand","Proprietary" ));
+       
+        return list;
+    }
+    
+    public List<String> getMOdeOfDispatchList()
+    {
+        List<String> list=new ArrayList(Arrays.asList(  "Any","AIR","SEA","ROAD","RAIL","POST","BY HAND"));
+       
+        return list;
+    }
      @GetMapping("update-indent-form")
     public String updateIndentForm(@RequestParam("indentId")Integer indentId,
                                     @RequestParam(name = "message",required = false)String message,Model model)
     {
+       MstUser loggedInUser= (MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!purchaseService.isIndentorsIndent(loggedInUser.getUserId(), indentId))
+        {
+            return "redirect:indent-form?message=incorrect indent Id";
+        }
         System.out.println("Hello");
        HdIndent indent=purchaseService.getIndent(indentId);
        if(indent==null)
        {
            return "redirect:indent-form?message=incorrect indent Id";
        }
+        model.addAttribute("budgetyearList",getBudgetYearList());
         model.addAttribute("purchaseTypeList",purchaseTypeService.getAllPurchaseTypeList());
         model.addAttribute("projectList",projectService.getAllProjectList());
         model.addAttribute("classList",itemService.getClassificationList());
+         model.addAttribute("modeOfDispatchList",getMOdeOfDispatchList());
+         model.addAttribute("purchaseTypeList",purchaseTypeService.getAllPurchaseTypeList());
+         
         if(indent!=null && indent.getIndentDetailList()!=null && !indent.getIndentDetailList().isEmpty())
         {
             for (DtIndent dtIndent : indent.getIndentDetailList()) {
@@ -228,28 +268,31 @@ public class PurchaseController {
          model.addAttribute("message", message);
         return "indent-form-update";
     }
-    
+    ResultDataMap result;
     
     @PostMapping("update-indent-form")
-    public String updateIndent(@Valid @ModelAttribute(name = "indent")HdIndent indent
+    public @ResponseBody ResultDataMap updateIndent(@Valid @ModelAttribute(name = "indent")HdIndent indent
                                                              ,final BindingResult bindingResult
                                                              ,Model model
                                                              ,HttpServletRequest request
                                                              ,RedirectAttributes redirectAttributes) 
     {
-        
+        MstUser loggedInUser= (MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         if(!purchaseService.isIndentorsIndent(loggedInUser.getUserId(), indent.getIndentId()))
+        {
+            return result.setStatus(Boolean.FALSE).setMessage("This is not your indent");
+        }
         System.out.println("inden t :: "+indent);
         if(bindingResult.hasErrors())
         {
-            model.addAttribute("indent",indent);
-            model.addAttribute("message", bindingResult.getFieldError().getField()+":: incorrect input");
-            return "indent-form";
+            
+            return result.setStatus(Boolean.FALSE).setMessage(bindingResult.getFieldError().getField()+":: incorrect input");
         }
           MstUser user=(MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
           if(user==null)
           {
-              model.addAttribute("message","error");
-                      return "indent-form";
+             return result.setStatus(Boolean.FALSE).setMessage(Strings.error);
+      
           }
          indent.setIndentor(user);
      
@@ -260,9 +303,8 @@ public class PurchaseController {
         try {
              indent=(HdIndent)santizingUtility.validate(indent, "Indent");
              if(indent==null){
-                  model.addAttribute("indent",indent);
-                model.addAttribute("message","error");
-                      return "indent-form";
+                  
+                       return result.setStatus(Boolean.FALSE).setMessage(Strings.error);
              }
                 int error=0;
                 for (DtIndent t :  indent.getIndentDetailList()) {
@@ -278,9 +320,8 @@ public class PurchaseController {
                     
                      if(t.getDescriptionOfMaterial()==null || t.getDescriptionOfMaterial().trim().equals(""))
                         {
-                             model.addAttribute("indent",indent);
-                             model.addAttribute("message","please  add description");
-                            return "indent-form";
+                             
+                           return result.setStatus(Boolean.FALSE).setMessage("please  add description");
                         }else{
                              
                             
@@ -301,10 +342,10 @@ public class PurchaseController {
                 if(result.getStatus())
                 {
                     model.addAttribute("message","saved successfully");
-                     return "redirect:indent-form?message=saved successfully";
+                    return result.setStatus(Boolean.TRUE).setMessage(Strings.savedSuccessfully);
+                     
                 }else{
-                     model.addAttribute("message","error");
-                      return "indent-form";
+                    return result.setStatus(Boolean.FALSE).setMessage(Strings.error);
                 }
          } catch (IllegalAccessException ex) {
             Logger.getLogger(PurchaseController.class.getName()).log(Level.SEVERE, null, ex);
@@ -319,8 +360,7 @@ public class PurchaseController {
         } catch (IntrospectionException ex) {
             Logger.getLogger(PurchaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
-          model.addAttribute("message","error");
-                      return "indent-form";
+         return result.setStatus(Boolean.FALSE).setMessage(Strings.error);
     }
 
     
@@ -404,6 +444,7 @@ public class PurchaseController {
     @GetMapping("indent-view")
     public String indentView(@RequestParam("indentId")Integer indentId,Model model)
     {
+        
         HdIndent indent=purchaseService.getIndent(indentId);
         model.addAttribute("indent", indent);
         model.addAttribute("authorizationStatusList",purchaseService.getauthorizationStatusList(indent));
@@ -414,6 +455,7 @@ public class PurchaseController {
     public String indentAction(@RequestParam("indentId")Integer indentId,
                                 @RequestParam(name="message",required = false)String message,Model model)
     {
+        
         HdIndent indent=purchaseService.getIndent(indentId);
         model.addAttribute("indent", indent);
         model.addAttribute("authorizationStatusList",purchaseService.getauthorizationStatusList(indent));
@@ -423,6 +465,7 @@ public class PurchaseController {
     public @ResponseBody ResultDataMap indentActionAccept(@RequestParam("indentId")String sindentId,
                                                             @RequestParam(name="remarks",required = false)String remarks,Model model)
     {
+        
         Integer indentId=Integer.valueOf(sindentId);
         MstUser user=(MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
@@ -453,6 +496,8 @@ public class PurchaseController {
     @PostMapping("indent-action-reject")
     public @ResponseBody ResultDataMap indentActionReject(@RequestParam("indentId")Integer indentId,Model model)
     {
+        
+        
        MstUser user=(MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
          IndentStatus i=purchaseService.ifUserAuthenticatedIndent(user.getUserId(), indentId);
         if(i==null)
@@ -534,4 +579,51 @@ public class PurchaseController {
         
         
     }
+    
+    
+    
+    @GetMapping("indentors-indents-list")
+    public String getDraftedIndents(Model model)
+    {
+        MstUser user=(MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("indentList", purchaseService.getIndentorsIndents(user));
+        return "indentors-indents-list";
+    }
+    
+    @GetMapping("submit-indent")
+    public String indentSubmitForm(@RequestParam("indentId")Integer indentId,Model model)
+    {
+        MstUser loggedInUser= (MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(purchaseService.isIndentorsIndent(loggedInUser.getUserId(), indentId)){
+        model.addAttribute("indent", purchaseService.getIndent(indentId));
+         return "indent-submit";
+        }else{
+             model.addAttribute("message","not user indent");
+             return "drafted-indents-list";
+        }
+        
+    }
+    
+    @PostMapping("submit-indent")
+    public @ResponseBody ResultDataMap submitIndent(@RequestParam("indentId")Integer indentId,Model model)
+    {
+        System.out.println("in.inverntory.controller.PurchaseController.submitIndent() post");
+        MstUser loggedInUser= (MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         if(purchaseService.isIndentorsIndent(loggedInUser.getUserId(),indentId))
+         {
+            return purchaseService.submitIndent(indentId);
+             
+         }else{
+             return result.setStatus(Boolean.FALSE).setMessage(Strings.error);
+         }
+    }
+     @RolesAllowed(value = "ROLE_FINANCE") 
+             @GetMapping("indent-previous-finance")
+    public String indentPreviousFinacne(Model model)
+    {
+        model.addAttribute("indentList", purchaseService.getIndentListForFinance());
+        return "indent-previous-finance-list";
+    }
+    
+    
 }

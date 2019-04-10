@@ -47,19 +47,8 @@ public class MstGroup {
     
     
 
-    @OneToMany(
-                cascade = CascadeType.ALL,
-                fetch = FetchType.LAZY)
-   
-    private List<ItemMaster> items;
+  
 
-    public List<ItemMaster> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ItemMaster> items) {
-        this.items = items;
-    }
 
     public Integer getGroupId() {
         return groupId;
@@ -95,8 +84,10 @@ public class MstGroup {
 
     @Override
     public String toString() {
-        return "MstGroup{" + "groupId=" + groupId + ", groupName=" + groupName + ", valueType=" + valueType + ", activeFlag=" + activeFlag + ", classification=" + classification + ", items=" + items + '}';
+        return "MstGroup{" + "groupId=" + groupId + ", groupName=" + groupName + ", valueType=" + valueType + ", activeFlag=" + activeFlag + ", dtEntryDate=" + dtEntryDate + ", dtModificationDate=" + dtModificationDate + ", classification=" + classification + '}';
     }
+
+   
 
    
 
