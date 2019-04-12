@@ -207,6 +207,6 @@ public JavaMailSender getJavaMailSender() {
           value = WebApplicationContext.SCOPE_SESSION, 
           proxyMode = ScopedProxyMode.TARGET_CLASS)
         public Actor actor() {
-            return new Actor(Strings.ActorEmployee);
+            return new Actor(Strings.ActorIndentor);
         }
 }

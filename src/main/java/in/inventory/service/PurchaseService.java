@@ -50,9 +50,9 @@ public interface PurchaseService {
 
     public List<HdIndent> getMyPendingIndents(Integer userId);
 
-    public ResultDataMap acceptIndent(Integer indentId, Integer userId);
+    public ResultDataMap acceptIndent(HdIndent indent,String remarks, Integer userId);
 
-    public ResultDataMap rejectIndent(Integer indentId, Integer userId);
+    public ResultDataMap rejectIndent(Integer indentId,String remarks, Integer userId);
    
     
     public IndentStatus ifUserAuthenticatedIndent(Integer authenticator,Integer indentId);
@@ -70,7 +70,7 @@ public interface PurchaseService {
 
     public boolean isSecondLastAuthenticator(Integer indentorId, Integer userId);
 
-    public ResultDataMap acceptIndent(Integer indentId, Integer userId, String remarks);
+    public ResultDataMap acceptIndent(HdIndent indent, Integer userId, String remarks);
 
     public ResultDataMap updateIndentForm(HdIndent indent);
 

@@ -64,14 +64,29 @@
                 <td align="center" background="theme/l.gif" width="9"></td>
                 <td width="5"><img src="/theme/space.gif" border="0" height="10" width="1"></td>
                 <td colspan="2" style="text-align: left">
-                    <div th:if="${session.actor.actorName=='Employee'}" th:text="${session.actor.actorName}"></div>
+                  <!--  <div  th:text="${session.actor.actorName}"></div>
                     <div th:if="${financeApprovalRequestCount>0}" >
                     <a style="color: blue;" th:href="@{/finance-request-indents}" th:text="'You have'+${financeApprovalRequestCount}+' request for finance approval '"></a>                                          
                     <br><br>
-                    </div>
+                    </div>-->
+                  <div  th:if="${#lists.size(indentList)>0}" style="color: blue;">
+                      <p>Your indents are pending.</p>
+                  </div>
+                  <div  th:if="${#lists.size(indentListFinance)>0}" style="color: blue;">
+                      <p>You have pending requests to approve for finance.</p>
+                  </div>
+                   <div  th:if="${#lists.size(indentsToApprove)>0}" style="color: blue;">
+                      <p>You have pending requests to approve .</p>
+                  </div>
+                    <div  th:if="${session.actor.actorName=='Approver'}" >
                     <div th:replace="indents-to-approve-list :: indents-to-approve-list"></div>  
-        <div th:replace="pending-indent-list :: pending-indent-list"></div>                                                        
-
+                    </div>
+                    <div  th:if="${session.actor.actorName=='Indentor'}" >
+        <div   th:replace="pending-indent-list :: pending-indent-list"></div>                                                        
+                    </div>
+                     <div  th:if="${session.actor.actorName=='Finance'}" >
+                       <div   th:replace="pending-finance-indent-list :: pending-finance-indent-list"></div>                                                        
+                    </div>
 <div id="qualReportAuthDiv" style="display: none;height: auto;padding : 0px 0px 0px 0px;" align="left"></div>
                                                                    
                                                             </td>

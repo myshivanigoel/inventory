@@ -82,7 +82,16 @@ public class Strings {
     public static String IndentStatusFinanceRejected="Declined by finance, in review";
     public static String notSubmitted="Not submitted";
     public static String SubmittedIndent="Submitted";
-    public static String ActorEmployee="Employee";
+    public static String ActorIndentor="Indentor";
+    public static final String ROLE_EMPLOYEE="ROLE_EMPLOYEE";
+    public static final String ROLE_FINANCE="ROLE_FINANCE";
+    public static final String ROLE_MMG ="ROLE_MMG";
+    public static final String ROLE_ADMIN="ROLE_ADMIN";
+    public static String ActorFinance="Finance";
+    public static String  ActorAprover="Approver";
+    public static String  ActorMMG="MMG";
+    public static String  ActorAdmin="Admin";
+    
        
 }
 

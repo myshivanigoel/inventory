@@ -92,7 +92,7 @@ public class PurchaseController {
            List<String> list=new ArrayList<>();
            Integer year = Calendar.getInstance().get(Calendar.YEAR);
          
-           for(int i=0;i<10;i++)
+           for(int i=0;i<2;i++)
            {
                Integer prev=year-1;
              
@@ -155,6 +155,7 @@ public class PurchaseController {
                       return "indent-form";
              }
                 int error=0;
+                List<DtIndent> toDelete=new ArrayList<>();
                 for (DtIndent t :  indent.getIndentDetailList()) {
               
                    if(t.getItem()==null || t.getItem().getItemId()==null ||  t.getItem().getItemId()==0 )
@@ -168,9 +169,10 @@ public class PurchaseController {
                     
                      if(t.getDescriptionOfMaterial()==null || t.getDescriptionOfMaterial().trim().equals(""))
                         {
-                             model.addAttribute("indent",indent);
-                             model.addAttribute("message","please  add description");
-                            return "indent-form";
+                            toDelete.add(t);
+                             //model.addAttribute("indent",indent);
+                             //model.addAttribute("message","please  add description");
+                            //return "indent-form";
                         }else{
                              
                             
@@ -186,6 +188,7 @@ public class PurchaseController {
                     }
                     
                 }  
+                indent.getIndentDetailList().removeAll(toDelete);
              result=purchaseService.saveIndentForm(indent);
                 model.addAttribute("result",result);
                 if(result.getStatus())
@@ -457,11 +460,69 @@ public class PurchaseController {
     {
         
         HdIndent indent=purchaseService.getIndent(indentId);
+        List<DtIndent> dtList=new ArrayList<>();
+        for (DtIndent dtIndent : indent.getIndentDetailList()) {
+            if(dtIndent.getAcceptedFlag())
+            {
+                dtList.add(dtIndent);
+            }
+        }
+        indent.setIndentDetailList(dtList);
         model.addAttribute("indent", indent);
         model.addAttribute("authorizationStatusList",purchaseService.getauthorizationStatusList(indent));
         return "indent-action";
     }
-    @PostMapping("indent-action-accept")
+    
+    
+       @PostMapping("indent-action-accept")
+    public @ResponseBody ResultDataMap indentActionAccept(@ModelAttribute("indent")HdIndent rindent,
+                                                            @RequestParam(name="remarks",required = false)String remarks,Model model)
+    {
+        
+        Integer indentId=rindent.getIndentId();
+        MstUser user=(MstUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        HdIndent indent=purchaseService.getIndent(indentId  );
+       
+         int j=0;
+        for (DtIndent dtIndent : rindent.getIndentDetailList()) {
+          if(dtIndent.getAcceptedFlag())
+          {
+              j++;
+              
+          }
+          
+        }
+        if(j<1)
+        {
+            return  new ResultDataMap().setStatus(false).setMessage("Please accept atleast one item or reject the indent.");  
+        }
+        
+        if(purchaseService.isSecondLastAuthenticator(indent.getIndentor().getUserId(),user.getUserId()) 
+                && indent.getStatus().equals(Strings.IndentStatusFinanceRejected))
+        {
+            if(remarks==null || remarks.trim().equals(""))
+            {
+             return new ResultDataMap().setStatus(false).setMessage("Since finance has declined ,please write some remark before sending to Authority");  
+            }else{
+             return purchaseService.acceptIndent(rindent,user.getUserId(),remarks);
+            }
+        }
+        
+        
+        IndentStatus i=purchaseService.ifUserAuthenticatedIndent(user.getUserId(), indentId);
+        if(i==null)
+        {
+            return purchaseService.acceptIndent(rindent,remarks,user.getUserId());
+        }else{
+            return new ResultDataMap().setStatus(false).setMessage("indent already "+i.getStatus());
+        }
+        
+        
+        
+    }
+    
+ /*   @PostMapping("indent-action-accept")
     public @ResponseBody ResultDataMap indentActionAccept(@RequestParam("indentId")String sindentId,
                                                             @RequestParam(name="remarks",required = false)String remarks,Model model)
     {
@@ -492,9 +553,11 @@ public class PurchaseController {
         
         
         
-    }
+    }*/
     @PostMapping("indent-action-reject")
-    public @ResponseBody ResultDataMap indentActionReject(@RequestParam("indentId")Integer indentId,Model model)
+    public @ResponseBody ResultDataMap indentActionReject(@RequestParam("indentId")Integer indentId,
+                                                        @RequestParam(name="remarks",required = false)String remarks,
+                                                                Model model)
     {
         
         
@@ -502,7 +565,7 @@ public class PurchaseController {
          IndentStatus i=purchaseService.ifUserAuthenticatedIndent(user.getUserId(), indentId);
         if(i==null)
         {
-            return purchaseService.rejectIndent(indentId,user.getUserId());
+            return purchaseService.rejectIndent(indentId,remarks,user.getUserId());
         }else{
             return new ResultDataMap().setStatus(false).setMessage("indent already "+i.getStatus());
         }

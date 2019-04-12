@@ -77,7 +77,7 @@
                                     <tr id="trRow333">
                                         <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
                                         <!-- *** Update Table Header -->
-                                        <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading" >&nbsp;my Indents</td>
+                                        <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading" >&nbsp;Drafted Indents</td>
                                         <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);"></td>
                                         <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
                                             <table style="width: 100%;border-width: 0px;" cellspacing="0" cellpadding="0" >
@@ -109,7 +109,8 @@
 <table id="datatable_user" style="width:100%" cellpadding="3" class="list" cellspacing="1">
 <thead>
     <tr>
-        <th>Indent Id</th>    
+        <th>Indent Id</th>  
+        <th>Items</th>  
         <th>Indent Date</th>
         <th>status</th>
          <th></th>
@@ -121,6 +122,7 @@
     
 <tr class="" th:each="indent,rowStat : ${indentList}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
     <td style="text-align:left;" th:text="${indent.indentId}"></td>
+    <td style="text-align:left;" th:text="${indent.indentDetailList[0].item.itemName}+' ...'"></td>
      <td style="text-align:left;" th:text="${indent.indentDate}"></td>
      <td style="text-align:left;" th:text="${indent.status}"></td>
      <td style="text-align:left;">

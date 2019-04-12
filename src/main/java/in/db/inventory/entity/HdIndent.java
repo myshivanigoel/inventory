@@ -69,7 +69,7 @@ public class HdIndent implements Serializable {
      @Transient
     List<EmployeeAuthorityLevel> authoritiesList=new ArrayList<>();
     
-    private String status=Strings.IndentStatusInProcess;
+    private String status=Strings.notSubmitted;
 
     public HdIndent(Integer indentId) {
         this.indentId = indentId;

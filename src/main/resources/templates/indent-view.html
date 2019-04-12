@@ -220,10 +220,11 @@
                                                                                     
                                                                                     <tbody>
                                
-                                                                                    <th:block th:each="dindent,rowStat : ${indent.indentDetailList}" >
-                                   
+                                                                                    <th:block th:each="dindent,rowStat : ${indent.indentDetailList}" th:if="${#authentication.getPrincipal().getUserId() != indent.indentor.userId and dindent.acceptedFlag}"  >
+                                                                                        <div>
                                                                                         <tr  >
-                                                                                            <th colspan="14" style="text-align:left;" th:text="'Item'+${rowStat.count}"></th>
+                                                                                            <th colspan="12" style="text-align:left;" th:text="'Item'+${rowStat.count}"></th>
+                                                                                            
                                                                                         </tr>
                                                                                         <tr class="row1"  >
                                         <th colspan="2" style="text-align:left;" >Classification Of Material</th>
@@ -265,10 +266,57 @@
                                        <th colspan="2" style="text-align:left;" >Remarks</th>
               <td colspan="12" style="text-align:left;" th:text="${dindent.remarks}"></td>
                                    </tr>
-                                   
+                                                                                        </div>
                                                                                     </th:block>
                                                                                     
-      
+             <th:block th:each="dindent,rowStat : ${indent.indentDetailList}" th:if="${#authentication.getPrincipal().getUserId() == indent.indentor.userId }"  >
+                                                                                        <div>
+                                                                                        <tr  >
+                                                                                            <th colspan="12" style="text-align:left;" th:text="'Item'+${rowStat.count}"></th>
+                                                                                            <td th:if="${!dindent.acceptedFlag}">Rejected</td>
+                                                                                        </tr>
+                                                                                        <tr class="row1"  >
+                                        <th colspan="2" style="text-align:left;" >Classification Of Material</th>
+                                      <td colspan="2" style="text-align:left;" th:text="${dindent.classification.classification}"></td>
+                                       <th colspan="2" style="text-align:left;" >Item Group</th>
+     <td colspan="2" style="text-align:left;" th:text="${dindent.itemGroup.groupName}"></td>
+      <th colspan="2" style="text-align:left;" >Item Name</th>
+     <td colspan="2" style="text-align:left;" th:text="${dindent.item.itemName}"></td>
+      <td colspan="2" style="text-align:left;" ></td> 
+                                   </tr>
+                                   <tr class="row1">
+                                       <th colspan="2" style="text-align:left;" >Description</th>
+     <td colspan="2" style="text-align:left;" th:text="${dindent.descriptionOfMaterial}"></td>
+      <th colspan="2" style="text-align:left;" >Manufacturer</th> 
+      <td colspan="2" style="text-align:left;" th:text="${dindent.manufacturer}"></td> 
+       <th colspan="2" style="text-align:left;" >Quantity</th>
+      <td colspan="2" style="text-align:left;" th:text="${dindent.quantity}"></td>
+       <td colspan="2" style="text-align:left;" ></td> 
+                                   </tr>
+                                   <tr class="row1">
+                                       <th colspan="2" style="text-align:left;" >Price Per Unit</th>
+       <td colspan="2" style="text-align:left;" th:text="${dindent.pricePerUnit}"></td>
+        <th colspan="2" style="text-align:left;" >Expected Date of Delivery </th>
+        <td colspan="2" style="text-align:left;" th:text="${dindent.expectedMonthYearOfDelivery}"></td>
+        <th colspan="2" style="text-align:left;" >Purchase type</th>
+        <td colspan="2" style="text-align:left;" th:text="${dindent.purchaseType.purchaseName}"></td>
+         <td colspan="2" style="text-align:left;" ></td> 
+                                   </tr>
+                                   <tr class="row1">
+                                        <th colspan="2" style="text-align:left;" >Mode Of Dispatch</th>
+         <td colspan="2" style="text-align:left;" th:text="${dindent.modeOfDispatch}"></td>
+          <th colspan="2" style="text-align:left;" >Status</th>
+          <td colspan="2" style="text-align:left;" th:text="${indent.status}"></td>
+            <th colspan="2" style="text-align:left;" >Suggested Vendors</th>
+            <td colspan="2" style="text-align:left;" th:text="${dindent.suggestedVendors}"></td> 
+             <td colspan="2" style="text-align:left;" ></td> 
+                                   </tr>
+                                   <tr class="row1">
+                                       <th colspan="2" style="text-align:left;" >Remarks</th>
+              <td colspan="12" style="text-align:left;" th:text="${dindent.remarks}"></td>
+                                   </tr>
+                                                                                        </div>
+                                                                                    </th:block>
     <tr class="row1">                                                             
                    <th colspan="14">Authorization Status</th>    
                                                                                 </tr>

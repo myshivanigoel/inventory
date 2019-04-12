@@ -299,6 +299,7 @@
                         {
                             if(data.status){
                             $("#successMessage").html(data.message);
+                            window.location.replace("/indent-form?message="+data.message);
                         }else{
                             $("#errorMessage").html(data.message);
                         }
@@ -674,8 +675,6 @@
 
                                 <img style="width: 1px;height: 5px;border-width: 0px;" src="/theme/space.gif">                            
 
-
-                                <div th:replace="indent-list :: indent-list"></div>
 
                                 <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif"><br>
                                 <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif">

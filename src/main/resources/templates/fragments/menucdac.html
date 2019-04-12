@@ -65,7 +65,7 @@
                                                       <a href="/">Home</a>
                                          </li>
 
-                                        <li sec:authorize="hasAuthority('ROLE_ADMIN')">
+                                        <li sec:authorize="hasAuthority('ROLE_ADMIN')" th:if="${session.actor.actorName=='Admin'}">
 
                                             <a href="#">Masters</a>
                                             <ul style="float: none; width: 12em; display: none; visibility: hidden;">
@@ -108,29 +108,29 @@
                                          <li > 
                                             <a href="#">Indent</a>
                                             <ul style="float: none; width: 12em; display: none; visibility: hidden;">
-                                              <li>
+                                              <li th:if="${session.actor.actorName=='Indentor'}">
                                                       <a href="/indent-form">Indent form</a>
                                                 </li>
-                                                 <li>
+                                                 <li th:if="${session.actor.actorName=='Indentor'}">
                                                       <a href="/indentors-indents-list">My Indents</a>
                                                 </li>
-                                                 <li >
-                                                      <a href="/requested-indents">Requested Indents</a>
+                                                 <li th:if="${session.actor.actorName=='Approver'}" >
+                                                      <a href="/requested-indents" >Requested Indents</a>
                                                 </li>
-                                                <li sec:authorize="hasAuthority('ROLE_MMG')">
+                                                <li sec:authorize="hasAuthority('ROLE_MMG')" th:if="${session.actor.actorName=='MMG'}">
                                                       <a href="/approved-indents">Approved Indents</a>
                                                 </li>
-                                                 <li sec:authorize="hasAuthority('ROLE_FINANCE')">
+                                                 <li sec:authorize="hasAuthority('ROLE_FINANCE')" th:if="${session.actor.actorName=='Finance'}">
                                                       <a href="/finance-request-indents">Finance Approval</a>
                                                 </li>
-                                                 <li sec:authorize="hasAuthority('ROLE_FINANCE')">
+                                                 <li sec:authorize="hasAuthority('ROLE_FINANCE')" th:if="${session.actor.actorName=='Finance'}">
                                                       <a href="/indent-previous-finance">Previous Indents</a>
                                                 </li>
                                                 
                                             </ul>
                                                       
                                          </li>
-                                          <li>
+                                          <li th:if="${session.actor.actorName=='Indentor'}">
                                                       <a href="/profile">Profile</a>
                                          </li>
                                     </ul>
@@ -141,8 +141,26 @@
 
 
                                 </td>
-
-                                
+                        <script>
+                             $(document).ready(function () {
+                                 
+                                     $(document).on('change',"#actor", function(){
+                                         debugger;
+                                         var actor=$("#actor").val();
+                                          $.get("/actorUpdate?actor="+actor, function(data) 
+                                              {
+                                                 window.location.replace("/dashboard");
+                                              });
+                                     });
+                                 });
+                            </script>
+                                <td style="background-image: url(&#39;  /theme/22_m1.gif&#39;);height: 23px;width: 95px;background-position: bottom" >
+                                    
+                                    <select name='actor' id='actor'>
+                                        <option th:each="actor : ${session.actorsList}" th:text="${actor.actorName}" th:value="${actor.ActorName}" th:selected="${actor.actorName==session.actor.actorName}"></option>
+                                    </select>
+                                </td>
+                               
                                 <td style="background-image: url(&#39;  /theme/22_m1.gif&#39;);height: 23px;width: 95px;background-position: bottom" sec:authentication="principal.userName"></td>
                                 <td style="background-image: url(&#39;  /theme/22_m1.gif&#39;);height: 23px;width: 95px;background-position: bottom">&nbsp;&nbsp;<a class="mlink" href="/logout" target="_top">LOGOUT</a></td>
                                 <td style="background-image: url(&#39;  /theme/22_m1.gif&#39;);height: 23px;width: 10px;background-position: bottom"><img src="/theme/5_r.gif" alt="" style="height: 23px;width: 10px;border: none;display: block"></td>

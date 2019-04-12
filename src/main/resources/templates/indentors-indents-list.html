@@ -120,6 +120,7 @@
 <thead>
     <tr>
         <th>Indent Id</th>    
+        <th>Items</th>
         <th>Indent Date</th>
         <th>status</th>
          <th></th>
@@ -130,6 +131,7 @@
     
 <tr class="" th:each="indent,rowStat : ${indentList}"  th:classappend="${rowStat.odd} ? 'odd' : 'even'">
     <td style="text-align:left;" th:text="${indent.indentId}"></td>
+      <td style="text-align:left;" th:text="${indent.indentDetailList[0].item.itemName}+' ...'"></td>
      <td style="text-align:left;" th:text="${indent.indentDate}"></td>
      <td style="text-align:left;" th:text="${indent.status}"></td>
      <td style="text-align:left;">

@@ -273,7 +273,9 @@ public class PurchaseServiceImpl implements PurchaseService{
     }
 
       
-    public ResultDataMap acceptIndent(Integer indentId, Integer userId,String remarks) {
+    public ResultDataMap acceptIndent(HdIndent rindent, Integer userId,String remarks) {
+        
+        Integer indentId=rindent.getIndentId();
         HdIndent indent=purchaseDao.getIndent(indentId);
         if(indent.getStatus().equals(Strings.IndentStatusFinanceRejected))
         {
@@ -281,11 +283,18 @@ public class PurchaseServiceImpl implements PurchaseService{
             indent.setSpecialApprovalRemark(remarks);
             
         }
+        int j=0;
+        for (DtIndent dtIndent : rindent.getIndentDetailList()) {
+            indent.getIndentDetailList().get(j).setAcceptedFlag(dtIndent.getAcceptedFlag());
+            j++;
+        }
         purchaseDao.updateHdIndent(indent);
+        
         return new ResultDataMap().setStatus(Boolean.TRUE).setMessage(Strings.savedSuccessfully);
     }
     @Override
-    public ResultDataMap acceptIndent(Integer indentId, Integer userId) {
+    public ResultDataMap acceptIndent(HdIndent rindent,String remarks, Integer userId) {
+        Integer indentId=rindent.getIndentId();
         HdIndent indent=purchaseDao.getIndent(indentId);
         
         
@@ -295,6 +304,7 @@ public class PurchaseServiceImpl implements PurchaseService{
         indentStatus.setAuthorizedEmployee(new MstUser(userId));
         indentStatus.setDtEntryDate(new Date());
         indentStatus.setIndent(new HdIndent(indentId));
+        indentStatus.setRemarks(remarks);
         
             indentStatus.setStatus(Strings.IndentStatusApproved);
         
@@ -317,6 +327,12 @@ public class PurchaseServiceImpl implements PurchaseService{
            // return result.setStatus(Boolean.FALSE);
             
         }
+        
+         int j=0;
+        for (DtIndent dtIndent : rindent.getIndentDetailList()) {
+            indent.getIndentDetailList().get(j).setAcceptedFlag(dtIndent.getAcceptedFlag());
+            j++;
+        }
          purchaseDao.updateHdIndent(indent);
             return result.setStatus(Boolean.TRUE).setMessage(Strings.savedSuccessfully);
         
@@ -325,7 +341,7 @@ public class PurchaseServiceImpl implements PurchaseService{
     }
 
     @Override
-    public ResultDataMap rejectIndent(Integer indentId, Integer userId) {
+    public ResultDataMap rejectIndent(Integer indentId,String remarks, Integer userId) {
         
         ResultDataMap result=new ResultDataMap();
         IndentStatus indentStatus=new IndentStatus();
@@ -334,6 +350,7 @@ public class PurchaseServiceImpl implements PurchaseService{
         indentStatus.setDtEntryDate(new Date());
         indentStatus.setIndent(new HdIndent(indentId));
         indentStatus.setStatus(Strings.IndentStatusRejected);
+        indentStatus.setRemarks(remarks);
         purchaseDao.saveIndentStatus(indentStatus);
         HdIndent indent=purchaseDao.getIndent(indentId);
         
@@ -603,6 +620,7 @@ public class PurchaseServiceImpl implements PurchaseService{
     public ResultDataMap submitIndent(Integer indentId) {
      
         HdIndent dbIndent=purchaseDao.getIndent(indentId);
+        dbIndent.setStatus(Strings.IndentStatusInProcess);
         dbIndent.setSubmittedStatus(Strings.SubmittedIndent);
         List<EmployeeAuthorityLevel> list=userService.getEmployeeAuthorityLevelList(dbIndent.getIndentor().getUserId());
         if(list.size()==1)

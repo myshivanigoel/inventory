@@ -39,10 +39,11 @@ public class IndentStatus implements Serializable {
     private Date dtEntryDate;
     private Character activeFlag;
     
+     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dtModificationDate;
 
-    @Transient
+  
     private String Remarks="";
     
     public IndentStatus() {
@@ -128,6 +129,9 @@ public class IndentStatus implements Serializable {
     public void setRemarks(String Remarks) {
         this.Remarks = Remarks;
     }
+
+    
+    
     
     
 }

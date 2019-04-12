@@ -75,7 +75,7 @@ public class DtIndent implements Serializable {
     @Transient
     private List<ItemMaster> itemList=new ArrayList<>();
     
- 
+    private Boolean acceptedFlag=true;
    
     public HdIndent getHdIndent() {
         return hdIndent;
@@ -265,6 +265,14 @@ public class DtIndent implements Serializable {
 
     public void setListmodeOfDispatch(ModeOfDispatchEnum listmodeOfDispatch) {
         this.listmodeOfDispatch = listmodeOfDispatch;
+    }
+
+    public Boolean getAcceptedFlag() {
+        return acceptedFlag;
+    }
+
+    public void setAcceptedFlag(Boolean acceptedFlag) {
+        this.acceptedFlag = acceptedFlag;
     }
     
     
