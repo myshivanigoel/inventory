@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/defaultcdac">
+    
+    
+    <body>
+        
+        <div id="page" layout:fragment="content">
+             <table style="width: 980px;border-collapse: collapse;margin:0px; padding:0px;background-color:#ffffff;border-spacing:0px" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td style="width: 9px;background-image: url(&#39;  /theme/l.gif&#39;);text-align: center"></td>
+                        <td style="width: 955px;background-image:url(&#39;  /theme/topcellback11.gif&#39;);text-align: center;" colspan="2">
+                            <img style="widows: 1px;height: 11px;border: 0px" src="/theme/space.gif">
+                            <table style="width: 958px;border-collapse: collapse;margin:0px; padding:0px;border-spacing:0px" cellpadding="0" cellspacing="0">
+                                <tbody><tr>
+                                        <td style="width: 9px" rowspan="4"><img style="width: 9px;height: 40px;display: block" src="/theme/title_01.gif"></td>
+                                        <td style="vertical-align: top;background-image: url(&#39;  /theme/title_02.gif&#39;)" rowspan="2"></td>
+                                        <td style="width: 199px;vertical-align:middle" rowspan="4"><img style="width: 199px;height: 40px;display: block" src="/theme/title_03.gif"></td>
+                                        <td style="width: 144px;background-image: url(&#39;  /theme/title_04.gif&#39;);text-align: right;background-position:center;background-repeat: no-repeat" class="pageHeading" rowspan="4">Receipt</td>
+                                        <td style="width: 221px" colspan="3"><img style="width: 221px;height: 16px;display: block" src="/theme/title_05.gif"></td>
+                                        <td><img style="width: 1px;height: 16px;display: block" src="/theme/spacer.gif"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 199px" rowspan="3"><img style="width: 199px;height: 24px;display: block" src="/theme/title_06.gif"></td>
+                                        <td style="width: 12px" rowspan="2"><img style="width: 12px;height: 13px;display: block" src="/theme/title_07.gif"></td>
+                                        <td style="width: 10px" rowspan="3"><img style="width: 10px;height: 24px;display: block" src="/theme/title_08.gif"></td>
+                                        <td style="width: 1px"><img style="width: 1px;height: 1px;display: block" src="/theme/spacer.gif"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-image: url(&#39;  /theme/title_09.gif&#39;);text-align: left" rowspan="2" class="navigation"><a href="/" class="link4">Home</a> &gt;&gt;Receipt</td>
+                                        <td style="width: 1px"><img style="width: 1px;height: 12px;display: block" src="/theme/spacer.gif"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 12px"><img style="width: 12px;height: 11px;display: block" src="/theme/title_10.gif"></td>
+                                        <td style="width: 1px"><img style="width: 1px;height: 11px;display: block" src="/theme/spacer.gif"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="width: 10px;background-image: url(&#39;  /theme/r.gif&#39;);text-align: center"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--********************************* Second Table, For Error Messages **********************************************-->
+
+
+            <table border="0" cellpadding="0" cellspacing="0" width="980">
+                <tbody><tr>
+                        <td align="center" background="/theme/l.gif" width="9"></td>
+                        <td width="5"><img src="/theme/space.gif" border="0" height="10" width="1"></td>
+                        <td width="950">
+                            <div id="errorMessage" class="errcolor" th:text="${message}"></div>  
+                             <div id="errorMessageJs" class="errcolor" ></div>  
+                        </td>
+                        <td align="center" background="/theme/r.gif" width="10"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table border="0" cellpadding="0" cellspacing="0" width="980">
+                <tbody><tr>
+                        <td align="center" background="/theme/l.gif" width="9"></td>
+                        <td width="5"><img src="/theme/space.gif" border="0" height="10" width="1"></td>
+                        <td colspan="2" style="text-align: right">
+
+
+
+                            <div id="qualReportAuthDiv" style="display: none;height: auto;padding : 0px 0px 0px 0px;" align="left"></div>
+
+                        </td>
+                        <td align="center" background="/theme/r.gif" width="10"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <style>
+                .left-align{
+                    float: left;
+                }
+            </style>
+            
+             <form name="indent" id="indent" method="post" th:object="${receipt}"    th:action="@{/add-receipt-form}" >
+
+
+
+                <!-- Include File To Display Header and Menu -->        
+
+                <table style="width: 980px;text-align: left;" cellspacing="0" cellpadding="0">
+                    <tbody> 
+                        <tr>
+                            <td style="width:8px;background-image: url(&#39;  /theme/l.gif&#39;);text-align:left"><img style="width: 1px;height: 1px;border-width: 0px;display: block" src="/theme/space.gif"></td>
+                            <td style="width: 962px">
+                                <table style="widows: 960px;border-width: 0px;background-color:#ffffff" cellpadding="0" cellspacing="0">
+
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 100%;vertical-align: top;">
+
+                                                <table style="width: 960px;border-width: 0px;background-color:#ffffff;text-align: center;" id="tblAdvanceApp" cellpadding="0" cellspacing="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width: 8px"><img style="width: 8px;height: 23px;border-width: 0px;display: block" src="/theme/6_l.gif" alt=""></td>
+                                                            <!-- *** Update Table Header -->
+                                                            <td style="background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap" class="heading">&nbsp;Receipt:</td>
+                                                            <td style="width: 8px;background-image: url(&#39;  /theme/6_m.gif&#39;);" nowrap="nowrap"></td>
+                                                            <td style="width: 100%;background-image: url(&#39;  /theme/6_m.gif&#39;);">
+                                                                <table style="width: 100%;border-width: 0px;"  cellspacing="0" cellpadding="0">
+                                                                    <tbody><tr>
+                                                                            <td style="width: 85%"></td>
+                                                                            <td style="width: 15%;text-align: right">
+                                                                                <span id="spcol" onclick="ToggleTable3( & #39; trRow1 & #39; , & #39; trRow2 & #39; , & #39; trRow3 & #39; , & #39; spexp & #39; , & #39; spcol & #39; , & #39; C & #39; ); return false; " style="cursor: pointer"><img style="width: 13px;height: 13px;border-width: 0px;" src="/theme/ico_collapse.gif" id="imgcol" alt="Collapse"></span>
+                                                                                <span id="spexp" onclick="ToggleTable3( & #39; trRow1 & #39; , & #39; trRow2 & #39; , & #39; trRow3 & #39; , & #39; spexp & #39; , & #39; spcol & #39; , & #39; E & #39; ); return false;" style="cursor: pointer; display: none;"><img style="width: 13px;height: 13px;border-width: 0px;" src="/theme/ico_expand.gif" id="imgexp" alt="Expand"></span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody></table>
+                                                            </td>
+                                                            <td><img style="width: 10px;height: 23px;border-width: 0px;display: block;" src="/theme/6_r.gif" alt=""></td>
+                                                        </tr>
+                                                        <tr id="trRow1">
+                                                            <td style="width: 1px;height: 1px;background-image: url(&#39;  /theme/l.gif&#39;)"><img style="width: 1px;height: 1px;border-width: 0px;" src="/theme/space.gif"></td>
+                                                            <td colspan="3">
+                                                                <img style="width: 1px;height: 10px;border-width: 0px;display: block;" src="/theme/space.gif">
+
+                                                                <table style="width: 100%;border-width: 0" id="tdataTable" cellpadding="0" cellspacing="0">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td bgcolor="#dbeaf5">
+                                                                                <!--*************Starting of Data Table*******************-->
+                                                                                <table width="100%" border="0" cellpadding="4" cellspacing="1" id="indentItems" style="padding: 0px 0px 0px 0px;">
+
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th width="20%"></th>
+                                                                                            <th width="20%"></th>
+                                                                                            <th width="20%"></th>
+                                                                                            <th width="20%"></th>
+                                                                                            <th width="20%"></th>
+                                                                                            <th width="20%"></th>
+                                                                                        </tr>
+                                                                                    </thead>
+
+
+                                                                                    <tbody>
+                                                                                        <tr class="row1">
+                                                                                            <td>Supplier Name
+                                                                                            <td>
+                                                                                               <input name="supplierName"  id="supplierName" type="text" class="textbox" style="width:200px" th:field="${receipt.supplierName}">                                                           
+                                                                                            </td>
+                                                                                            <td width="20%">
+                                                                                                PO Number
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input name="pONumber"  maxlength="250" id="pONumber" type="text" class="textbox" style="width:200px" th:field="${receipt.pONumber}">
+                                                                                            </td>
+                                                                                            <td width="20%">PO Date</td>
+                                                                                            <td>
+                                                                                                <input name="pODate"  maxlength="250" id="pODate" type="date" class="textbox" style="width:200px" th:field="${receipt.pODate}">
+                                                                                            </td>
+                                                                                            
+                                                                                        </tr>
+                                                                                        <tr class="row1">
+                                                                                            <td>Carrier
+                                                                                            <td>
+                                                                                               <input name="carrier"  id="carrier" type="text" class="textbox" style="width:200px" th:field="${receipt.carrier}">                                                           
+                                                                                            </td>
+                                                                                            <td width="20%">
+                                                                                                Clearance
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input name="clearance"  maxlength="250" id="clearance" type="text" class="textbox" style="width:200px" th:field="${receipt.clearance}">
+                                                                                            </td>
+                                                                                            <td width="20%">Purchase Type</td>
+                                                                                            <td>
+                                                                                                <input name="purchaseType"  maxlength="250" id="purchaseType" type="text" class="textbox" style="width:200px" th:field="${receipt.purchaseType}">
+                                                                                            </td>
+                                                                                            
+                                                                                        </tr>
+                                                                                         <tr class="row1">
+                                                                                            <td>MRR Number
+                                                                                            <td>
+                                                                                               <input name="mrrNumber"  id="mrrNumber" type="text" class="textbox" style="width:200px" th:field="${receipt.mrrNumber}">                                                           
+                                                                                            </td>
+                                                                                            <td width="20%">
+                                                                                                Invoice Number
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input name="invoiceNumber"  maxlength="250" id="invoiceNumber" type="text" class="textbox" style="width:200px" th:field="${receipt.invoiceNumber}">
+                                                                                            </td>
+                                                                                            <td width="20%">Receipt Type</td>
+                                                                                            <td>
+                                                                                                <input name="receiptType"  maxlength="250" id="receiptType" type="text" class="textbox" style="width:200px" th:field="${receipt.receiptType}">
+                                                                                            </td>
+                                                                                            
+                                                                                        </tr>
+                                                                                          <tr class="row1">
+                                                                                            <td>Project Code
+                                                                                            <td>
+                                                                                                <input name="projectCode"  id="projectCode" type="text" class="textbox" style="width:200px" th:field="${receipt.indent.project.projectCode}" readonly="true">                                                           
+                                                                                            </td>
+                                                                                            <td width="20%">
+                                                                                                Challan number
+                                                                                            </td>
+                                                                                            <td>
+                                                                                               <input type='text' class="textbox" style="width:200px" th:field="${receipt.challanNo}" th:id="challanNo"    >
+                                                                                            </td>
+                                                                                            <td width="20%">Challan Date</td>
+                                                                                            <td>
+                                                                                                <input name="challanDate"  maxlength="250" id="challanDate" type="date" class="textbox" style="width:200px" th:field="${receipt.challanDate}">
+                                                                                            </td>
+                                                                                            
+                                                                                        <tr  style="background-color: #c7dae0">
+                                                                                            <td >Items</td>
+                                                                                            <td ></td>
+                                                                                            <td ></td>
+                                                                                            <td ></td>
+                                                                                            <td ></td>
+                                                                                            <td></td>
+
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td colspan="6">
+                                                                                                <table>
+                                                                                         <tr>
+                                                                                            <td>Id</td>
+                                                                                            <td>Name</td> 
+                                                                                            <td>Description</td>
+                                                                                            <td>Requested Qty</td>
+                                                                                            <td>Received Qty</td>
+                                                                                            <td>Rejected Qty</td>
+                                                                                            <td>Accepted Qty</td>
+                                                                                            <td>Page No.</td>
+                                                                                        </tr>
+                                                                                    <th:block th:each="dtReceipt,rowStat : ${receipt.dtReceipts}">
+                                                                                       
+                                                                                        <tr>
+                                                                                            <td>  
+                                                                                                <input class='input100 description' style="width:50px" type='text'  th:field="*{dtReceipts[__${rowStat.index}__].item.itemId}" th:id="'itemId'+${rowStat.index}" readonly="true"   >
+                                                                                            </td>
+                                                                                            <td>  
+                                                                                                <input class='input100 description' type='text' style="width:180px" th:field="*{dtReceipts[__${rowStat.index}__].item.itemName}" th:id="'itemName'+${rowStat.index}" readonly="true"   >
+                                                                                            </td>
+                                                                                            <td>  
+                                                                                                <input class='input100 description' type='text' style="width:190px"  th:field="*{dtReceipts[__${rowStat.index}__].item.description}" th:id="'description'+${rowStat.index}"  readonly="true"  >
+                                                                                            </td>
+                                                                                            <td>  
+                                                                                                <input class='input100 description'  type='text' style="width:110px" th:field="*{dtReceipts[__${rowStat.index}__].requestedQuantity}" th:id="'requestedQuantity'+${rowStat.index}"  readonly="true"  >
+                                                                                            </td>
+                                                                
+                                                                                            <td>  
+                                                                                                <input class='input100 description' type='text' style="width:110px" th:field="*{dtReceipts[__${rowStat.index}__].receivedQuantity}" th:id="'receivedQuantity'+${rowStat.index}"    >
+                                                                                            </td>
+                                                                                            <td>  
+                                                                                                <input class='input100 description'  type='text' style="width:110px" th:field="*{dtReceipts[__${rowStat.index}__].rejectedQuantity}" th:id="'rejectedQuantity'+${rowStat.index}"    >
+                                                                                            </td>
+                                                                                            <td >  
+                                                                                                <input class='input100 description'  type='text' style="width:110px" th:field="*{dtReceipts[__${rowStat.index}__].acceptedQuantity}" th:id="'acceptedQuantity'+${rowStat.index}"    >
+                                                                                            </td>
+                                                                                            <td >  
+                                                                                                <input class='input100 description'  type='text' style="width:80px" th:field="*{dtReceipts[__${rowStat.index}__].pageNo}" th:id="'pageNo'+${rowStat.index}"    >
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </th:block>
+
+                                                                                    </table>
+                                                                                            </td></tr>
+                                                                </table>
+                                                               
+                                                                <script>
+
+                                                                </script>
+                                                                <!--************End of Data Table********************-->
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <img style="width: 1px;height: 10px;border-width: 0px;display: block;" src="/theme/space.gif">
+                                            </td>
+                                            <td style="background-image: url(&#39;  /theme/r.gif&#39;)"><img style="width: 1px;height: 1px;display: block;" src="/theme/space.gif"></td>
+                                        </tr>
+                                        <tr id="trRow2"><td style="background-color: #4682b4;" colspan="5"><img style="width: 1px;height: 1px;border-width: 0px;display: block;" src="/theme/space.gif"></td></tr>
+                                        <tr id="trRow3">
+                                            <td colspan="5" align="right">
+
+                                                <input type="image" border="0" height="22" width="79" src="/theme/send.gif" id="submit">
+
+                                                <input type="image" src="/theme/cancel.gif" border="0" height="22" width="79" id="cancel" >
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table border="0" cellpadding="0" cellspacing="0" width="960">
+                                    <tbody><tr>
+                                            <td align="center" width="9"></td>
+                                            <td width="5"></td>
+                                            <td width="950" style="text-align: right">
+                                            </td>
+                                            <td align="center" width="10"></td>
+                                        </tr>
+                                    </tbody></table>
+
+                                <img style="width: 1px;height: 5px;border-width: 0px;" src="/theme/space.gif">                            
+
+
+                                <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif"><br>
+                                <img style="width: 1px;height: 10px;border-width: 0px;" src="/theme/space.gif">
+                            </td>
+                            <td style="width: 10px;background-image: url(&#39;  /theme/r.gif&#39;);background-position: center;background-repeat: repeat-y;">
+                                <img style="width: 10px;height: 10px;border-width: 0px;display: block;" src="/theme/space.gif">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="width: 980px;background-color: #ffffff;border-width: 0px;" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td style="width:8px;height: 23px;background-image: url(&#39;  /theme/2_m.gif&#39;);background-repeat: no-repeat;"><img style="width: 8px;height: 23px;border-width: 0px;" src="/theme/8_l.gif" alt=""></td>
+                            <td style="height: 23px;background-image: url(&#39;  /theme/2_m1.gif&#39;);display: block;text-align:center;"><font color="#000000" size="2">C-DAC Delhi</font></td>
+                            <td style="width: 8px;height: 23px;background-image: url(&#39;  /theme/2_m.gif&#39;);background-repeat: no-repeat;"><img style="width: 8px;height: 23px;border-width: 0px;" src="/theme/8_r.gif" alt=""></td>
+                        </tr>
+                    </tbody>
+                </table>
+                </td></tr>
+                </tbody></table>
+            </form>
+            <canvas id="netbeans_glasspane"  style="position: fixed; top: 0px; left: 0px; z-index: 50000; pointer-events: none;" width="1686" height="820"></canvas>
+
+            
+        </div>
+    </body>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</html>
+
