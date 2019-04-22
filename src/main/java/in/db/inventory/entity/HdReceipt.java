@@ -88,13 +88,12 @@ public class HdReceipt implements Serializable {
     private Date receiptCompletedDate;
     private  Date dtEntryDate;
     private Date dtModificationDate;
-   
+
       @ManyToOne
     @JoinColumn(name="indent")
    
     private HdIndent indent;
-    
-    
+
     @ManyToOne
     @JoinColumn(name="receivedBy")
    
@@ -309,6 +308,14 @@ public class HdReceipt implements Serializable {
         this.dtReceipts = dtReceipts;
     }
 
+    public HdIndent getIndent() {
+        return indent;
+    }
+
+    public void setIndent(HdIndent indent) {
+        this.indent = indent;
+    }
+
     
     
     
@@ -317,6 +324,7 @@ public class HdReceipt implements Serializable {
         return "HdReceipt{" + "receiptId=" + receiptId + ", dateOfEntry=" + dateOfEntry + ", dateOfModification=" + dateOfModification + ", activeFlag=" + activeFlag + ", mrrNumber=" + mrrNumber + ", invoiceNumber=" + invoiceNumber + ", supplierName=" + supplierName + ", pONumber=" + pONumber + ", pODate=" + pODate + ", carrier=" + carrier + ", challanNo=" + challanNo + ", challanDate=" + challanDate + ", clearance=" + clearance + ", purchaseType=" + purchaseType + ", receiptType=" + receiptType + ", project=" + project + ", receiptCompletedDate=" + receiptCompletedDate + ", dtEntryDate=" + dtEntryDate + ", dtModificationDate=" + dtModificationDate + ", receivedBy=" + receivedBy + ", checkedBy=" + checkedBy + ", verified=" + verified + ", approvedBy=" + approvedBy + '}';
     }
 
+
     public HdIndent getIndent() {
         return indent;
     }
@@ -324,7 +332,7 @@ public class HdReceipt implements Serializable {
     public void setIndent(HdIndent indent) {
         this.indent = indent;
     }
-     
+
      
      
     

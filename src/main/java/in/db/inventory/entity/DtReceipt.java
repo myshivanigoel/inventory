@@ -35,8 +35,9 @@ public class DtReceipt {
     @ManyToOne
     @JoinColumn(name = "hdReceipt")
     private HdReceipt hdReceipt;
-     
-   @Transient
+
+    @Transient
+
     private Integer requestedQuantity;
     private Integer acceptedQuantity;
     private Integer receivedQuantity;
@@ -52,8 +53,9 @@ public class DtReceipt {
     
     @Column(name="challanNo")
     private Integer challanNo;
-    
+
   @Temporal(TemporalType.DATE)
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date challanDate;
   //  private Date 
@@ -64,9 +66,7 @@ public class DtReceipt {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dtModificationDate;
 
- private Integer pageNo;
- 
- 
+    private Integer pageNo;
     public Integer getDtReceiptId() {
         return dtReceiptId;
     }
@@ -175,6 +175,12 @@ public class DtReceipt {
     public void setPageNo(Integer pageNo) {
         this.pageNo = pageNo;
     }
+
+    @Override
+    public String toString() {
+        return "DtReceipt{" + "dtReceiptId=" + dtReceiptId + ", acceptedQuantity=" + acceptedQuantity + ", receivedQuantity=" + receivedQuantity + ", rejectedQuantity=" + rejectedQuantity + ", status=" + status + ", item=" + item + ", challanNo=" + challanNo + ", dtEntryDate=" + dtEntryDate + ", dtModificationDate=" + dtModificationDate + '}';
+    }
+
             
     
 }

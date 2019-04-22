@@ -123,7 +123,7 @@
         <th>Items</th>
         <th>Indent Date</th>
         <th>status</th>
-         <th></th>
+         <th></th><th></th>
     </tr>
 </thead>
 <tbody>
@@ -137,6 +137,11 @@
       <td style="text-align:left;">
             <a th:href="'/indent-view?indentId='+${indent.indentId}"  style="color: #ffffff" class="btn btn-xs btn-primary " th:id="'detail'+${indent.indentId}" >
             <span class="glyphicon glyphicon-view"></span> View Details
+            </a>
+        </td>
+        <td style="text-align:left;">
+            <a th:href="'/received-indent-item?indentId='+${indent.indentId}"  style="color: #ffffff" class="btn btn-xs btn-primary " th:id="'detail'+${indent.indentId}" >
+            <span class="glyphicon glyphicon-view"></span> Received Item
             </a>
         </td>
 </tr>
