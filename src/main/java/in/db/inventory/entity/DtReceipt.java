@@ -35,8 +35,9 @@ public class DtReceipt {
     @ManyToOne
     @JoinColumn(name = "hdReceipt")
     private HdReceipt hdReceipt;
-     
+
     @Transient
+
     private Integer requestedQuantity;
     private Integer acceptedQuantity;
     private Integer receivedQuantity;
@@ -52,7 +53,9 @@ public class DtReceipt {
     
     @Column(name="challanNo")
     private Integer challanNo;
-    @Temporal(TemporalType.DATE)
+
+  @Temporal(TemporalType.DATE)
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date challanDate;
   //  private Date 
@@ -64,7 +67,6 @@ public class DtReceipt {
     private Date dtModificationDate;
 
     private Integer pageNo;
-    
     public Integer getDtReceiptId() {
         return dtReceiptId;
     }
@@ -145,6 +147,11 @@ public class DtReceipt {
         this.hdReceipt = hdReceipt;
     }
 
+    @Override
+    public String toString() {
+        return "DtReceipt{" + "dtReceiptId=" + dtReceiptId + ", acceptedQuantity=" + acceptedQuantity + ", receivedQuantity=" + receivedQuantity + ", rejectedQuantity=" + rejectedQuantity + ", status=" + status + ", item=" + item + ", challanNo=" + challanNo + ", dtEntryDate=" + dtEntryDate + ", dtModificationDate=" + dtModificationDate + '}';
+    }
+
     public Integer getRequestedQuantity() {
         return requestedQuantity;
     }
@@ -169,12 +176,11 @@ public class DtReceipt {
         this.pageNo = pageNo;
     }
 
-    
-    
     @Override
     public String toString() {
         return "DtReceipt{" + "dtReceiptId=" + dtReceiptId + ", acceptedQuantity=" + acceptedQuantity + ", receivedQuantity=" + receivedQuantity + ", rejectedQuantity=" + rejectedQuantity + ", status=" + status + ", item=" + item + ", challanNo=" + challanNo + ", dtEntryDate=" + dtEntryDate + ", dtModificationDate=" + dtModificationDate + '}';
     }
+
             
     
 }

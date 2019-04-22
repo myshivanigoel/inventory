@@ -11,9 +11,10 @@ import in.db.auth.entity.MstUser;
 import in.db.inventory.entity.DtIndent;
 import in.db.inventory.entity.HdIndent;
 import in.db.inventory.entity.IndentStatus;
-import in.db.inventory.entity.Receipt;
-import in.db.inventory.entity.ReceiptConsumable;
+import in.db.inventory.entity.Notification;
+
 import in.inventory.dao.PurchaseDao;
+import in.notification.service.NotificationService;
 
 import in.util.entity.ResultDataMap;
 import in.util.entity.Strings;
@@ -42,29 +43,27 @@ public class PurchaseServiceImpl implements PurchaseService{
     @Autowired
     UserService userService;
     
+    @Autowired NotificationService notificationService;
     
     @Override
     public ResultDataMap saveIndentForm(HdIndent indent) {
  
         
+        ResultDataMap result=new ResultDataMap();
         
-        return purchaseDao.saveIndentForm(indent);
+        result= purchaseDao.saveIndentForm(indent);
+        if(result.getStatus()){
+        return notificationService.pushNotification(Strings.NotificationTypePendingDraftedIndent,
+                                                            Strings.NotificationStatusNew,
+                                                            Strings.NotificationMessagePendingDraftsIndent,
+                                                            indent.getIndentor().getUserId(),
+                                                            indent.getIndentor().getUserId());
+        }else{
+            return result;
+        }
     }
 
-    @Override
-    public ResultDataMap saveReceiptForm(Receipt receipt) {
-        return purchaseDao.saveReceiptForm(receipt);
-    }
-
-    @Override
-    public ResultDataMap saveReceiptForm(ReceiptConsumable receipt) {
-        return purchaseDao.saveReceiptForm(receipt);
-    }
-
-    @Override
-    public ResultDataMap saveNonConsumableReceiptForm(Receipt receipt) {
-        return purchaseDao.saveNonConsumableReceiptForm(receipt);  }
-
+   
     @Override
     public List<HdIndent> getIndentorsIndents(MstUser userId) {
         return purchaseDao.getIndentorsIndents(userId);
@@ -80,24 +79,16 @@ public class PurchaseServiceImpl implements PurchaseService{
        return purchaseDao.getIndentsListToBeVerifiedByUser(userId);
                
     }
-
-    
-    @Override
+     @Override
     public List<HdIndent> getRequestedIndentsList(Integer userId) {
         
     List<HdIndent> totalIndentsList=new ArrayList<>();
         
         //get users whoses indents this user authorize
-       List<MstUser> subUsersList=userService.getMySubordinatesList(userId);
-       // get list of indents of all these users
-        for (MstUser subMstUser : subUsersList) {
-            totalIndentsList.addAll(purchaseDao.getMyPendingIndents(subMstUser.getUserId()));
-            totalIndentsList.addAll(purchaseDao.getRequestedIndentsList(userId));
-        }
-       
       
-       return totalIndentsList;
-               
+            totalIndentsList.addAll(purchaseDao.getRequestedIndentsList(userId));
+       
+            return totalIndentsList;   
     }
     
     @Override
@@ -283,10 +274,16 @@ public class PurchaseServiceImpl implements PurchaseService{
             indent.setSpecialApprovalRemark(remarks);
             
         }
-        int j=0;
+       
         for (DtIndent dtIndent : rindent.getIndentDetailList()) {
-            indent.getIndentDetailList().get(j).setAcceptedFlag(dtIndent.getAcceptedFlag());
-            j++;
+            for (DtIndent dbdtIndent1 : indent.getIndentDetailList()) {
+                if(dbdtIndent1.getDtIndentId().equals(dtIndent.getDtIndentId()))
+                {
+                     dbdtIndent1.setAcceptedFlag(dtIndent.getAcceptedFlag());
+                }
+            }
+           
+          
         }
         purchaseDao.updateHdIndent(indent);
         
@@ -328,10 +325,15 @@ public class PurchaseServiceImpl implements PurchaseService{
             
         }
         
-         int j=0;
         for (DtIndent dtIndent : rindent.getIndentDetailList()) {
-            indent.getIndentDetailList().get(j).setAcceptedFlag(dtIndent.getAcceptedFlag());
-            j++;
+            for (DtIndent dbdtIndent1 : indent.getIndentDetailList()) {
+                if(dbdtIndent1.getDtIndentId().equals(dtIndent.getDtIndentId()))
+                {
+                     dbdtIndent1.setAcceptedFlag(dtIndent.getAcceptedFlag());
+                }
+            }
+           
+          
         }
          purchaseDao.updateHdIndent(indent);
             return result.setStatus(Boolean.TRUE).setMessage(Strings.savedSuccessfully);
@@ -627,7 +629,33 @@ public class PurchaseServiceImpl implements PurchaseService{
         {
             dbIndent.setStatus(Strings.IndentStatusForFinanceApproval);
         }
-        return purchaseDao.updateHdIndent(dbIndent);
+        
+        ResultDataMap result=purchaseDao.updateHdIndent(dbIndent);
+        if(result.getStatus())
+        {
+            // update notification for indentor
+            List<Notification>  listNotification= notificationService.getNotificationsByReferenceTableIdName(dbIndent.getIndentId(), Strings.NotificationTypePendingDraftedIndent, dbIndent.getIndentor().getUserId());
+           Notification notification= listNotification.get(0);
+           notification.setNotificationStatus(Strings.NotificationStatusCompleted);
+            notification.setNotificationCompletedDate(new Date());
+            notificationService.updateNotification(notification);
+            // generate Notification for authenticator
+            List<EmployeeAuthorityLevel> listEm=userService.getEmployeeAuthorityLevelList(dbIndent.getIndentor().getUserId());
+            EmployeeAuthorityLevel authorizer=listEm.get(0);
+            if(authorizer!=null)
+            {
+                Notification newNotification=notificationService.createNotificationObject(Strings.NotificationTypeApproveIndent, Strings.NotificationStatusNew, 
+                                                                "YOu have pending request for approving indent of "+dbIndent.getIndentor().getUserName(), 
+                                                                authorizer.getAuthorizedEmployee(), dbIndent.getIndentor());
+                result= notificationService.pushNotification(newNotification);
+            }
+        }else{
+            
+        }
+        
+       
+        return result;
+        
     }
 
     @Override

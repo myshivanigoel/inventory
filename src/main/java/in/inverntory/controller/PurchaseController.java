@@ -16,8 +16,7 @@ import in.db.inventory.entity.Issue;
 import in.db.inventory.entity.ItemMaster;
 import in.db.inventory.entity.MstGroup;
 import in.db.inventory.entity.PurchaseType;
-import in.db.inventory.entity.Receipt;
-import in.db.inventory.entity.ReceiptConsumable;
+
 import in.db.inventory.entity.Stock;
 import in.inventory.service.ItemService;
 import in.inventory.service.PurchaseService;
