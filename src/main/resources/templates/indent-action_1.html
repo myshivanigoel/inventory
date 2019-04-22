@@ -264,7 +264,7 @@
                                                                                     
                                                                                     <tbody>
                                
-                                                                                    <th:block th:each="dindent,rowStat : ${indent.indentDetailList}" th:if="${#authentication.getPrincipal().getUserId() != indent.indentor.userId and dindent.acceptedFlag}"  >
+                                                                                    <th:block th:each="dindent,rowStat : ${indent.indentDetailList}" >
                                    
                                                                                         <tr  >
                                                                                             <th colspan="12" style="text-align:left;" th:text="'Item'+${rowStat.count}"></th>

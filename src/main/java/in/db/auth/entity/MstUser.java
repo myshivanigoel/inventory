@@ -4,7 +4,6 @@
 package in.db.auth.entity;
 
 import in.db.inventory.entity.Issue;
-import in.db.inventory.entity.Receipt;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -97,9 +96,6 @@ public class MstUser implements Serializable{
             private List<Issue> issueList;
 
     
-          @OneToMany(mappedBy = "user")    
-            private List<Receipt> receiptList;
-         
 
 	@Transient
 	private Collection<Authorities> authorities;
@@ -292,13 +288,7 @@ public class MstUser implements Serializable{
         this.issueList = issueList;
     }
 
-    public List<Receipt> getReceiptList() {
-        return receiptList;
-    }
-
-    public void setReceiptList(List<Receipt> receiptList) {
-        this.receiptList = receiptList;
-    }
+    
 
     public String getUserEmployeeId() {
         return userEmployeeId;

@@ -68,9 +68,7 @@ public class ItemMaster implements Serializable {
     @OneToMany(fetch = FetchType.LAZY)    
     private List<Issue> issueList;
     
-      @OneToMany(fetch = FetchType.LAZY)    
-    private List<Receipt> receiptList;
-    
+      
     @OneToOne(cascade = {
                                             CascadeType.ALL
                                            },fetch = FetchType.LAZY)
@@ -181,14 +179,7 @@ public class ItemMaster implements Serializable {
         this.stock = stock;
    }
 
-    public List<Receipt> getReceiptList() {
-        return receiptList;
-    }
-
-    public void setReceiptList(List<Receipt> receiptList) {
-        this.receiptList = receiptList;
-    }
-
+   
    
 
     

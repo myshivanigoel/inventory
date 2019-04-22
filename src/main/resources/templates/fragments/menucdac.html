@@ -115,7 +115,7 @@
                                                       <a href="/indentors-indents-list">My Indents</a>
                                                 </li>
                                                  <li th:if="${session.actor.actorName=='Approver'}" >
-                                                      <a href="/requested-indents" >Requested Indents</a>
+                                                      <a href="/requested-indents" >Old Requested Indents</a>
                                                 </li>
                                                 <li sec:authorize="hasAuthority('ROLE_MMG')" th:if="${session.actor.actorName=='MMG'}">
                                                       <a href="/approved-indents">Approved Indents</a>

@@ -9,8 +9,7 @@ import in.db.auth.entity.MstUser;
 import in.db.inventory.entity.DtIndent;
 import in.db.inventory.entity.HdIndent;
 import in.db.inventory.entity.IndentStatus;
-import in.db.inventory.entity.Receipt;
-import in.db.inventory.entity.ReceiptConsumable;
+
 import in.db.inventory.entity.Stock;
 
 import in.util.entity.ResultDataMap;
@@ -57,31 +56,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
         }
        }
 
-    @Override
-    public ResultDataMap saveReceiptForm(Receipt receipt) {
-        // save in receipt table
-        // update stock table
-         Session session=sessionFactory.getCurrentSession();
-        //receipt table
-        session.save(receipt);
-        //stock table
-        Stock stock=session.get(Stock.class,receipt.getItem().getItemId());
-        if(stock==null)
-        {
-            stock=new Stock();
-            
-            stock.setItem(receipt.getItem());
-            stock.setDateOfEntry(new Date());
-        }
-            stock.setAvailableQty(stock.getAvailableQty()+receipt.getQuantity());
-            stock.setDateOfModification(new Date());
-           stock.setActiveFlag('Y');
-        
-        session.saveOrUpdate(stock);
-         
-        return new ResultDataMap().setStatus(Boolean.TRUE).setMessage(Strings.savedSuccessfully);
-       
-    }
+    
 
     public Stock getStockByItemId(Integer itemId,Session session)
     {
@@ -92,55 +67,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
     }
     
     
-    @Override
-    public ResultDataMap saveReceiptForm(ReceiptConsumable receipt) {
-      // save in receipt table
-        // update stock table
-         Session session=sessionFactory.getCurrentSession();
-        //receipt table
-        session.save(receipt);
-        //stock table
-        Stock stock=getStockByItemId(receipt.getItem().getItemId(),session);
-        if(stock==null)
-        {
-            stock=new Stock();
-            
-            stock.setItem(receipt.getItem());
-            stock.setDateOfEntry(new Date());
-            stock.setActiveFlag('Y');
-        }
-            stock.setAvailableQty((stock.getAvailableQty()==null?0:stock.getAvailableQty())+(receipt.getAcceptedQuantity()==null?0:receipt.getAcceptedQuantity()));
-            stock.setDateOfModification(new Date());
-           
-        
-        session.saveOrUpdate(stock);
-        return new ResultDataMap().setStatus(Boolean.TRUE).setMessage(Strings.savedSuccessfully);
-           }
-
-    @Override
-    public ResultDataMap saveNonConsumableReceiptForm(Receipt receipt) {
-      // save in receipt table
-        // update stock table
-         Session session=sessionFactory.getCurrentSession();
-        //receipt table
-        session.save(receipt);
-        //stock table
-         Stock stock=getStockByItemId(receipt.getItem().getItemId(),session);
-       if(stock==null)
-        {
-            stock=new Stock();
-            
-            stock.setItem(receipt.getItem());
-            stock.setDateOfEntry(new Date());
-        }
-            stock.setAvailableQty((stock.getAvailableQty()==null?0:stock.getAvailableQty())+(receipt.getQuantity()==null?0:receipt.getQuantity()));
-            stock.setDateOfModification(new Date());
-           
-        
-        session.saveOrUpdate(stock);
-        
-        return new ResultDataMap().setStatus(Boolean.TRUE).setMessage(Strings.savedSuccessfully);
-         }
+  
 
     /**
      *
@@ -212,10 +139,10 @@ public class PurchaseDaoImpl implements PurchaseDao{
     public List<HdIndent> getMyPendingIndents(Integer userId) {
         List<HdIndent> indentList=new ArrayList<>();
         indentList= sessionFactory.getCurrentSession()
-                .createQuery("from HdIndent where indentor.userId=:indentor and submittedStatus=:submittedStatus and status=:status order by  indentId desc")
+                .createQuery("from HdIndent where indentor.userId=:indentor and submittedStatus=:submittedStatus and status !=:status order by  indentId desc")
                 .setParameter("indentor", userId)
                  .setParameter("submittedStatus", Strings.SubmittedIndent)
-                .setParameter("status", Strings.IndentStatusInProcess)
+                .setParameter("status", Strings.IndentStatusApproved)
                 .list();
         System.out.println("in.inventory.dao.PurchaseDaoImpl.getIndentorsIndents()"+indentList);
         return indentList;

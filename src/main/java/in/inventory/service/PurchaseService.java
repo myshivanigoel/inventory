@@ -8,8 +8,6 @@ package in.inventory.service;
 import in.db.auth.entity.MstUser;
 import in.db.inventory.entity.HdIndent;
 import in.db.inventory.entity.IndentStatus;
-import in.db.inventory.entity.Receipt;
-import in.db.inventory.entity.ReceiptConsumable;
 
 import in.util.entity.ResultDataMap;
 import java.util.List;
@@ -19,10 +17,8 @@ import org.springframework.stereotype.Service;
  *
  * @author anuja
  */
-
-
 public interface PurchaseService {
-    
+
     /**
      *
      * @param indent
@@ -30,15 +26,7 @@ public interface PurchaseService {
      */
     public ResultDataMap saveIndentForm(HdIndent indent);
 
-    public ResultDataMap saveReceiptForm(Receipt receipt);
-
- 
-    public ResultDataMap saveReceiptForm(ReceiptConsumable receipt);
-
-    public ResultDataMap saveNonConsumableReceiptForm(Receipt receipt);
-    
-    
-     public List<HdIndent> getIndentorsIndents(MstUser userId);
+    public List<HdIndent> getIndentorsIndents(MstUser userId);
 
     public List<HdIndent> getAllIndentsList();
 
@@ -50,16 +38,14 @@ public interface PurchaseService {
 
     public List<HdIndent> getMyPendingIndents(Integer userId);
 
-    public ResultDataMap acceptIndent(HdIndent indent,String remarks, Integer userId);
+    public ResultDataMap acceptIndent(HdIndent indent, String remarks, Integer userId);
 
-    public ResultDataMap rejectIndent(Integer indentId,String remarks, Integer userId);
-   
-    
-    public IndentStatus ifUserAuthenticatedIndent(Integer authenticator,Integer indentId);
+    public ResultDataMap rejectIndent(Integer indentId, String remarks, Integer userId);
+
+    public IndentStatus ifUserAuthenticatedIndent(Integer authenticator, Integer indentId);
 
     public List<HdIndent> getRequestedIndentsList(Integer userId);
 
-   
     public List<IndentStatus> getauthorizationStatusList(HdIndent indent);
 
     public List<HdIndent> getApprovedIndentsList(Integer userId);
@@ -81,5 +67,5 @@ public interface PurchaseService {
     public ResultDataMap submitIndent(Integer indentId);
 
     public Object getIndentListForFinance();
-    
+
 }

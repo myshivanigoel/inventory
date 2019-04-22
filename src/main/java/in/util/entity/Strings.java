@@ -91,8 +91,14 @@ public class Strings {
     public static String  ActorAprover="Approver";
     public static String  ActorMMG="MMG";
     public static String  ActorAdmin="Admin";
-    
-       
+    public static String NotificationStatusCompleted="completed";
+     public static String NotificationStatusNew="new";
+      public static String NotificationStatusSeen="seen";
+    public static String NotificationMessagePendingDraftsReceipt="You have pending drafts for receiving";
+      public static String NotificationTypePendingDraftedReceipts="pendingDraftReceipt";
+      public static String  NotificationTypePendingDraftedIndent="pendingDraftIndent";
+      public static String  NotificationMessagePendingDraftsIndent="you have pending indents in drafts";
+       public static  String NotificationTypeApproveIndent="indentApprovelRequest";
 }
 
 
