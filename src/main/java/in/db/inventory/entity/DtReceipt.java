@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -35,7 +36,8 @@ public class DtReceipt {
     @JoinColumn(name = "hdReceipt")
     private HdReceipt hdReceipt;
      
-
+   @Transient
+    private Integer requestedQuantity;
     private Integer acceptedQuantity;
     private Integer receivedQuantity;
     private Integer rejectedQuantity;
@@ -50,10 +52,21 @@ public class DtReceipt {
     
     @Column(name="challanNo")
     private Integer challanNo;
+    
+  @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date challanDate;
   //  private Date 
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private  Date dtEntryDate;
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dtModificationDate;
 
+ private Integer pageNo;
+ 
+ 
     public Integer getDtReceiptId() {
         return dtReceiptId;
     }
@@ -137,6 +150,30 @@ public class DtReceipt {
     @Override
     public String toString() {
         return "DtReceipt{" + "dtReceiptId=" + dtReceiptId + ", acceptedQuantity=" + acceptedQuantity + ", receivedQuantity=" + receivedQuantity + ", rejectedQuantity=" + rejectedQuantity + ", status=" + status + ", item=" + item + ", challanNo=" + challanNo + ", dtEntryDate=" + dtEntryDate + ", dtModificationDate=" + dtModificationDate + '}';
+    }
+
+    public Integer getRequestedQuantity() {
+        return requestedQuantity;
+    }
+
+    public void setRequestedQuantity(Integer requestedQuantity) {
+        this.requestedQuantity = requestedQuantity;
+    }
+
+    public Date getChallanDate() {
+        return challanDate;
+    }
+
+    public void setChallanDate(Date challanDate) {
+        this.challanDate = challanDate;
+    }
+
+    public Integer getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(Integer pageNo) {
+        this.pageNo = pageNo;
     }
             
     
